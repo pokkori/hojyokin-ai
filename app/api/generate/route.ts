@@ -30,6 +30,7 @@ export async function POST(req: NextRequest) {
 
   const { businessType, employees, purpose, prefecture, isIndividual } = body as Record<string, string>;
   if (!purpose) return NextResponse.json({ error: "活用目的は必須です" }, { status: 400 });
+  if (purpose.length > 1000) return NextResponse.json({ error: "活用目的は1000文字以内で入力してください" }, { status: 400 });
 
   const prompt = `あなたは補助金・助成金の専門コンサルタントです。以下の情報をもとに、申請可能な補助金を診断し、申請書のドラフトを作成してください。
 
@@ -86,7 +87,7 @@ export async function POST(req: NextRequest) {
     const text = message.content[0].type === "text" ? message.content[0].text : "";
     const newCount = cookieCount + 1;
     const res = NextResponse.json({ result: text, count: newCount });
-    res.cookies.set(COOKIE_KEY, String(newCount), { maxAge: 60 * 60 * 24 * 30, sameSite: "lax" });
+    res.cookies.set(COOKIE_KEY, String(newCount), { maxAge: 60 * 60 * 24 * 30, sameSite: "lax", httpOnly: true, secure: true });
     return res;
   } catch (err) {
     console.error(err);
