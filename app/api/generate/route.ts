@@ -1,11 +1,13 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { NextRequest, NextResponse } from "next/server";
+import { isActiveSubscription } from "@/lib/supabase";
 
 function getClient() {
   return new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 }
 const FREE_LIMIT = 3;
 const COOKIE_KEY = "hojyokin_use_count";
+const APP_ID = "hojyokin";
 
 const rateLimit = new Map<string, { count: number; resetAt: number }>();
 function checkRateLimit(ip: string): boolean {
@@ -22,7 +24,13 @@ export async function POST(req: NextRequest) {
   if (!checkRateLimit(ip)) {
     return NextResponse.json({ error: "リクエストが多すぎます。しばらく待ってから再試行してください。" }, { status: 429 });
   }
-  const isPremium = req.cookies.get("stripe_premium")?.value === "1";
+  const email = req.cookies.get("user_email")?.value;
+  let isPremium = false;
+  if (email) {
+    isPremium = await isActiveSubscription(email, APP_ID);
+  } else {
+    isPremium = req.cookies.get("stripe_premium")?.value === "1";
+  }
   const cookieCount = parseInt(req.cookies.get(COOKIE_KEY)?.value || "0");
   if (!isPremium && cookieCount >= FREE_LIMIT) {
     return NextResponse.json({ error: "LIMIT_REACHED" }, { status: 429 });
