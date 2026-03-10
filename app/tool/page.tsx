@@ -1,6 +1,9 @@
 "use client";
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import PayjpModal from "@/components/PayjpModal";
+
+const PAYJP_PUBLIC_KEY = process.env.NEXT_PUBLIC_PAYJP_PUBLIC_KEY ?? "";
 
 const FREE_LIMIT = 3;
 const KEY = "hojyokin_count";
@@ -32,13 +35,9 @@ function parseResult(text: string): ParsedResult {
   return { sections, raw: text };
 }
 
-async function startCheckout(plan: string) {
-  const res = await fetch("/api/stripe/checkout", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ plan }) });
-  const { url } = await res.json();
-  if (url) window.location.href = url;
-}
+// startCheckout は PayjpModal で処理するため削除済み
 
-function Paywall({ onClose }: { onClose: () => void }) {
+function Paywall({ onClose, onStartPayjp }: { onClose: () => void; onStartPayjp: (plan: string) => void }) {
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-4">
       <div className="bg-white rounded-2xl p-6 max-w-sm w-full shadow-xl text-center">
@@ -53,11 +52,11 @@ function Paywall({ onClose }: { onClose: () => void }) {
           <li>✓ 印刷・PDF保存してそのまま使える</li>
         </ul>
         <div className="space-y-3 mb-4">
-          <button onClick={() => startCheckout("one_time")} className="block w-full bg-amber-500 text-white font-bold py-3 rounded-xl hover:bg-amber-600">
+          <button onClick={() => onStartPayjp("once")} className="block w-full bg-amber-500 text-white font-bold py-3 rounded-xl hover:bg-amber-600">
             <span className="text-base">¥2,980</span>
             <span className="text-sm font-normal ml-1">で今回の申請を完成させる（1回限り）</span>
           </button>
-          <button onClick={() => startCheckout("standard")} className="block w-full bg-gray-100 text-gray-700 py-2.5 rounded-xl text-sm hover:bg-gray-200">
+          <button onClick={() => onStartPayjp("standard")} className="block w-full bg-gray-100 text-gray-700 py-2.5 rounded-xl text-sm hover:bg-gray-200">
             月額プラン ¥4,980/月（複数申請・何度でも）
           </button>
         </div>
@@ -127,6 +126,8 @@ export default function HojyokinTool() {
   const [loading, setLoading] = useState(false);
   const [count, setCount] = useState(0);
   const [showPaywall, setShowPaywall] = useState(false);
+  const [showPayjp, setShowPayjp] = useState(false);
+  const [payjpPlan, setPayjpPlan] = useState("once");
   const [error, setError] = useState("");
 
   useEffect(() => { setCount(parseInt(localStorage.getItem(KEY) || "0")); }, []);
@@ -152,7 +153,16 @@ export default function HojyokinTool() {
 
   return (
     <main className="min-h-screen bg-gray-50">
-      {showPaywall && <Paywall onClose={() => setShowPaywall(false)} />}
+      {showPaywall && <Paywall onClose={() => setShowPaywall(false)} onStartPayjp={(plan) => { setPayjpPlan(plan); setShowPaywall(false); setShowPayjp(true); }} />}
+      {showPayjp && (
+        <PayjpModal
+          publicKey={PAYJP_PUBLIC_KEY}
+          planLabel={payjpPlan === "once" ? "1回払い ¥2,980" : "月額プラン ¥4,980/月"}
+          plan={payjpPlan}
+          onSuccess={() => { setShowPayjp(false); window.location.reload(); }}
+          onClose={() => setShowPayjp(false)}
+        />
+      )}}
       <nav className="bg-white border-b px-6 py-4">
         <div className="max-w-5xl mx-auto flex items-center justify-between">
           <Link href="/" className="font-bold text-gray-900">💰 AI補助金診断</Link>
