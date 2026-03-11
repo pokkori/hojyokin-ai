@@ -53,14 +53,14 @@ function Paywall({ onClose, onStartPayjp }: { onClose: () => void; onStartPayjp:
         </ul>
         <div className="space-y-3 mb-4">
           <button onClick={() => onStartPayjp("once")} className="block w-full bg-amber-500 text-white font-bold py-3 rounded-xl hover:bg-amber-600">
-            <span className="text-base">¥2,980</span>
+            <span className="text-base">¥1,980</span>
             <span className="text-sm font-normal ml-1">で今回の申請を完成させる（1回限り）</span>
           </button>
           <button onClick={() => onStartPayjp("standard")} className="block w-full bg-gray-100 text-gray-700 py-2.5 rounded-xl text-sm hover:bg-gray-200">
             月額プラン ¥4,980/月（複数申請・何度でも）
           </button>
         </div>
-        <p className="text-xs text-gray-400 mb-3">行政書士に頼むと10〜30万円。AIなら¥2,980で今すぐ。</p>
+        <p className="text-xs text-gray-400 mb-3">行政書士に頼むと10〜30万円。AIなら¥1,980で今すぐ。</p>
         <button onClick={onClose} className="text-xs text-gray-400">閉じる</button>
       </div>
     </div>
@@ -157,7 +157,7 @@ export default function HojyokinTool() {
       {showPayjp && (
         <PayjpModal
           publicKey={PAYJP_PUBLIC_KEY}
-          planLabel={payjpPlan === "once" ? "1回払い ¥2,980" : "月額プラン ¥4,980/月"}
+          planLabel={payjpPlan === "once" ? "1回払い ¥1,980" : "月額プラン ¥4,980/月"}
           plan={payjpPlan}
           onSuccess={() => { setShowPayjp(false); window.location.reload(); }}
           onClose={() => setShowPayjp(false)}
@@ -230,7 +230,7 @@ export default function HojyokinTool() {
 
           <button type="submit" disabled={loading}
             className={`w-full font-bold py-3 rounded-lg text-white transition-colors ${isLimit ? "bg-orange-500 hover:bg-orange-600" : "bg-amber-500 hover:bg-amber-600 disabled:bg-amber-300"}`}>
-            {loading ? "診断中..." : isLimit ? "¥2,980で申請書を完成させる" : "補助金を診断する（無料）"}
+            {loading ? "診断中..." : isLimit ? "¥1,980で申請書を完成させる" : "補助金を診断する（無料）"}
           </button>
           {error && <p className="text-sm text-red-500 text-center">{error}</p>}
         </form>

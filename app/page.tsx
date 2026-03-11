@@ -70,8 +70,8 @@ export default function HojyokinLP() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl mx-auto">
             {[
               { name: "お試し", price: "無料", limit: "3回まで", url: "/tool", highlight: false },
-              { name: "スタンダード", price: "¥4,980/月", limit: "月20回診断＋ドラフト", url: "/tool", highlight: true },
-              { name: "ビジネス", price: "¥9,800/月", limit: "無制限＋優先サポート", url: "/tool", highlight: false },
+              { name: "1回払い", price: "¥1,980/回", limit: "今回の申請を完成させる", url: "/tool", highlight: true },
+              { name: "スタンダード", price: "¥4,980/月", limit: "月20回診断＋ドラフト（複数申請向け）", url: "/tool", highlight: false },
             ].map(plan => (
               <div key={plan.name} className={`rounded-2xl border p-6 relative ${plan.highlight ? "border-amber-500 shadow-lg" : "border-gray-200"}`}>
                 {plan.highlight && <div className="absolute -top-3 left-1/2 -translate-x-1/2 text-xs bg-amber-500 text-white px-3 py-0.5 rounded-full">人気</div>}
