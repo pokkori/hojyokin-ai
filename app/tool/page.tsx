@@ -162,7 +162,7 @@ export default function HojyokinTool() {
           onSuccess={() => { setShowPayjp(false); window.location.reload(); }}
           onClose={() => setShowPayjp(false)}
         />
-      )}}
+      )}
       <nav className="bg-white border-b px-6 py-4">
         <div className="max-w-5xl mx-auto flex items-center justify-between">
           <Link href="/" className="font-bold text-gray-900">💰 AI補助金診断</Link>
