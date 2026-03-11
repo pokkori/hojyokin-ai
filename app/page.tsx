@@ -31,6 +31,48 @@ export default function HojyokinLP() {
         <p className="text-xs text-gray-400 mt-3">クレジットカード不要・3回まで無料</p>
       </section>
 
+      {/* 2026年度 新補助金 速報 */}
+      <section className="py-12 px-6 bg-amber-50 border-y border-amber-200">
+        <div className="max-w-4xl mx-auto">
+          <div className="flex items-center gap-2 mb-4">
+            <span className="bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full">2026年度 NEW</span>
+            <span className="bg-amber-500 text-white text-xs font-bold px-3 py-1 rounded-full">IT補助金から変更</span>
+          </div>
+          <h2 className="text-xl font-bold text-gray-900 mb-3">
+            「デジタル化・AI導入補助金」2026年度から新設
+          </h2>
+          <p className="text-gray-700 text-sm mb-4 leading-relaxed">
+            2026年度より、IT導入補助金が「<strong>デジタル化・AI導入補助金</strong>」へ刷新。
+            補助率・対象経費・申請要件が大きく変わりました。
+            変更点を把握して、<strong>申請書を今すぐ準備しましょう。</strong>
+          </p>
+          <div className="grid sm:grid-cols-3 gap-4 mb-6">
+            {[
+              { label: "補助率", value: "最大2/3", note: "中小企業の場合" },
+              { label: "補助上限", value: "最大450万円", note: "AI導入特枠" },
+              { label: "申請期限", value: "2026年秋頃", note: "公募期間に注意" },
+            ].map(item => (
+              <div key={item.label} className="bg-white rounded-xl border border-amber-200 p-4 text-center">
+                <div className="text-xs text-gray-500 mb-1">{item.label}</div>
+                <div className="text-xl font-bold text-amber-600">{item.value}</div>
+                <div className="text-xs text-gray-400">{item.note}</div>
+              </div>
+            ))}
+          </div>
+          <div className="bg-white rounded-xl border border-amber-300 p-4 mb-4">
+            <p className="text-sm font-bold text-gray-900 mb-2">✅ このAIで申請書を準備できること</p>
+            <ul className="text-sm text-gray-700 space-y-1">
+              <li>• 自社がデジタル化・AI導入補助金の対象かチェック</li>
+              <li>• 「事業計画書」「導入効果説明」をAIが自動生成</li>
+              <li>• 採択されやすい表現・訴求ポイントをAIが提案</li>
+            </ul>
+          </div>
+          <a href="#tool" className="inline-block bg-amber-500 hover:bg-amber-600 text-white font-bold px-8 py-3 rounded-full transition-colors text-sm">
+            今すぐ申請書を作成する →
+          </a>
+        </div>
+      </section>
+
       <section className="bg-gray-50 py-16">
         <div className="max-w-4xl mx-auto px-6">
           <h2 className="text-2xl font-bold text-center mb-10">補助金でよくある悩み</h2>
@@ -67,6 +109,22 @@ export default function HojyokinLP() {
       <section className="py-16">
         <div className="max-w-4xl mx-auto px-6 text-center">
           <h2 className="text-2xl font-bold mb-10">料金プラン</h2>
+          <div className="bg-gray-50 rounded-2xl border border-gray-200 p-5 mb-8 max-w-2xl mx-auto text-sm">
+            <p className="font-bold text-gray-900 mb-3 text-center">💰 補助金コンサルと比べると</p>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="text-center">
+                <div className="text-gray-500 text-xs mb-1">補助金コンサル</div>
+                <div className="text-2xl font-bold text-red-500">¥50万〜</div>
+                <div className="text-xs text-gray-400">着手金+成功報酬15%</div>
+              </div>
+              <div className="text-center">
+                <div className="text-gray-500 text-xs mb-1">補助金AI</div>
+                <div className="text-2xl font-bold text-green-600">¥4,980/月</div>
+                <div className="text-xs text-gray-400">何度でも使い放題</div>
+              </div>
+            </div>
+            <p className="text-center text-xs text-gray-500 mt-3">※申請書作成の参考ツールです。採択を保証するものではありません</p>
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl mx-auto">
             {[
               { name: "お試し", price: "無料", limit: "3回まで", url: "/tool", highlight: false },
