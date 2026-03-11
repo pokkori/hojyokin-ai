@@ -1,14 +1,30 @@
+"use client";
+import { useState } from "react";
 import Link from "next/link";
-import type { Metadata } from "next";
+import PayjpModal from "@/components/PayjpModal";
 
-export const metadata: Metadata = {
-  title: "AI補助金診断｜あなたが申請できる補助金を30秒で診断",
-  description: "事業内容を入力するだけ。AIがあなたに合った補助金を診断し、申請書のドラフトまで自動生成。中小企業・個人事業主・個人向け。",
-};
+const PAYJP_PUBLIC_KEY = process.env.NEXT_PUBLIC_PAYJP_PUBLIC_KEY ?? "";
 
 export default function HojyokinLP() {
+  const [showPayjp, setShowPayjp] = useState(false);
+  const [payjpPlan, setPayjpPlan] = useState<"once" | "standard">("once");
+
+  function startCheckout(plan: "once" | "standard") {
+    setPayjpPlan(plan);
+    setShowPayjp(true);
+  }
+
   return (
     <main className="min-h-screen bg-white">
+      {showPayjp && (
+        <PayjpModal
+          publicKey={PAYJP_PUBLIC_KEY}
+          planLabel={payjpPlan === "once" ? "1回払い ¥1,980" : "月額プラン ¥4,980/月"}
+          plan={payjpPlan}
+          onSuccess={() => setShowPayjp(false)}
+          onClose={() => setShowPayjp(false)}
+        />
+      )}
       <nav className="border-b border-gray-100 px-6 py-4">
         <div className="max-w-5xl mx-auto flex items-center justify-between">
           <span className="font-bold text-gray-900">💰 AI補助金診断</span>
@@ -127,18 +143,27 @@ export default function HojyokinLP() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl mx-auto">
             {[
-              { name: "お試し", price: "無料", limit: "3回まで", url: "/tool", highlight: false },
-              { name: "1回払い", price: "¥1,980/回", limit: "今回の申請を完成させる", url: "/tool", highlight: true },
-              { name: "スタンダード", price: "¥4,980/月", limit: "月20回診断＋ドラフト（複数申請向け）", url: "/tool", highlight: false },
+              { name: "お試し", price: "無料", limit: "3回まで", plan: null as null, highlight: false },
+              { name: "1回払い", price: "¥1,980/回", limit: "今回の申請を完成させる", plan: "once" as const, highlight: true },
+              { name: "スタンダード", price: "¥4,980/月", limit: "月20回診断＋ドラフト（複数申請向け）", plan: "standard" as const, highlight: false },
             ].map(plan => (
               <div key={plan.name} className={`rounded-2xl border p-6 relative ${plan.highlight ? "border-amber-500 shadow-lg" : "border-gray-200"}`}>
                 {plan.highlight && <div className="absolute -top-3 left-1/2 -translate-x-1/2 text-xs bg-amber-500 text-white px-3 py-0.5 rounded-full">人気</div>}
                 <div className="font-bold mb-1">{plan.name}</div>
                 <div className="text-2xl font-bold text-amber-500 mb-1">{plan.price}</div>
                 <div className="text-xs text-gray-500 mb-4">{plan.limit}</div>
-                <Link href={plan.url} className={`block w-full text-center text-sm font-medium py-2.5 rounded-lg ${plan.highlight ? "bg-amber-500 text-white hover:bg-amber-600" : "bg-gray-100 text-gray-700 hover:bg-gray-200"}`}>
-                  {plan.name === "お試し" ? "無料で診断" : "申し込む"}
-                </Link>
+                {plan.plan === null ? (
+                  <Link href="/tool" className="block w-full text-center text-sm font-medium py-2.5 rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200">
+                    無料で診断
+                  </Link>
+                ) : (
+                  <button
+                    onClick={() => startCheckout(plan.plan!)}
+                    className={`block w-full text-center text-sm font-medium py-2.5 rounded-lg ${plan.highlight ? "bg-amber-500 text-white hover:bg-amber-600" : "bg-gray-100 text-gray-700 hover:bg-gray-200"}`}
+                  >
+                    申し込む
+                  </button>
+                )}
               </div>
             ))}
           </div>
