@@ -167,7 +167,7 @@ export default function HojyokinTool() {
           publicKey={PAYJP_PUBLIC_KEY}
           planLabel={payjpPlan === "once" ? "1回払い ¥1,980" : "月額プラン ¥4,980/月"}
           plan={payjpPlan}
-          onSuccess={() => { setShowPayjp(false); window.location.reload(); }}
+          onSuccess={() => { setShowPayjp(false); setCount(0); localStorage.removeItem(KEY); }}
           onClose={() => setShowPayjp(false)}
         />
       )}
