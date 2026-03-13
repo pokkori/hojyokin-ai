@@ -367,6 +367,7 @@ export default function HojyokinLP() {
               </div>
             ))}
           </div>
+          <p className="text-xs text-gray-500 text-center mt-6">※個人の感想です。効果には個人差があります。</p>
         </div>
       </section>
 
