@@ -154,7 +154,7 @@ export default function HojyokinTool() {
       localStorage.setItem(KEY, String(newCount));
       setCount(newCount);
       setParsed(parseResult(data.result || ""));
-      if (newCount >= FREE_LIMIT) setTimeout(() => setShowPaywall(true), 1500);
+      if (newCount >= FREE_LIMIT) setTimeout(() => setShowPaywall(true), 4000);
     } catch { setError("通信エラーが発生しました。インターネット接続を確認してください。"); }
     finally { setLoading(false); }
   };
