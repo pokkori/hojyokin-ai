@@ -3,6 +3,252 @@ import { useState } from "react";
 import Link from "next/link";
 import PayjpModal from "@/components/PayjpModal";
 
+const SAMPLES = [
+  {
+    industry: "🏭 製造業",
+    situation: "愛知県・従業員12名・AI画像検査システム導入希望",
+    tabs: [
+      {
+        label: "🎯 診断結果",
+        content: `【診断結果】ものづくり補助金（一般型）が最有力候補です
+
+■ 推奨補助金ランキング
+1位 ものづくり補助金（一般型）★★★
+   補助上限：750万円 / 補助率：1/2（中小企業）
+   理由：AI・ロボット等の先端設備導入に最適。製造業かつ従業員20名以下で要件充足。
+
+2位 デジタル化・AI導入補助金
+   補助上限：450万円 / 補助率：2/3
+   理由：AI導入コストに特化。ソフト費用も対象。申請書が比較的シンプル。
+
+3位 IT導入補助金（デジタル化基盤導入類型）
+   補助上限：350万円 / 補助率：3/4
+   理由：ITツール・ソフトウェア費用に特化。手続きが簡便。`,
+      },
+      {
+        label: "📝 申請書ドラフト",
+        content: `【事業計画書（抜粋）】ものづくり補助金 申請書ドラフト
+
+■ 事業名
+AI画像検査システム導入による不良品率ゼロへの挑戦
+
+■ 現状の課題
+当社では年間生産量X万個のうち、目視検査による不良品率が約3.2%発生しており、
+年間廃棄コストおよび再加工費用として約800万円の損失が生じています。
+熟練検査員の高齢化による後継者不足も深刻で、品質維持に課題を抱えています。
+
+■ 導入する革新的サービス・試作品の開発内容
+AI画像検査システム（深層学習モデル搭載）を生産ライン3箇所に設置し、
+毎分120個の自動検査を実現します。学習データ5,000件をもとに訓練済みの
+モデルが、微細なキズ・変形・色ムラを0.01mm精度で検出します。
+
+■ 期待される効果
+・不良品率：3.2% → 0.3%以下（91%削減）
+・年間コスト削減：約730万円
+・検査工数：現状比60%削減（人員を付加価値業務へ再配置）
+・3年後の売上高増加見込み：15%増（品質保証力向上による新規受注）`,
+      },
+      {
+        label: "✅ 要件チェック",
+        content: `【申請要件チェックリスト】
+
+✅ 中小企業・小規模事業者であること（従業員300名以下）→ 充足（12名）
+✅ 事業場内最低賃金が地域別最低賃金+30円以上 → 要確認（愛知県：¥1,027+¥30=¥1,057以上）
+✅ 付加価値額が年率平均3%以上増加する計画 → ドラフトに記載済み
+✅ 補助対象経費（機械装置・システム構築費等）が明確 → 記載済み
+⚠️ gBizIDプライムの取得 → 未取得の場合は申請前に取得が必要（2〜3週間）
+⚠️ 直近の決算書（2期分）の準備 → 準備状況を確認してください
+
+【採択率を上げる3つのポイント】
+1. 「賃上げ」との連動をアピール（今期・来期の賃上げ計画を数値で明記）
+2. AI導入の「革新性」を強調（同業他社が未導入の技術であることを記載）
+3. CO2削減効果を付記（環境省連携で加点対象になるケースあり）`,
+      },
+    ],
+  },
+  {
+    industry: "🍽 飲食業",
+    situation: "東京都・従業員5名・POSレジ＋予約管理システム導入希望",
+    tabs: [
+      {
+        label: "🎯 診断結果",
+        content: `【診断結果】IT導入補助金が最有力候補です
+
+■ 推奨補助金ランキング
+1位 IT導入補助金（デジタル化基盤導入類型）★★★
+   補助上限：350万円 / 補助率：3/4
+   理由：POSレジ・予約管理ツールが対象経費に直接該当。飲食業の採択実績が最多。
+
+2位 小規模事業者持続化補助金
+   補助上限：200万円 / 補助率：2/3
+   理由：販路開拓・IT化に幅広く対応。経営計画書の審査がメイン。
+
+3位 東京都 中小企業デジタル化支援補助金
+   補助上限：150万円 / 補助率：1/2
+   理由：都内飲食店向け優遇枠あり。国の補助金と併用可能なケースも。`,
+      },
+      {
+        label: "📝 申請書ドラフト",
+        content: `【事業計画書（抜粋）】IT導入補助金 申請書ドラフト
+
+■ 事業名
+POSレジ・予約管理システム一体型導入によるDX推進計画
+
+■ 現状の課題
+現在、注文・会計・予約管理をすべて手作業で行っており、
+ピーク時間帯（17〜21時）の会計待ち時間が平均8分と長く、
+月間で約15件の機会損失（待ち切れずに帰客）が発生しています。
+在庫管理も目視・手記録のため、廃棄ロスが売上の約6%に達しています。
+
+■ 導入するITツール
+タブレットPOSレジ（×3台）＋オンライン予約管理システム
+・自動会計：会計時間を8分→1分に短縮
+・予約の自動受付・リマインド送信：ノーショー率を50%削減見込み
+・在庫自動連動：廃棄ロスを現状比40%削減
+
+■ 期待される効果
+・月間売上高：+8%（回転率向上・ノーショー削減）
+・年間廃棄削減：約60万円
+・スタッフ残業：月30時間削減`,
+      },
+      {
+        label: "✅ 要件チェック",
+        content: `【申請要件チェックリスト】
+
+✅ 中小企業・小規模事業者（従業員20名以下の飲食業）→ 充足（5名）
+✅ ITツールがIT導入支援事業者を通じた導入であること → 要確認（対応ベンダー選択が必要）
+✅ 労働生産性向上の数値計画 → ドラフトに記載済み
+⚠️ gBizIDプライムの取得 → 未取得の場合は申請前2〜3週間必要
+⚠️ セキュリティ対策費（EDR等）が要件化 → 対応ソフトの選定が必要
+
+【採択率を上げる3つのポイント】
+1. 「労働生産性向上」の数値を具体的に（1人あたり売上高○%増など）
+2. 「賃上げ計画」を明記すると加点（例：来年度最低賃金+50円）
+3. 補助金終了後の自社負担での継続運用計画を記載`,
+      },
+    ],
+  },
+  {
+    industry: "🏗 建設業",
+    situation: "大阪府・従業員25名・工事管理アプリ＋省エネ設備導入希望",
+    tabs: [
+      {
+        label: "🎯 診断結果",
+        content: `【診断結果】2種類の補助金の組合せが最大化戦略です
+
+■ 推奨補助金ランキング
+1位 ものづくり補助金（一般型）★★★ ←工事管理DXに適用
+   補助上限：750万円 / 補助率：1/2
+
+2位 省エネルギー投資促進・脱炭素化支援補助金 ★★★ ←省エネ設備に適用
+   補助上限：1億円（規模による） / 補助率：1/3〜1/2
+   理由：エアコン・照明・コンプレッサー等の省エネ設備が対象。建設業の採択実績が高い。
+
+3位 大阪府 中小企業DX促進補助金（都道府県独自）
+   補助上限：100万円 / 補助率：1/2
+   理由：国の補助金と一部併用可。申請負担が少ない。`,
+      },
+      {
+        label: "📝 申請書ドラフト",
+        content: `【事業計画書（抜粋）】省エネ補助金 申請書ドラフト
+
+■ 事業名
+高効率空調・LED照明一括更新による脱炭素・コスト削減計画
+
+■ 現状のエネルギー使用状況
+事務所・作業場合計の年間電力消費量：約180,000kWh
+年間エネルギーコスト：約288万円（電力単価16円/kWh想定）
+現行設備：エアコン（15年使用・省エネ等級なし）、蛍光灯照明
+
+■ 導入予定設備
+・高効率ヒートポンプ空調システム（APF値6.0以上）×6台
+・LED照明（蛍光灯比消費電力60%削減）全棟更新
+・エネルギー管理システム（BEMS）導入
+
+■ 期待される削減効果
+・年間省エネ量：約54,000kWh（現状比30%削減）
+・CO2削減量：約27.0t-CO2/年
+・年間コスト削減：約86万円
+・投資回収期間：約7.5年（補助金活用時：約4.2年）`,
+      },
+      {
+        label: "✅ 要件チェック",
+        content: `【申請要件チェックリスト】
+
+✅ 中小企業・小規模事業者（建設業：従業員300名以下）→ 充足（25名）
+✅ 省エネ率が基準年比で1%以上削減 → ドラフトでは30%削減を計画（要件充足）
+✅ SIIに登録した設備・機器であること → 対象機器リスト確認が必要
+⚠️ 省エネ診断の受診が要件 → 申請前に中小企業省エネ診断を受診（無料）
+⚠️ エネルギー使用量データの提出 → 電力会社から過去3年分を取り寄せる
+
+【採択率を上げる3つのポイント】
+1. 省エネ率を「最低限の1%」ではなく「高い削減率」で計画（審査で有利）
+2. 脱炭素経営宣言・RE100目標を事業計画書に盛り込む（加点対象）
+3. 補助金申請と同時に「省エネ認定」取得を目指すと社会的信用も向上`,
+      },
+    ],
+  },
+];
+
+function SampleSection() {
+  const [activeIndustry, setActiveIndustry] = useState(0);
+  const [activeTab, setActiveTab] = useState(0);
+  const sample = SAMPLES[activeIndustry];
+
+  return (
+    <section className="py-16 px-6 bg-white">
+      <div className="max-w-4xl mx-auto">
+        <div className="text-center mb-10">
+          <div className="inline-block bg-amber-100 text-amber-700 text-xs font-bold px-3 py-1 rounded-full mb-3">実際の出力サンプル</div>
+          <h2 className="text-2xl font-bold text-gray-900">こんな申請書ドラフトが自動生成されます</h2>
+          <p className="text-sm text-gray-500 mt-2">業種・目的を入力するだけで、補助金診断から申請書まで一括作成</p>
+        </div>
+
+        {/* 業種タブ */}
+        <div className="flex gap-2 mb-4 flex-wrap">
+          {SAMPLES.map((s, i) => (
+            <button key={i} onClick={() => { setActiveIndustry(i); setActiveTab(0); }}
+              className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${activeIndustry === i ? "bg-amber-500 text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200"}`}>
+              {s.industry}
+            </button>
+          ))}
+        </div>
+
+        <div className="bg-gray-50 rounded-2xl border border-gray-200 overflow-hidden">
+          {/* 入力サマリー */}
+          <div className="px-5 py-3 border-b border-gray-200 bg-amber-50">
+            <p className="text-xs text-gray-500 font-medium">入力情報</p>
+            <p className="text-sm text-gray-700 font-bold">{sample.situation}</p>
+          </div>
+
+          {/* 出力タブ */}
+          <div className="p-5">
+            <div className="flex gap-1 mb-4 flex-wrap">
+              {sample.tabs.map((tab, i) => (
+                <button key={i} onClick={() => setActiveTab(i)}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${activeTab === i ? "bg-amber-500 text-white" : "bg-white border border-gray-200 text-gray-600 hover:bg-gray-50"}`}>
+                  {tab.label}
+                </button>
+              ))}
+            </div>
+            <div className="bg-white border border-gray-200 rounded-xl p-4">
+              <pre className="text-xs text-gray-700 whitespace-pre-wrap font-sans leading-relaxed">{sample.tabs[activeTab].content}</pre>
+            </div>
+            <p className="text-xs text-gray-400 mt-3 text-center">※ これはサンプルです。実際の生成結果はあなたの事業情報に基づいてカスタマイズされます</p>
+          </div>
+        </div>
+
+        <div className="text-center mt-8">
+          <Link href="/tool" className="inline-block bg-amber-500 text-white font-bold px-8 py-4 rounded-xl hover:bg-amber-600 shadow-lg shadow-amber-100">
+            自分の補助金を無料で診断する →
+          </Link>
+          <p className="text-xs text-gray-400 mt-2">クレジットカード不要・3回まで無料</p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 const PAYJP_PUBLIC_KEY = process.env.NEXT_PUBLIC_PAYJP_PUBLIC_KEY ?? "";
 
 export default function HojyokinLP() {
@@ -102,6 +348,8 @@ export default function HojyokinLP() {
           </div>
         </div>
       </section>
+
+      <SampleSection />
 
       {/* 利用者の声 */}
       <section className="bg-gray-900 py-16 px-4">
