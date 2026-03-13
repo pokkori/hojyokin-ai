@@ -433,6 +433,16 @@ export default function HojyokinLP() {
           {" "}・{" "}
           <Link href="/privacy" className="underline hover:text-gray-600">プライバシーポリシー</Link>
         </p>
+        <div className="pt-2 border-t border-gray-100">
+          <p className="mb-1">ポッコリラボの他のサービス</p>
+          <div className="flex flex-wrap justify-center gap-x-4 gap-y-1">
+            <a href="https://claim-ai-beryl.vercel.app" className="hover:text-gray-600">クレームAI</a>
+            <a href="https://keiyakusho-ai.vercel.app" className="hover:text-gray-600">契約書AIレビュー</a>
+            <a href="https://rougo-sim-ai.vercel.app" className="hover:text-gray-600">老後シミュレーターAI</a>
+            <a href="https://keiba-yoso-ai.vercel.app" className="hover:text-gray-600">競馬予想AI</a>
+            <a href="https://ai-keiei-keikaku.vercel.app" className="hover:text-gray-600">AI経営計画書</a>
+          </div>
+        </div>
       </footer>
     </main>
   );
