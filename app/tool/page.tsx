@@ -247,7 +247,18 @@ export default function HojyokinTool() {
               </div>
             </div>
           ) : parsed ? (
-            <ResultTabs parsed={parsed} />
+            <>
+              <ResultTabs parsed={parsed} />
+              {/* 経営計画書AIへのクロスセル */}
+              <div className="mt-8 p-4 bg-green-50 border border-green-200 rounded-xl">
+                <p className="text-sm font-bold text-green-800 mb-1">📊 融資申請・投資家向けの経営計画書も作れます</p>
+                <p className="text-xs text-green-600 mb-3">SWOT分析・収支計画・投資家ピッチまで5分でAI自動作成</p>
+                <a href="https://ai-keiei-keikaku.vercel.app" target="_blank" rel="noopener noreferrer"
+                  className="inline-block bg-green-600 text-white text-sm font-bold px-4 py-2 rounded-lg hover:bg-green-700">
+                  AI経営計画書を作成 →
+                </a>
+              </div>
+            </>
           ) : (
             <div className="flex-1 bg-white border border-gray-200 rounded-xl flex flex-col items-center justify-center min-h-[420px] gap-3">
               <div className="text-4xl">💰</div>
