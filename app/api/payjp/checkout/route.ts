@@ -34,7 +34,7 @@ export async function POST(req: NextRequest) {
       // 一回払い: charge
       const charge = await payjpPost("/charges", {
         card: token,
-        amount: "2980",
+        amount: "1980",
         currency: "jpy",
         capture: "true",
       });
