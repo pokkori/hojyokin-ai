@@ -58,6 +58,24 @@ export async function POST(req: NextRequest) {
       if (sub.error) {
         return NextResponse.json({ error: sub.error.message }, { status: 400 });
       }
+      const res = NextResponse.json({ ok: true });
+      res.cookies.set("premium", "1", {
+        httpOnly: true,
+        secure: true,
+        sameSite: "lax",
+        maxAge: 60 * 60 * 24 * 366,
+        path: "/",
+      });
+      if (sub.id) {
+        res.cookies.set("payjp_sub_id", sub.id, {
+          httpOnly: true,
+          secure: true,
+          sameSite: "lax",
+          maxAge: 60 * 60 * 24 * 366,
+          path: "/",
+        });
+      }
+      return res;
     }
 
     const res = NextResponse.json({ ok: true });
