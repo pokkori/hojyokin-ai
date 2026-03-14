@@ -40,7 +40,60 @@ export async function POST(req: NextRequest) {
   try { body = await req.json(); }
   catch { return NextResponse.json({ error: "リクエストの形式が正しくありません" }, { status: 400 }); }
 
-  const { businessType, employees, purpose, prefecture, isIndividual } = body as Record<string, string>;
+  const { businessType, employees, purpose, prefecture, isIndividual, mode, subsidyType, bizOverview, subsidyUse } = body as Record<string, string>;
+
+  // 申請書文章生成モード
+  if (mode === "draft") {
+    if (!bizOverview || !subsidyUse) return NextResponse.json({ error: "事業概要と補助金の使途は必須です" }, { status: 400 });
+    const draftPrompt = `あなたは補助金申請書の文章作成の専門家です。以下の情報から、審査員に刺さる申請書の文章を生成してください。
+
+【補助金の種類】${subsidyType || "未指定"}
+【事業の概要】${bizOverview}
+【補助金で何をするか】${subsidyUse}
+
+以下の3つの欄の文章を、そのままコピーして使える状態で生成してください。
+
+---
+
+## ① 事業概要・現状の課題（300〜500文字）
+（現状の課題・なぜ今この補助金が必要かを具体的に。数字・背景・競合環境を盛り込む）
+
+---
+
+## ② 補助事業の実施内容（300〜500文字）
+（何を購入・導入するか、どんな手順で進めるか。具体的な製品名・サービス名・スペックも記述）
+
+---
+
+## ③ 期待される効果と数値目標（200〜400文字）
+（売上・生産性・コスト削減など数値で示せる目標を含めて記述。3年後の目標数値を明記）
+
+---
+
+## ④ 審査員へのアピールポイント（箇条書き3点）
+（審査で加点されやすいポイントを明記）
+
+---
+
+⚠️【免責事項】本サービスは申請書作成の補助ツールです。補助金の採択可否はAIでは保証できません。最終的な申請内容はご自身の責任でご確認の上、認定支援機関・行政書士への相談を推奨します。`;
+
+    try {
+      const message = await getClient().messages.create({
+        model: "claude-haiku-4-5-20251001",
+        max_tokens: 2000,
+        messages: [{ role: "user", content: draftPrompt }],
+      });
+      const text = message.content[0].type === "text" ? message.content[0].text : "";
+      const newCount = cookieCount + 1;
+      const res = NextResponse.json({ result: text, count: newCount });
+      res.cookies.set(COOKIE_KEY, String(newCount), { maxAge: 60 * 60 * 24 * 30, sameSite: "lax", httpOnly: true, secure: true });
+      return res;
+    } catch (err) {
+      console.error(err);
+      return NextResponse.json({ error: "AI生成中にエラーが発生しました。" }, { status: 500 });
+    }
+  }
+
   if (!purpose) return NextResponse.json({ error: "活用目的は必須です" }, { status: 400 });
   if (purpose.length > 1000) return NextResponse.json({ error: "活用目的は1000文字以内で入力してください" }, { status: 400 });
 

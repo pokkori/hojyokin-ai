@@ -125,7 +125,119 @@ function ResultTabs({ parsed }: { parsed: ParsedResult }) {
   );
 }
 
+const SUBSIDY_TYPES = ["小規模持続化補助金", "ものづくり補助金", "IT導入補助金", "事業再構築補助金", "省エネ補助金", "その他"];
+
+function DraftTab({ isPremium, onShowPaywall }: { isPremium: boolean; onShowPaywall: () => void }) {
+  const [subsidyType, setSubsidyType] = useState(SUBSIDY_TYPES[0]);
+  const [bizOverview, setBizOverview] = useState("");
+  const [subsidyUse, setSubsidyUse] = useState("");
+  const [result, setResult] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [copied, setCopied] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const count = parseInt(localStorage.getItem(KEY) || "0");
+    if (!isPremium && count >= FREE_LIMIT) { onShowPaywall(); return; }
+    setLoading(true); setResult(""); setError("");
+    try {
+      const res = await fetch("/api/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ mode: "draft", subsidyType, bizOverview, subsidyUse }),
+      });
+      if (res.status === 429) { onShowPaywall(); setLoading(false); return; }
+      const data = await res.json();
+      if (!res.ok) { setError(data.error || "エラーが発生しました"); setLoading(false); return; }
+      const newCount = (data.count ?? count + 1);
+      localStorage.setItem(KEY, String(newCount));
+      setResult(data.result || "");
+    } catch { setError("通信エラーが発生しました。"); }
+    finally { setLoading(false); }
+  };
+
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div>
+          <h2 className="text-xl font-bold text-gray-900">申請書の文章を自動生成</h2>
+          <p className="text-sm text-gray-500 mt-1">補助金の種類と事業内容を入力するだけで、そのまま使える申請書の文章が完成します。</p>
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">補助金の種類</label>
+          <div className="flex flex-wrap gap-2">
+            {SUBSIDY_TYPES.map(t => (
+              <button key={t} type="button" onClick={() => setSubsidyType(t)}
+                className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors ${subsidyType === t ? "bg-amber-500 text-white border-amber-500" : "bg-white text-gray-600 border-gray-300 hover:border-amber-400"}`}>
+                {t}
+              </button>
+            ))}
+          </div>
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">自社事業の概要 <span className="text-red-500">*</span></label>
+          <textarea value={bizOverview} onChange={e => setBizOverview(e.target.value)} rows={3} required
+            placeholder="例: 愛知県の製造業（従業員12名）。AI画像検査システムを導入して不良品率を削減したい。"
+            className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 resize-none" />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">補助金で何をするか <span className="text-red-500">*</span></label>
+          <textarea value={subsidyUse} onChange={e => setSubsidyUse(e.target.value)} rows={3} required
+            placeholder="例: AIを使った画像検査装置を3台導入し、検査工程を自動化する。費用は約500万円。"
+            className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 resize-none" />
+        </div>
+        <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 text-xs text-blue-800">
+          💡 <strong>Jグランツとの違い</strong>: Jグランツは申請の「窓口」。このAIは申請書の「文章」を書きます。
+        </div>
+        <button type="submit" disabled={loading}
+          className="w-full bg-amber-500 hover:bg-amber-600 disabled:bg-amber-300 text-white font-bold py-3 rounded-lg transition-colors">
+          {loading ? "申請書を生成中..." : "申請書の文章を生成する"}
+        </button>
+        {error && <p className="text-sm text-red-500">{error}</p>}
+      </form>
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-2">生成された申請書文章</label>
+        {loading ? (
+          <div className="bg-white border border-gray-200 rounded-xl flex items-center justify-center min-h-[360px]">
+            <div className="text-center">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-amber-500 mx-auto mb-3" />
+              <p className="text-sm text-gray-500">申請書の文章を作成しています...</p>
+              <p className="text-xs text-gray-400 mt-1">20〜30秒かかります</p>
+            </div>
+          </div>
+        ) : result ? (
+          <div>
+            <div className="bg-white border border-gray-200 rounded-xl p-4 min-h-[360px]">
+              <pre className="text-sm text-gray-800 whitespace-pre-wrap font-sans leading-relaxed">{result}</pre>
+            </div>
+            <div className="flex gap-2 mt-3 justify-end">
+              <button onClick={() => { navigator.clipboard.writeText(result); setCopied(true); setTimeout(() => setCopied(false), 2000); }}
+                className="text-xs px-3 py-1.5 rounded-lg bg-amber-500 text-white font-medium hover:bg-amber-600">
+                {copied ? "✓ コピー済み" : "全文コピー"}
+              </button>
+            </div>
+          </div>
+        ) : (
+          <div className="bg-white border border-gray-200 rounded-xl flex flex-col items-center justify-center min-h-[360px] gap-3">
+            <div className="text-4xl">📝</div>
+            <p className="text-sm text-center text-gray-500">左のフォームを入力して<br />「申請書の文章を生成する」を押してください</p>
+            <div className="bg-gray-50 rounded-lg p-4 text-xs space-y-1.5 w-full max-w-[260px]">
+              <p className="font-semibold text-gray-600">生成される内容：</p>
+              <p className="text-gray-500">① 事業概要・現状の課題（300〜500字）</p>
+              <p className="text-gray-500">② 補助事業の実施内容（300〜500字）</p>
+              <p className="text-gray-500">③ 期待される効果・数値目標（200〜400字）</p>
+              <p className="text-gray-500">④ 審査員へのアピールポイント（3点）</p>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 export default function HojyokinTool() {
+  const [activeTab, setActiveTab] = useState<"diagnose" | "draft">("diagnose");
   const [isIndividual, setIsIndividual] = useState(false);
   const [businessType, setBusinessType] = useState("");
   const [employees, setEmployees] = useState("");
@@ -181,6 +293,25 @@ export default function HojyokinTool() {
         </div>
       </nav>
 
+      {/* タブ切り替え */}
+      <div className="max-w-5xl mx-auto px-6 pt-6">
+        <div className="flex gap-2 border-b border-gray-200">
+          {([["diagnose", "🎯 補助金診断"], ["draft", "📝 申請書を書いてもらう"]] as const).map(([tab, label]) => (
+            <button key={tab} onClick={() => setActiveTab(tab)}
+              className={`px-5 py-2.5 text-sm font-medium border-b-2 transition-colors -mb-px ${activeTab === tab ? "border-amber-500 text-amber-600" : "border-transparent text-gray-500 hover:text-gray-700"}`}>
+              {label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {activeTab === "draft" ? (
+        <div className="max-w-5xl mx-auto px-6 py-8">
+          <DraftTab isPremium={!isLimit} onShowPaywall={() => setShowPaywall(true)} />
+        </div>
+      ) : null}
+
+      {activeTab === "diagnose" && (
       <div className="max-w-5xl mx-auto px-6 py-8 grid grid-cols-1 md:grid-cols-2 gap-8">
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
@@ -284,6 +415,7 @@ export default function HojyokinTool() {
           )}
         </div>
       </div>
+      )}
 
       <footer className="text-center py-6 text-xs text-gray-400 border-t mt-4 space-x-4">
         <a href="/legal" className="hover:text-gray-600">特定商取引法に基づく表記</a>
