@@ -282,18 +282,57 @@ export default function HojyokinLP() {
       </nav>
 
       <section className="max-w-4xl mx-auto px-6 py-20 text-center">
-        <div className="inline-block bg-amber-50 text-amber-600 text-xs font-medium px-3 py-1 rounded-full mb-6">中小企業・個人事業主・個人向け</div>
+        <div className="inline-block bg-amber-50 text-amber-600 text-xs font-medium px-3 py-1 rounded-full mb-6">中小企業・個人事業主向け</div>
         <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
-          あなたが申請できる補助金を<br /><span className="text-amber-500">AIが30秒で診断</span>
+          補助金の<span className="text-amber-500">申請書を</span><br /><span className="text-amber-500">AIが自動で書いてくれる</span>
         </h1>
-        <p className="text-lg text-gray-500 mb-4 max-w-xl mx-auto">もらえるはずの補助金を知らずに損していませんか？<br />事業内容を入力するだけで申請可能な補助金を診断し、事業計画書作成の参考になる文章をAIが提案します。</p>
-        <div className="flex justify-center gap-6 mb-8 text-sm text-gray-500">
-          {["ものづくり補助金 最大1,250万円", "IT導入補助金 最大450万円", "小規模持続化補助金 最大200万円"].map(s => (
-            <span key={s} className="flex items-center gap-1"><span className="text-amber-500">✓</span>{s}</span>
+        <p className="text-lg text-gray-500 mb-4 max-w-xl mx-auto">
+          Jグランツは「補助金を探す」だけ。<br />
+          このAIは<strong className="text-gray-700">「申請書の文章まで」</strong>自動生成します。<br />
+          事業内容を入力するだけで、事業計画書・要件チェックリストが完成。
+        </p>
+        <div className="flex flex-wrap justify-center gap-3 mb-8 text-sm">
+          {["📝 事業計画書ドラフト自動生成", "✅ 申請要件チェックリスト付き", "🎯 採択率を上げるアドバイス付き"].map(s => (
+            <span key={s} className="flex items-center gap-1 bg-amber-50 text-amber-700 px-3 py-1.5 rounded-full font-medium">{s}</span>
           ))}
         </div>
-        <Link href="/tool" className="inline-block bg-amber-500 text-white font-bold text-lg px-8 py-4 rounded-xl hover:bg-amber-600 shadow-lg shadow-amber-100">無料で診断する →</Link>
+        <Link href="/tool" className="inline-block bg-amber-500 text-white font-bold text-lg px-8 py-4 rounded-xl hover:bg-amber-600 shadow-lg shadow-amber-100">申請書を無料で自動生成する →</Link>
         <p className="text-xs text-gray-400 mt-3">クレジットカード不要・3回まで無料</p>
+      </section>
+
+      {/* Jグランツとの差別化セクション */}
+      <section className="py-12 px-6 bg-gray-50 border-y border-gray-200">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="text-xl font-bold text-center text-gray-900 mb-8">無料ツールとの違い</h2>
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm border-collapse">
+              <thead>
+                <tr>
+                  <th className="text-left py-3 px-4 bg-gray-100 rounded-tl-xl font-semibold text-gray-600">機能</th>
+                  <th className="py-3 px-4 bg-gray-100 text-center font-semibold text-gray-400">Jグランツ（無料）</th>
+                  <th className="py-3 px-4 bg-amber-500 text-center font-bold text-white rounded-tr-xl">AI補助金診断</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  ["補助金の候補を探す", "✓", "✓"],
+                  ["申請できるか判定", "△ 自分で確認が必要", "✓ AIが自動判定"],
+                  ["事業計画書の文章を書く", "✗", "✓ 自動生成"],
+                  ["申請要件チェックリスト", "✗", "✓ 自動生成"],
+                  ["採択率アップのアドバイス", "✗", "✓ 具体的に3点"],
+                  ["コピーしてそのまま使える", "✗", "✓ 全文コピー可"],
+                ].map(([feat, other, this_], i) => (
+                  <tr key={i} className={i % 2 === 0 ? "bg-white" : "bg-gray-50"}>
+                    <td className="py-3 px-4 text-gray-700 font-medium">{feat}</td>
+                    <td className="py-3 px-4 text-center text-gray-400">{other}</td>
+                    <td className="py-3 px-4 text-center font-bold text-amber-600 bg-amber-50">{this_}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p className="text-xs text-gray-400 text-center mt-4">※ 本サービスは申請書作成の「参考文章」を生成します。実際の申請代行は行政書士の業務です。</p>
+        </div>
       </section>
 
       {/* 2026年度 新補助金 速報 */}
