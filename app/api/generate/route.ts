@@ -97,7 +97,7 @@ export async function POST(req: NextRequest) {
   if (!purpose) return NextResponse.json({ error: "活用目的は必須です" }, { status: 400 });
   if (purpose.length > 1000) return NextResponse.json({ error: "活用目的は1000文字以内で入力してください" }, { status: 400 });
 
-  const prompt = `あなたは補助金・助成金の専門コンサルタントです。10年以上の実績を持ち、採択率向上のノウハウを熟知しています。以下の情報をもとに、申請可能な補助金の診断と採択を見据えた申請書ドラフトを作成してください。
+  const prompt = `あなたは補助金・助成金の専門コンサルタントです。補助金申請の専門知識を持ち、採択率向上のノウハウを熟知しています。以下の情報をもとに、申請可能な補助金の診断と採択を見据えた申請書ドラフトを作成してください。
 
 【依頼者情報】
 事業形態: ${isIndividual ? "個人（一般）" : "法人・個人事業主"}
