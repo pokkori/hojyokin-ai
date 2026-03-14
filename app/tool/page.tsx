@@ -43,13 +43,14 @@ function Paywall({ onClose, onStartPayjp }: { onClose: () => void; onStartPayjp:
       <div className="bg-white rounded-2xl p-6 max-w-sm w-full shadow-xl text-center">
         <div className="text-3xl mb-3">💰</div>
         <h2 className="text-lg font-bold mb-2">無料診断回数を使い切りました</h2>
-        <p className="text-sm text-gray-500 mb-1">申請書ドラフトをそのまま提出できるレベルで生成</p>
+        <p className="text-sm text-gray-500 mb-1">事業計画書の参考文・要件チェックをAIが提案</p>
+        <p className="text-xs text-amber-600 bg-amber-50 rounded-lg px-3 py-2 mb-3">⚠️ 本サービスは参考情報の提供です。実際の申請書類は行政書士・認定支援機関にご確認ください。</p>
         <ul className="text-xs text-gray-400 text-left mb-5 space-y-1 mt-3">
           <li>✓ 補助金5件の優先度付き診断（採択率順）</li>
-          <li>✓ 申請書ドラフト自動生成（提出ベース）</li>
+          <li>✓ 事業計画書の参考文・構成案をAIが提案</li>
           <li>✓ 申請要件チェックリスト付き</li>
           <li>✓ 採択率を上げる具体的アドバイス</li>
-          <li>✓ 印刷・PDF保存してそのまま使える</li>
+          <li>✓ 参考文をコピーして自分の申請書作成に活用</li>
         </ul>
         <div className="space-y-3 mb-4">
           <button onClick={() => onStartPayjp("once")} className="block w-full bg-amber-500 text-white font-bold py-3 rounded-xl hover:bg-amber-600">

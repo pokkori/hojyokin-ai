@@ -271,6 +271,9 @@ export default function HojyokinLP() {
           onClose={() => setShowPayjp(false)}
         />
       )}
+      <div className="bg-amber-50 border-b border-amber-200 px-6 py-2 text-center text-xs text-amber-700">
+        ⚠️ 本サービスは補助金情報の参考提案のみを行います。補助金申請書類の作成代行は行政書士の独占業務です。実際の申請は行政書士・認定支援機関にご依頼ください。
+      </div>
       <nav className="border-b border-gray-100 px-6 py-4">
         <div className="max-w-5xl mx-auto flex items-center justify-between">
           <span className="font-bold text-gray-900">💰 AI補助金診断</span>
@@ -283,7 +286,7 @@ export default function HojyokinLP() {
         <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
           あなたが申請できる補助金を<br /><span className="text-amber-500">AIが30秒で診断</span>
         </h1>
-        <p className="text-lg text-gray-500 mb-4 max-w-xl mx-auto">もらえるはずの補助金を知らずに損していませんか？<br />事業内容を入力するだけで申請可能な補助金と申請書ドラフトを自動生成します。</p>
+        <p className="text-lg text-gray-500 mb-4 max-w-xl mx-auto">もらえるはずの補助金を知らずに損していませんか？<br />事業内容を入力するだけで申請可能な補助金を診断し、事業計画書作成の参考になる文章をAIが提案します。</p>
         <div className="flex justify-center gap-6 mb-8 text-sm text-gray-500">
           {["ものづくり補助金 最大1,250万円", "IT導入補助金 最大450万円", "小規模持続化補助金 最大200万円"].map(s => (
             <span key={s} className="flex items-center gap-1"><span className="text-amber-500">✓</span>{s}</span>
@@ -330,7 +333,7 @@ export default function HojyokinLP() {
             </ul>
           </div>
           <a href="#tool" className="inline-block bg-amber-500 hover:bg-amber-600 text-white font-bold px-8 py-3 rounded-full transition-colors text-sm">
-            今すぐ申請書を作成する →
+            今すぐ補助金診断と事業計画の参考文を作る →
           </a>
         </div>
       </section>
