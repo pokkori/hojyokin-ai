@@ -466,6 +466,18 @@ export default function HojyokinLP() {
         <Link href="/tool" className="inline-block bg-white text-amber-600 font-bold px-8 py-4 rounded-xl hover:bg-amber-50">無料で診断する →</Link>
       </section>
 
+      {/* 経営レーダー クロスセルバナー */}
+      <div className="bg-blue-50 border border-blue-200 rounded-xl px-6 py-4 max-w-2xl mx-auto my-8 flex items-center justify-between gap-4">
+        <div>
+          <p className="text-sm font-bold text-blue-900">📡 補助金の最新情報を毎週月曜に無料でお届け →</p>
+          <p className="text-xs text-blue-600 mt-0.5">無料・週1回・いつでも解除可</p>
+        </div>
+        <a href="https://keiei-radar.vercel.app" target="_blank" rel="noopener noreferrer"
+          className="whitespace-nowrap bg-blue-600 text-white text-xs font-bold px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+          無料登録 →
+        </a>
+      </div>
+
       <footer className="border-t py-6 text-center text-xs text-gray-400 space-y-2">
         <p>AI補助金診断 © 2026 ※本サービスは情報提供を目的としており、申請を保証するものではありません。必ず公募要領をご確認ください。</p>
         <p>
