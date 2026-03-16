@@ -7,8 +7,8 @@ const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
 const SITE_URL = "https://hojyokin-ai-delta.vercel.app";
-const TITLE = "AI補助金診断｜申請可能な補助金を診断＋申請書ドラフトを自動生成";
-const DESC = "事業内容を入力するだけ。AIが使える補助金5件を優先度順に診断し、申請書ドラフト・チェックリスト・採択率アドバイスまで自動生成。行政書士不要。¥2,980/1申請〜。";
+const TITLE = "AI補助金診断｜補助金申請書をAI自動生成・無料診断・ものづくり補助金・IT導入補助金対応";
+const DESC = "補助金申請書の文章生成をAIが自動化。事業内容を入力するだけで使える補助金5件を無料診断し、補助金申請書ドラフト・チェックリスト・採択率アドバイスまでAIが自動生成。ものづくり補助金・IT導入補助金・小規模事業者持続化補助金対応。行政書士不要。¥2,980/1申請〜。";
 
 export const metadata: Metadata = {
   title: TITLE,
@@ -39,7 +39,8 @@ const jsonLd = {
       "url": SITE_URL,
       "applicationCategory": "BusinessApplication",
       "operatingSystem": "Web",
-      "offers": { "@type": "Offer", "price": "980", "priceCurrency": "JPY", "description": "プレミアムプラン ¥980/月" },
+      "keywords": "補助金,補助金申請書,文章生成,AI,ものづくり補助金,IT導入補助金,小規模事業者持続化補助金,無料診断",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "JPY", "description": "基本無料診断・申請書生成 ¥2,980/1申請〜" },
       "description": DESC,
     },
     {

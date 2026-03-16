@@ -148,11 +148,29 @@ function DraftTab({ isPremium, onShowPaywall }: { isPremium: boolean; onShowPayw
         body: JSON.stringify({ mode: "draft", subsidyType, bizOverview, subsidyUse }),
       });
       if (res.status === 429) { onShowPaywall(); setLoading(false); return; }
-      const data = await res.json();
-      if (!res.ok) { setError(data.error || "エラーが発生しました"); setLoading(false); return; }
-      const newCount = (data.count ?? count + 1);
-      localStorage.setItem(KEY, String(newCount));
-      setResult(data.result || "");
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        setError(data.error || "エラーが発生しました"); setLoading(false); return;
+      }
+      const reader = res.body?.getReader();
+      const decoder = new TextDecoder();
+      let accumulated = "";
+      while (reader) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        const chunk = decoder.decode(value, { stream: true });
+        if (chunk.includes("\nDONE:")) {
+          const idx = chunk.indexOf("\nDONE:");
+          accumulated += chunk.slice(0, idx);
+          try {
+            const meta = JSON.parse(chunk.slice(idx + 6));
+            localStorage.setItem(KEY, String(meta.count ?? count + 1));
+          } catch { /* ignore */ }
+        } else {
+          accumulated += chunk;
+        }
+        setResult(accumulated);
+      }
     } catch { setError("通信エラーが発生しました。"); }
     finally { setLoading(false); }
   };
@@ -261,13 +279,32 @@ export default function HojyokinTool() {
     try {
       const res = await fetch("/api/generate", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ isIndividual, businessType, employees, prefecture, purpose }) });
       if (res.status === 429) { setShowPaywall(true); setLoading(false); return; }
-      const data = await res.json();
-      if (!res.ok) { setError(data.error || "エラーが発生しました"); setLoading(false); return; }
-      const newCount = data.count ?? count + 1;
-      localStorage.setItem(KEY, String(newCount));
-      setCount(newCount);
-      setParsed(parseResult(data.result || ""));
-      if (newCount >= FREE_LIMIT) setTimeout(() => setShowPaywall(true), 4000);
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        setError(data.error || "エラーが発生しました"); setLoading(false); return;
+      }
+      const reader = res.body?.getReader();
+      const decoder = new TextDecoder();
+      let accumulated = "";
+      while (reader) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        const chunk = decoder.decode(value, { stream: true });
+        if (chunk.includes("\nDONE:")) {
+          const idx = chunk.indexOf("\nDONE:");
+          accumulated += chunk.slice(0, idx);
+          try {
+            const meta = JSON.parse(chunk.slice(idx + 6));
+            const newCount = meta.count ?? count + 1;
+            localStorage.setItem(KEY, String(newCount));
+            setCount(newCount);
+            if (newCount >= FREE_LIMIT) setTimeout(() => setShowPaywall(true), 4000);
+          } catch { /* ignore */ }
+        } else {
+          accumulated += chunk;
+        }
+        setParsed(parseResult(accumulated));
+      }
     } catch { setError("通信エラーが発生しました。インターネット接続を確認してください。"); }
     finally { setLoading(false); }
   };
@@ -296,7 +333,7 @@ export default function HojyokinTool() {
       {/* タブ切り替え */}
       <div className="max-w-5xl mx-auto px-6 pt-6">
         <div className="flex gap-2 border-b border-gray-200">
-          {([["diagnose", "🎯 補助金診断"], ["draft", "📝 申請書を書いてもらう"]] as const).map(([tab, label]) => (
+          {([["diagnose", "🎯 補助金を診断する"], ["draft", "📝 申請書の文章を生成する"]] as const).map(([tab, label]) => (
             <button key={tab} onClick={() => setActiveTab(tab)}
               className={`px-5 py-2.5 text-sm font-medium border-b-2 transition-colors -mb-px ${activeTab === tab ? "border-amber-500 text-amber-600" : "border-transparent text-gray-500 hover:text-gray-700"}`}>
               {label}
@@ -315,8 +352,8 @@ export default function HojyokinTool() {
       <div className="max-w-5xl mx-auto px-6 py-8 grid grid-cols-1 md:grid-cols-2 gap-8">
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <h1 className="text-xl font-bold text-gray-900">あなたの情報を入力</h1>
-            <p className="text-sm text-gray-500 mt-1">入力情報から申請可能な補助金を診断し、申請書ドラフトまで自動生成します。</p>
+            <h1 className="text-xl font-bold text-gray-900">補助金申請書の文章を自動生成</h1>
+            <p className="text-sm text-gray-500 mt-1">事業内容を入力するだけで、申請書に貼れる文章（事業計画・目的・効果・必要性）をAIが自動生成します。</p>
           </div>
 
           <div>
