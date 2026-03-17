@@ -291,12 +291,12 @@ export default function HojyokinLP() {
           事業計画・目的・効果・必要性をAIが自動生成。<br />
           コピーしてそのまま申請書に貼るだけ。
         </p>
-        {/* 実績バッジ */}
+        {/* 特徴バッジ */}
         <div className="flex flex-wrap justify-center gap-3 mb-6 text-sm">
           {[
-            { icon: "📋", label: "支援実績", value: "8,400件以上" },
-            { icon: "⏱", label: "平均作業時間削減", value: "94%" },
-            { icon: "📂", label: "対応補助金", value: "150種以上" },
+            { icon: "📋", label: "対応", value: "IT導入・ものづくり・持続化" },
+            { icon: "⏱", label: "生成時間", value: "約1〜2分" },
+            { icon: "📂", label: "対応補助金", value: "主要補助金対応" },
           ].map(b => (
             <div key={b.label} className="flex items-center gap-2 bg-amber-50 border border-amber-200 text-amber-800 px-4 py-2 rounded-full font-medium">
               <span>{b.icon}</span>
