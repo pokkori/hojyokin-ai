@@ -10,7 +10,13 @@ const KEY = "hojyokin_count";
 const PREFECTURES = ["北海道","青森","岩手","宮城","秋田","山形","福島","茨城","栃木","群馬","埼玉","千葉","東京","神奈川","新潟","富山","石川","福井","山梨","長野","岐阜","静岡","愛知","三重","滋賀","京都","大阪","兵庫","奈良","和歌山","鳥取","島根","岡山","広島","山口","徳島","香川","愛媛","高知","福岡","佐賀","長崎","熊本","大分","宮崎","鹿児島","沖縄"];
 
 type Section = { title: string; icon: string; content: string };
-type ParsedResult = { sections: Section[]; raw: string };
+type ParsedResult = { sections: Section[]; raw: string; score: number | null };
+
+function extractScore(text: string): number | null {
+  const m = text.match(/===SCORE===\s*(\d+)/);
+  if (m) return parseInt(m[1], 10);
+  return null;
+}
 
 function parseResult(text: string): ParsedResult {
   const sectionDefs = [
@@ -20,8 +26,10 @@ function parseResult(text: string): ParsedResult {
     { key: "採択率を上げる", icon: "📈" },
     { key: "よくある落選理由", icon: "⚠️" },
   ];
+  const score = extractScore(text);
+  const cleanText = text.replace(/===SCORE===\s*\d+/g, "");
   const sections: Section[] = [];
-  const parts = text.split(/^---$/m);
+  const parts = cleanText.split(/^---$/m);
   for (const part of parts) {
     const trimmed = part.trim();
     if (!trimmed) continue;
@@ -31,11 +39,36 @@ function parseResult(text: string): ParsedResult {
       sections.push({ title: matched.key, icon: matched.icon, content });
     }
   }
-  if (sections.length === 0) sections.push({ title: "診断結果", icon: "📄", content: text });
-  return { sections, raw: text };
+  if (sections.length === 0) sections.push({ title: "診断結果", icon: "📄", content: cleanText });
+  return { sections, raw: cleanText, score };
 }
 
-// startCheckout は PayjpModal で処理するため削除済み
+function ScoreCard({ score }: { score: number }) {
+  const color = score >= 80 ? "text-green-600" : score >= 60 ? "text-amber-600" : "text-red-600";
+  const bg = score >= 80 ? "bg-green-50 border-green-300" : score >= 60 ? "bg-amber-50 border-amber-300" : "bg-red-50 border-red-300";
+  const label = score >= 80 ? "採択可能性: 高" : score >= 60 ? "採択可能性: 中" : "採択可能性: 要対策";
+  const barColor = score >= 80 ? "bg-green-500" : score >= 60 ? "bg-amber-500" : "bg-red-500";
+  return (
+    <div className={`border-2 rounded-2xl p-5 mb-4 ${bg}`}>
+      <div className="flex items-center justify-between mb-2">
+        <span className="text-sm font-bold text-gray-700">AI採択可能性スコア</span>
+        <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${score >= 80 ? "bg-green-100 text-green-700" : score >= 60 ? "bg-amber-100 text-amber-700" : "bg-red-100 text-red-700"}`}>{label}</span>
+      </div>
+      <div className="flex items-end gap-3 mb-2">
+        <span className={`text-5xl font-black ${color}`}>{score}</span>
+        <span className="text-lg text-gray-500 mb-1">/100</span>
+      </div>
+      <div className="w-full bg-gray-200 rounded-full h-3 mb-2">
+        <div className={`h-3 rounded-full transition-all duration-1000 ${barColor}`} style={{ width: `${score}%` }} />
+      </div>
+      <p className="text-xs text-gray-500">
+        {score >= 80 ? "現在の事業内容・規模・目的から、採択可能性が高いと判定されました。申請書の精度を高めることでさらに確実に。"
+          : score >= 60 ? "採択ラインに近いスコアです。申請書ドラフトと採択ポイントを参考に、内容を補強してください。"
+          : "現状では改善が必要です。「採択率を上げるポイント」を参照し、事業計画の数値・必然性を強化してください。"}
+      </p>
+    </div>
+  );
+}
 
 function Paywall({ onClose, onStartPayjp }: { onClose: () => void; onStartPayjp: (plan: string) => void }) {
   return (
@@ -47,6 +80,7 @@ function Paywall({ onClose, onStartPayjp }: { onClose: () => void; onStartPayjp:
         <p className="text-xs text-amber-600 bg-amber-50 rounded-lg px-3 py-2 mb-3">⚠️ 本サービスは参考情報の提供です。実際の申請書類は行政書士・認定支援機関にご確認ください。</p>
         <ul className="text-xs text-gray-400 text-left mb-5 space-y-1 mt-3">
           <li>✓ 補助金5件の優先度付き診断（採択率順）</li>
+          <li>✓ AI採択可能性スコア（100点満点）</li>
           <li>✓ 事業計画書の参考文・構成案をAIが提案</li>
           <li>✓ 申請要件チェックリスト付き</li>
           <li>✓ 採択率を上げる具体的アドバイス</li>
@@ -92,6 +126,9 @@ function ResultTabs({ parsed }: { parsed: ParsedResult }) {
 
   return (
     <div className="flex flex-col gap-3">
+      {/* 採択可能性スコアカード */}
+      {parsed.score !== null && <ScoreCard score={parsed.score} />}
+
       <div className="flex gap-1 flex-wrap">
         {parsed.sections.map((s, i) => (
           <button key={i} onClick={() => setActiveTab(i)}
@@ -119,6 +156,20 @@ function ResultTabs({ parsed }: { parsed: ParsedResult }) {
           className="inline-flex items-center gap-2 bg-black text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-gray-800 transition-colors"
         >
           𝕏 でシェアする
+        </a>
+      </div>
+
+      {/* 採択シェアCTA */}
+      <div className="mt-4 bg-amber-50 border border-amber-300 rounded-xl p-4 text-center">
+        <p className="text-sm font-bold text-amber-800 mb-1">採択が決まったらシェアしよう 🎉</p>
+        <p className="text-xs text-amber-600 mb-3">採択通知が届いたら、ぜひ同じ悩みを持つ経営者に教えてあげてください！</p>
+        <a
+          href={`https://twitter.com/intent/tweet?text=${encodeURIComponent("補助金に採択されました！AI補助金診断で申請書の骨格を作成。同じ悩みの方にシェア！ #補助金採択 #中小企業 #DX")}&url=${encodeURIComponent("https://hojyokin-ai-delta.vercel.app")}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-white font-bold px-5 py-2 rounded-lg text-sm transition-colors"
+        >
+          #補助金採択 でシェアする 🎉
         </a>
       </div>
     </div>
@@ -254,13 +305,153 @@ function DraftTab({ isPremium, onShowPaywall }: { isPremium: boolean; onShowPayw
   );
 }
 
-export default function HojyokinTool() {
-  const [activeTab, setActiveTab] = useState<"diagnose" | "draft">("diagnose");
+// ===== ウィザードフォームコンポーネント =====
+type WizardStep = 1 | 2 | 3;
+
+function WizardForm({
+  onSubmit,
+  loading,
+  isLimit,
+}: {
+  onSubmit: (data: { isIndividual: boolean; businessType: string; employees: string; prefecture: string; purpose: string }) => void;
+  loading: boolean;
+  isLimit: boolean;
+}) {
+  const [step, setStep] = useState<WizardStep>(1);
   const [isIndividual, setIsIndividual] = useState(false);
   const [businessType, setBusinessType] = useState("");
   const [employees, setEmployees] = useState("");
   const [prefecture, setPrefecture] = useState("東京");
   const [purpose, setPurpose] = useState("");
+
+  const INDUSTRIES = ["飲食・カフェ", "IT・Web・アプリ", "製造業", "建設・不動産", "小売・EC", "医療・介護", "美容・エステ", "教育・スクール", "農業・食品", "輸送・物流", "その他"];
+
+  const canNext1 = isIndividual || (businessType !== "");
+  const canNext2 = prefecture !== "";
+  const canSubmit = purpose.trim().length > 0;
+
+  return (
+    <div className="space-y-4">
+      {/* ステッパー */}
+      <div className="flex items-center gap-2 mb-6">
+        {([1, 2, 3] as WizardStep[]).map((s) => (
+          <div key={s} className="flex items-center gap-2">
+            <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-colors ${step >= s ? "bg-amber-500 text-white" : "bg-gray-200 text-gray-500"}`}>
+              {s}
+            </div>
+            {s < 3 && <div className={`flex-1 h-1 rounded ${step > s ? "bg-amber-500" : "bg-gray-200"}`} style={{ width: "3rem" }} />}
+          </div>
+        ))}
+        <div className="ml-2 text-xs text-gray-500">
+          {step === 1 ? "業種・規模" : step === 2 ? "所在地" : "やりたいこと"}
+        </div>
+      </div>
+
+      {/* ステップ1: 業種・規模 */}
+      {step === 1 && (
+        <div className="space-y-4">
+          <h2 className="text-lg font-bold text-gray-900">ステップ1 / 3 — 事業の形態・業種</h2>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">事業形態</label>
+            <div className="flex gap-3">
+              {[{ label: "法人・個人事業主", val: false }, { label: "個人（一般）", val: true }].map(opt => (
+                <button key={opt.label} type="button" onClick={() => setIsIndividual(opt.val)}
+                  className={`flex-1 py-2.5 rounded-lg border text-sm font-medium transition-colors ${isIndividual === opt.val ? "bg-amber-500 text-white border-amber-500" : "bg-white text-gray-700 border-gray-300 hover:border-amber-400"}`}>
+                  {opt.label}
+                </button>
+              ))}
+            </div>
+          </div>
+          {!isIndividual && (
+            <>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">業種</label>
+                <div className="flex flex-wrap gap-2">
+                  {INDUSTRIES.map(ind => (
+                    <button key={ind} type="button" onClick={() => setBusinessType(ind)}
+                      className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors ${businessType === ind ? "bg-amber-500 text-white border-amber-500" : "bg-white text-gray-600 border-gray-300 hover:border-amber-400"}`}>
+                      {ind}
+                    </button>
+                  ))}
+                </div>
+                <input type="text" value={businessType} onChange={e => setBusinessType(e.target.value)}
+                  placeholder="上記にない場合は直接入力"
+                  className="mt-2 w-full border border-gray-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500" />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">従業員数</label>
+                <input type="number" value={employees} onChange={e => setEmployees(e.target.value)}
+                  placeholder="例: 5"
+                  className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500" />
+              </div>
+            </>
+          )}
+          <button type="button" onClick={() => setStep(2)} disabled={!canNext1}
+            className="w-full bg-amber-500 hover:bg-amber-600 disabled:bg-amber-200 text-white font-bold py-3 rounded-lg transition-colors">
+            次へ →
+          </button>
+        </div>
+      )}
+
+      {/* ステップ2: 所在地 */}
+      {step === 2 && (
+        <div className="space-y-4">
+          <h2 className="text-lg font-bold text-gray-900">ステップ2 / 3 — 所在地</h2>
+          <p className="text-sm text-gray-500">都道府県固有の補助金・助成金も診断します</p>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">都道府県</label>
+            <select value={prefecture} onChange={e => setPrefecture(e.target.value)}
+              className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500">
+              {PREFECTURES.map(p => <option key={p} value={p}>{p}</option>)}
+            </select>
+          </div>
+          <div className="flex gap-3">
+            <button type="button" onClick={() => setStep(1)}
+              className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold py-3 rounded-lg transition-colors">
+              ← 戻る
+            </button>
+            <button type="button" onClick={() => setStep(3)} disabled={!canNext2}
+              className="flex-1 bg-amber-500 hover:bg-amber-600 disabled:bg-amber-200 text-white font-bold py-3 rounded-lg transition-colors">
+              次へ →
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* ステップ3: やりたいこと */}
+      {step === 3 && (
+        <div className="space-y-4">
+          <h2 className="text-lg font-bold text-gray-900">ステップ3 / 3 — 何に使いたいか</h2>
+          <p className="text-sm text-gray-500">詳しく書くほどAIの診断精度が上がります</p>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">やりたいこと・補助金の用途 <span className="text-red-500">*</span></label>
+            <textarea value={purpose} onChange={e => setPurpose(e.target.value)} rows={6} required
+              placeholder={"例:\n・店舗にPOSレジシステムを導入したい\n・設備を新しくして生産性を上げたい\n・省エネ設備に切り替えたい\n・ECサイトを立ち上げたい"}
+              className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 resize-none" />
+            <p className="text-xs text-gray-400 mt-1">詳しく書くほど精度が上がります（{purpose.length}/1000文字）</p>
+          </div>
+          <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 text-xs text-amber-800">
+            ⚠️ <strong>ご注意</strong>：この診断はAIによる参考情報です。申請前に必ず各補助金の公式サイトでご確認ください。
+          </div>
+          <div className="flex gap-3">
+            <button type="button" onClick={() => setStep(2)}
+              className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold py-3 rounded-lg transition-colors">
+              ← 戻る
+            </button>
+            <button type="button" onClick={() => onSubmit({ isIndividual, businessType, employees, prefecture, purpose })}
+              disabled={loading || !canSubmit}
+              className={`flex-1 font-bold py-3 rounded-lg text-white transition-colors ${isLimit ? "bg-orange-500 hover:bg-orange-600" : "bg-amber-500 hover:bg-amber-600 disabled:bg-amber-300"}`}>
+              {loading ? "診断中..." : isLimit ? "¥1,980で申請書を完成させる" : "補助金を診断する（無料）"}
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default function HojyokinTool() {
+  const [activeTab, setActiveTab] = useState<"diagnose" | "draft">("diagnose");
   const [parsed, setParsed] = useState<ParsedResult | null>(null);
   const [loading, setLoading] = useState(false);
   const [count, setCount] = useState(0);
@@ -272,16 +463,15 @@ export default function HojyokinTool() {
   useEffect(() => { setCount(parseInt(localStorage.getItem(KEY) || "0")); }, []);
   const isLimit = count >= FREE_LIMIT;
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (data: { isIndividual: boolean; businessType: string; employees: string; prefecture: string; purpose: string }) => {
     if (isLimit) { setShowPaywall(true); return; }
     setLoading(true); setParsed(null); setError("");
     try {
-      const res = await fetch("/api/generate", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ isIndividual, businessType, employees, prefecture, purpose }) });
+      const res = await fetch("/api/generate", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) });
       if (res.status === 429) { setShowPaywall(true); setLoading(false); return; }
       if (!res.ok) {
-        const data = await res.json().catch(() => ({}));
-        setError(data.error || "エラーが発生しました"); setLoading(false); return;
+        const d = await res.json().catch(() => ({}));
+        setError(d.error || "エラーが発生しました"); setLoading(false); return;
       }
       const reader = res.body?.getReader();
       const decoder = new TextDecoder();
@@ -349,109 +539,52 @@ export default function HojyokinTool() {
       ) : null}
 
       {activeTab === "diagnose" && (
-      <div className="max-w-5xl mx-auto px-6 py-8 grid grid-cols-1 md:grid-cols-2 gap-8">
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <h1 className="text-xl font-bold text-gray-900">補助金申請書の文章を自動生成</h1>
-            <p className="text-sm text-gray-500 mt-1">事業内容を入力するだけで、申請書に貼れる文章（事業計画・目的・効果・必要性）をAIが自動生成します。</p>
+        <div className="max-w-5xl mx-auto px-6 py-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+          <WizardForm onSubmit={handleSubmit} loading={loading} isLimit={isLimit} />
+
+          <div className="flex flex-col">
+            <label className="text-sm font-medium text-gray-700 mb-2">診断結果</label>
+            {loading ? (
+              <div className="flex-1 bg-white border border-gray-200 rounded-xl flex items-center justify-center min-h-[420px]">
+                <div className="text-center">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-amber-500 mx-auto mb-3" />
+                  <p className="text-sm text-gray-500 font-medium">AIが補助金を診断しています...</p>
+                  <p className="text-xs text-gray-400 mt-2">🎯 採択可能性スコア算出 → 📝 申請書ドラフト → ✅ チェックリスト</p>
+                  <p className="text-xs text-gray-300 mt-1">通常20〜30秒かかります</p>
+                </div>
+              </div>
+            ) : parsed ? (
+              <>
+                <ResultTabs parsed={parsed} />
+                {/* 経営計画書AIへのクロスセル */}
+                <div className="mt-8 p-4 bg-green-50 border border-green-200 rounded-xl">
+                  <p className="text-sm font-bold text-green-800 mb-1">📊 融資申請・投資家向けの経営計画書も作れます</p>
+                  <p className="text-xs text-green-600 mb-3">SWOT分析・収支計画・投資家ピッチまで5分でAI自動作成</p>
+                  <a href="https://ai-keiei-keikaku.vercel.app" target="_blank" rel="noopener noreferrer"
+                    className="inline-block bg-green-600 text-white text-sm font-bold px-4 py-2 rounded-lg hover:bg-green-700">
+                    AI経営計画書を作成 →
+                  </a>
+                </div>
+              </>
+            ) : (
+              <div className="flex-1 bg-white border border-gray-200 rounded-xl flex flex-col items-center justify-center min-h-[420px] gap-3">
+                <div className="text-4xl">💰</div>
+                <p className="text-sm text-center font-medium text-gray-500">情報を入力して<br />「補助金を診断する」を押してください</p>
+                <div className="bg-gray-50 rounded-lg p-4 text-xs space-y-2 w-full max-w-[260px]">
+                  <p className="font-semibold text-gray-600">生成される内容：</p>
+                  <p className="text-gray-500">🏆 AI採択可能性スコア（100点満点）</p>
+                  <p className="text-gray-500">🎯 申請可能な補助金（優先度順5件）</p>
+                  <p className="text-gray-500">📝 申請書ドラフト（提出ベース）</p>
+                  <p className="text-gray-500">✅ 申請要件チェックリスト</p>
+                  <p className="text-gray-500">📈 採択率を上げる3つのポイント</p>
+                  <p className="text-gray-500">⚠️ よくある落選理由と対策</p>
+                </div>
+              </div>
+            )}
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">事業形態</label>
-            <div className="flex gap-3">
-              {[{ label: "法人・個人事業主", val: false }, { label: "個人（一般）", val: true }].map(opt => (
-                <button key={opt.label} type="button" onClick={() => setIsIndividual(opt.val)}
-                  className={`flex-1 py-2 rounded-lg border text-sm font-medium transition-colors ${isIndividual === opt.val ? "bg-amber-500 text-white border-amber-500" : "bg-white text-gray-700 border-gray-300 hover:border-amber-400"}`}>
-                  {opt.label}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {!isIndividual && (
-            <>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">業種</label>
-                <input type="text" value={businessType} onChange={e => setBusinessType(e.target.value)}
-                  placeholder="例: 飲食業・IT・製造業・小売業・建設業"
-                  className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500" />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">従業員数</label>
-                <input type="number" value={employees} onChange={e => setEmployees(e.target.value)}
-                  placeholder="例: 5"
-                  className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500" />
-              </div>
-            </>
-          )}
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">都道府県</label>
-            <select value={prefecture} onChange={e => setPrefecture(e.target.value)}
-              className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500">
-              {PREFECTURES.map(p => <option key={p} value={p}>{p}</option>)}
-            </select>
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">何に使いたいか・やりたいこと <span className="text-red-500">*</span></label>
-            <textarea value={purpose} onChange={e => setPurpose(e.target.value)} rows={5} required
-              placeholder={"例:\n・店舗にPOSレジシステムを導入したい\n・設備を新しくして生産性を上げたい\n・省エネ設備に切り替えたい\n・ECサイトを立ち上げたい"}
-              className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 resize-none" />
-            <p className="text-xs text-gray-400 mt-1">詳しく書くほど精度が上がります（{purpose.length}/1000文字）</p>
-          </div>
-
-          <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 text-xs text-amber-800">
-            ⚠️ <strong>ご注意</strong>：この診断はAIによる参考情報です。補助金の採択可否は公式審査によります。申請前に必ず各補助金の<strong>公式サイト・所管機関（中小企業庁・経済産業省等）</strong>で最新の要領をご確認ください。
-          </div>
-
-          <button type="submit" disabled={loading}
-            className={`w-full font-bold py-3 rounded-lg text-white transition-colors ${isLimit ? "bg-orange-500 hover:bg-orange-600" : "bg-amber-500 hover:bg-amber-600 disabled:bg-amber-300"}`}>
-            {loading ? "診断中..." : isLimit ? "¥1,980で申請書を完成させる" : "補助金を診断する（無料）"}
-          </button>
-          {error && <p className="text-sm text-red-500 text-center">{error}</p>}
-        </form>
-
-        <div className="flex flex-col">
-          <label className="text-sm font-medium text-gray-700 mb-2">診断結果</label>
-          {loading ? (
-            <div className="flex-1 bg-white border border-gray-200 rounded-xl flex items-center justify-center min-h-[420px]">
-              <div className="text-center">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-amber-500 mx-auto mb-3" />
-                <p className="text-sm text-gray-500 font-medium">AIが補助金を診断しています...</p>
-                <p className="text-xs text-gray-400 mt-2">🎯 補助金5件 → 📝 申請書ドラフト → ✅ チェックリスト</p>
-                <p className="text-xs text-gray-300 mt-1">通常20〜30秒かかります</p>
-              </div>
-            </div>
-          ) : parsed ? (
-            <>
-              <ResultTabs parsed={parsed} />
-              {/* 経営計画書AIへのクロスセル */}
-              <div className="mt-8 p-4 bg-green-50 border border-green-200 rounded-xl">
-                <p className="text-sm font-bold text-green-800 mb-1">📊 融資申請・投資家向けの経営計画書も作れます</p>
-                <p className="text-xs text-green-600 mb-3">SWOT分析・収支計画・投資家ピッチまで5分でAI自動作成</p>
-                <a href="https://ai-keiei-keikaku.vercel.app" target="_blank" rel="noopener noreferrer"
-                  className="inline-block bg-green-600 text-white text-sm font-bold px-4 py-2 rounded-lg hover:bg-green-700">
-                  AI経営計画書を作成 →
-                </a>
-              </div>
-            </>
-          ) : (
-            <div className="flex-1 bg-white border border-gray-200 rounded-xl flex flex-col items-center justify-center min-h-[420px] gap-3">
-              <div className="text-4xl">💰</div>
-              <p className="text-sm text-center font-medium text-gray-500">情報を入力して<br />「補助金を診断する」を押してください</p>
-              <div className="bg-gray-50 rounded-lg p-4 text-xs space-y-2 w-full max-w-[260px]">
-                <p className="font-semibold text-gray-600">生成される内容：</p>
-                <p className="text-gray-500">🎯 申請可能な補助金（優先度順5件）</p>
-                <p className="text-gray-500">📝 申請書ドラフト（提出ベース）</p>
-                <p className="text-gray-500">✅ 申請要件チェックリスト</p>
-                <p className="text-gray-500">📈 採択率を上げる3つのポイント</p>
-                <p className="text-gray-500">⚠️ よくある落選理由と対策</p>
-              </div>
-            </div>
-          )}
+          {error && <p className="text-sm text-red-500 text-center col-span-full">{error}</p>}
         </div>
-      </div>
       )}
 
       <footer className="text-center py-6 text-xs text-gray-400 border-t mt-4 space-x-4">

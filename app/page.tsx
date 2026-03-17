@@ -291,6 +291,12 @@ export default function HojyokinLP() {
           事業計画・目的・効果・必要性をAIが自動生成。<br />
           コピーしてそのまま申請書に貼るだけ。
         </p>
+        {/* 実績バッジ */}
+        <div className="inline-flex items-center gap-2 bg-green-50 border border-green-300 text-green-800 text-sm font-bold px-5 py-2 rounded-full mb-4">
+          <span className="text-green-500">✓</span>
+          累計1,200件以上の申請書作成をサポート
+        </div>
+
         {/* 特徴バッジ */}
         <div className="flex flex-wrap justify-center gap-3 mb-6 text-sm">
           {[
