@@ -320,6 +320,38 @@ export default function HojyokinLP() {
         <p className="text-xs text-gray-400 mt-3">クレジットカード不要・3回まで無料</p>
       </section>
 
+      {/* ペルソナ共感セクション */}
+      <section className="py-14 px-6 bg-white">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="text-2xl font-bold text-center mb-2 text-gray-900">こんな状況で困っていませんか？</h2>
+          <p className="text-center text-gray-400 text-sm mb-8">中小企業・個人事業主の方からよく聞く声です</p>
+          <div className="space-y-3">
+            {[
+              "「補助金があることは知っているが、自社がどれに対象か分からない」",
+              "「J-Net21やミラサポで補助金を見つけたが、申請書の書き方がわからない」",
+              "「コンサルに頼んだら50万円と言われた。それなら補助金の意味がない」",
+              "「事業計画書って何をどう書けばいいか全くイメージが湧かない」",
+              "「申請要件を満たしているか自己判断できず、結局申請しないまま締め切りが過ぎた」",
+            ].map((v, i) => (
+              <div key={i} className="flex items-start gap-3 bg-red-50 border border-red-100 rounded-xl px-5 py-4">
+                <span className="text-red-400 font-bold text-lg mt-0.5 shrink-0">✗</span>
+                <p className="text-sm text-gray-700 leading-relaxed">{v}</p>
+              </div>
+            ))}
+          </div>
+          <div className="mt-8 bg-amber-50 border border-amber-200 rounded-xl p-6 text-center">
+            <p className="text-amber-800 font-bold text-base mb-2">AI補助金診断が、これら全てを解決します</p>
+            <p className="text-sm text-amber-700">業種・規模・目的を入力するだけで、適合補助金ランキング＋申請書ドラフトが自動生成されます。</p>
+            <Link
+              href="/tool"
+              className="inline-block mt-4 bg-amber-500 text-white font-bold px-6 py-3 rounded-xl hover:bg-amber-600 transition-colors text-sm"
+            >
+              無料で補助金を診断する（3回・登録不要）→
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* Jグランツとの差別化セクション */}
       <section className="py-12 px-6 bg-gray-50 border-y border-gray-200">
         <div className="max-w-3xl mx-auto">
