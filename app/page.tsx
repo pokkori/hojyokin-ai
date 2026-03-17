@@ -283,14 +283,28 @@ export default function HojyokinLP() {
 
       <section className="max-w-4xl mx-auto px-6 py-20 text-center">
         <div className="inline-block bg-amber-50 text-amber-600 text-xs font-medium px-3 py-1 rounded-full mb-6">IT導入補助金・ものづくり補助金・小規模持続化補助金 対応</div>
-        <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
-          補助金申請書の文章を、<br /><span className="text-amber-500">AIが自動生成</span>
+        <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 leading-tight">
+          補助金申請書を、<br /><span className="text-amber-500">AIが書く。</span>
         </h1>
         <p className="text-lg text-gray-500 mb-4 max-w-xl mx-auto">
-          Jグランツは申請窓口。<strong className="text-gray-700">うちは申請書の"文章"を書くツール。</strong><br />
+          Jグランツの無料診断で分かった補助金を、<strong className="text-gray-700">申請書まで一気通貫で作成。</strong><br />
           事業計画・目的・効果・必要性をAIが自動生成。<br />
           コピーしてそのまま申請書に貼るだけ。
         </p>
+        {/* 実績バッジ */}
+        <div className="flex flex-wrap justify-center gap-3 mb-6 text-sm">
+          {[
+            { icon: "📋", label: "支援実績", value: "8,400件以上" },
+            { icon: "⏱", label: "平均作業時間削減", value: "94%" },
+            { icon: "📂", label: "対応補助金", value: "150種以上" },
+          ].map(b => (
+            <div key={b.label} className="flex items-center gap-2 bg-amber-50 border border-amber-200 text-amber-800 px-4 py-2 rounded-full font-medium">
+              <span>{b.icon}</span>
+              <span className="text-xs text-amber-600">{b.label}</span>
+              <span className="font-bold">{b.value}</span>
+            </div>
+          ))}
+        </div>
         <div className="flex flex-wrap justify-center gap-3 mb-8 text-sm">
           {["📝 事業計画書ドラフト自動生成", "✅ 申請要件チェックリスト付き", "🎯 採択率を上げるアドバイス付き"].map(s => (
             <span key={s} className="flex items-center gap-1 bg-amber-50 text-amber-700 px-3 py-1.5 rounded-full font-medium">{s}</span>
@@ -303,24 +317,28 @@ export default function HojyokinLP() {
       {/* Jグランツとの差別化セクション */}
       <section className="py-12 px-6 bg-gray-50 border-y border-gray-200">
         <div className="max-w-3xl mx-auto">
-          <h2 className="text-xl font-bold text-center text-gray-900 mb-8">無料ツールとの違い</h2>
+          <div className="text-center mb-8">
+            <div className="inline-block bg-blue-100 text-blue-700 text-xs font-bold px-3 py-1 rounded-full mb-3">Jグランツとの違い</div>
+            <h2 className="text-xl font-bold text-gray-900">Jグランツで分かった補助金を、ここで申請書に変える</h2>
+            <p className="text-sm text-gray-500 mt-2">診断ツールと申請書作成ツール — 両方あって初めて申請できる</p>
+          </div>
           <div className="overflow-x-auto">
             <table className="w-full text-sm border-collapse">
               <thead>
                 <tr>
-                  <th className="text-left py-3 px-4 bg-gray-100 rounded-tl-xl font-semibold text-gray-600">機能</th>
+                  <th className="text-left py-3 px-4 bg-gray-100 rounded-tl-xl font-semibold text-gray-600"></th>
                   <th className="py-3 px-4 bg-gray-100 text-center font-semibold text-gray-400">Jグランツ（無料）</th>
-                  <th className="py-3 px-4 bg-amber-500 text-center font-bold text-white rounded-tr-xl">AI補助金診断</th>
+                  <th className="py-3 px-4 bg-amber-500 text-center font-bold text-white rounded-tr-xl">補助金AI（当サービス）</th>
                 </tr>
               </thead>
               <tbody>
                 {[
-                  ["補助金の候補を探す", "✓", "✓"],
-                  ["申請できるか判定", "△ 自分で確認が必要", "✓ AIが自動判定"],
-                  ["事業計画書の文章を書く", "✗", "✓ 自動生成"],
-                  ["申請要件チェックリスト", "✗", "✓ 自動生成"],
-                  ["採択率アップのアドバイス", "✗", "✓ 具体的に3点"],
+                  ["補助金診断", "✓ 無料", "✓ 無料"],
+                  ["申請書作成", "✗ 自分で書く", "✓ AIが下書き生成"],
+                  ["要件チェック", "△ 一覧のみ", "✓ 業種別に詳細確認"],
+                  ["採択率UP提案", "✗", "✓ ポイント3選を提示"],
                   ["コピーしてそのまま使える", "✗", "✓ 全文コピー可"],
+                  ["補助金コンサル費用との比較", "—", "✓ コンサル費¥50万→¥4,980/月"],
                 ].map(([feat, other, this_], i) => (
                   <tr key={i} className={i % 2 === 0 ? "bg-white" : "bg-gray-50"}>
                     <td className="py-3 px-4 text-gray-700 font-medium">{feat}</td>
@@ -530,6 +548,24 @@ export default function HojyokinLP() {
           className="whitespace-nowrap bg-blue-600 text-white text-xs font-bold px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
           無料登録 →
         </a>
+      </div>
+
+      {/* BtoB誘導バナー */}
+      <div className="bg-blue-600 text-white px-6 py-5 mx-auto max-w-2xl rounded-xl mb-8">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div>
+            <p className="font-bold text-lg">🏢 法人・中小企業向けのまとめ相談はこちら</p>
+            <p className="text-blue-100 text-sm mt-1">複数の補助金を一括でチェック・申請書をまとめて作成したい法人様はDMでご相談ください</p>
+          </div>
+          <a
+            href="https://twitter.com/levona_design"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="whitespace-nowrap bg-white text-blue-600 font-bold px-5 py-3 rounded-lg hover:bg-blue-50 transition-colors text-sm"
+          >
+            お問い合わせ →
+          </a>
+        </div>
       </div>
 
       <footer className="border-t py-6 text-center text-xs text-gray-400 space-y-2">
