@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import PayjpModal from "@/components/PayjpModal";
+import { track } from '@vercel/analytics';
 
 const PAYJP_PUBLIC_KEY = process.env.NEXT_PUBLIC_PAYJP_PUBLIC_KEY ?? "";
 
@@ -87,11 +88,11 @@ function Paywall({ onClose, onStartPayjp }: { onClose: () => void; onStartPayjp:
           <li>✓ 参考文をコピーして自分の申請書作成に活用</li>
         </ul>
         <div className="space-y-3 mb-4">
-          <button onClick={() => onStartPayjp("once")} className="block w-full bg-amber-500 text-white font-bold py-3 rounded-xl hover:bg-amber-600">
+          <button onClick={() => { track('upgrade_click', { service: '補助金AI', plan: 'once' }); onStartPayjp("once"); }} className="block w-full bg-amber-500 text-white font-bold py-3 rounded-xl hover:bg-amber-600">
             <span className="text-base">¥1,980</span>
             <span className="text-sm font-normal ml-1">で今回の申請を完成させる（1回限り）</span>
           </button>
-          <button onClick={() => onStartPayjp("standard")} className="block w-full bg-gray-100 text-gray-700 py-2.5 rounded-xl text-sm hover:bg-gray-200">
+          <button onClick={() => { track('upgrade_click', { service: '補助金AI', plan: 'standard' }); onStartPayjp("standard"); }} className="block w-full bg-gray-100 text-gray-700 py-2.5 rounded-xl text-sm hover:bg-gray-200">
             月額プラン ¥4,980/月（複数申請・何度でも）
           </button>
         </div>
@@ -531,11 +532,12 @@ export default function HojyokinTool() {
   const isLimit = count >= FREE_LIMIT;
 
   const handleSubmit = async (data: { isIndividual: boolean; businessType: string; employees: string; prefecture: string; purpose: string }) => {
-    if (isLimit) { setShowPaywall(true); return; }
+    if (isLimit) { track('paywall_shown', { service: '補助金AI' }); setShowPaywall(true); return; }
+    track('ai_generated', { service: '補助金AI' });
     setLoading(true); setParsed(null); setError(""); setCompletionVisible(false); setAdoptionScore(null);
     try {
       const res = await fetch("/api/generate", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) });
-      if (res.status === 429) { setShowPaywall(true); setLoading(false); return; }
+      if (res.status === 429) { track('paywall_shown', { service: '補助金AI' }); setShowPaywall(true); setLoading(false); return; }
       if (!res.ok) {
         const d = await res.json().catch(() => ({}));
         setError(d.error || "エラーが発生しました"); setLoading(false); return;
@@ -555,7 +557,7 @@ export default function HojyokinTool() {
             const newCount = meta.count ?? count + 1;
             localStorage.setItem(KEY, String(newCount));
             setCount(newCount);
-            if (newCount >= FREE_LIMIT) setTimeout(() => setShowPaywall(true), 4000);
+            if (newCount >= FREE_LIMIT) setTimeout(() => { track('paywall_shown', { service: '補助金AI' }); setShowPaywall(true); }, 4000);
           } catch { /* ignore */ }
         } else {
           accumulated += chunk;
