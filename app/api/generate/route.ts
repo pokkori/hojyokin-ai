@@ -273,7 +273,7 @@ export async function POST(req: NextRequest) {
     const newCount = cookieCount + 1;
     const stream = getClient().messages.stream({
       model: "claude-haiku-4-5-20251001",
-      max_tokens: 3000,
+      max_tokens: 4500,
       messages: [{ role: "user", content: prompt }],
     });
     const encoder = new TextEncoder();
