@@ -536,6 +536,20 @@ export default function HojyokinLP() {
         <p className="text-amber-100 text-sm mb-6 max-w-md mx-auto">Jグランツでは書いてくれない「申請書の本文」を、AIが自動生成。コピーして使うだけ。</p>
         <Link href="/tool" className="inline-block bg-white text-amber-600 font-bold px-8 py-4 rounded-xl hover:bg-amber-50">無料で申請書を書いてみる →</Link>
         <p className="text-amber-200 text-xs mt-3">クレジットカード不要・3回まで無料</p>
+        <div className="mt-8 pt-6 border-t border-amber-400">
+          <p className="text-amber-100 text-sm mb-4">補助金申請に悩む経営者・事業者にシェアする</p>
+          <a
+            href={`https://twitter.com/intent/tweet?text=${encodeURIComponent("補助金申請書の文章をAIが自動生成してくれるサービスを発見。ものづくり補助金・IT導入補助金・持続化補助金に対応。行政書士コンサルに50万払う前に試してほしい。 #補助金 #中小企業 #DX #ものづくり補助金")}&url=${encodeURIComponent("https://hojyokin-ai-delta.vercel.app")}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 bg-black hover:bg-gray-800 text-white font-bold py-3 px-6 rounded-xl transition-all text-sm"
+          >
+            <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.253 5.622L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+            </svg>
+            X(Twitter)でシェアする
+          </a>
+        </div>
       </section>
 
       {/* 経営レーダー クロスセルバナー */}
