@@ -708,14 +708,13 @@ export default function HojyokinTool() {
         </div>
       )}
 
-      {/* 専門家サポートアフィリエイト（A8.net申請後URLを差し替え） */}
+      {/* 専門家サポートアフィリエイト（A8.net） */}
       <div className="max-w-2xl mx-auto px-4 py-6">
         <div className="bg-green-50 border border-green-200 rounded-xl p-5">
           <p className="text-sm font-black text-green-900 mb-1">🏆 申請を成功させる専門家サポート</p>
           <p className="text-xs text-green-700 mb-4">AIの申請書を専門家がブラッシュアップ。採択率が大幅にUPします。</p>
           <div className="grid grid-cols-1 gap-3">
-            {/* TODO: Replace href with A8.net affiliate URL after approval */}
-            <a href="https://freee.co.jp/houjin/" target="_blank" rel="noopener noreferrer sponsored"
+            <a href="https://px.a8.net/svt/ejp?a8mat=4AZIOF+3LSINM+3SPO+9FDPYR" target="_blank" rel="noopener noreferrer sponsored"
               className="flex items-center justify-between bg-white border border-green-300 rounded-xl px-4 py-3 hover:bg-green-50 transition-colors">
               <div>
                 <div className="text-sm font-bold text-slate-800">freee会計 — 補助金申請の財務書類作成</div>
@@ -723,7 +722,6 @@ export default function HojyokinTool() {
               </div>
               <span className="text-green-600 font-bold text-xs bg-green-100 px-2 py-1 rounded-full">無料で試す →</span>
             </a>
-            {/* TODO: Replace href with A8.net affiliate URL after approval */}
             <a href="https://biz.moneyforward.com/" target="_blank" rel="noopener noreferrer sponsored"
               className="flex items-center justify-between bg-white border border-green-300 rounded-xl px-4 py-3 hover:bg-green-50 transition-colors">
               <div>
