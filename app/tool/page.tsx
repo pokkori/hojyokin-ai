@@ -301,7 +301,8 @@ function DraftTab({ isPremium, onShowPaywall }: { isPremium: boolean; onShowPayw
             <div className="text-center">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-amber-500 mx-auto mb-3" />
               <p className="text-sm text-gray-500">申請書の文章を作成しています...</p>
-              <p className="text-xs text-gray-400 mt-1">20〜30秒かかります</p>
+              <p className="text-xs text-gray-400 mt-2">📋 申請条件確認 → 💡 補助金マッチング → 📄 申請書ドラフト生成</p>
+              <p className="text-xs text-gray-300 mt-1">20〜30秒かかります</p>
             </div>
           </div>
         ) : result ? (
