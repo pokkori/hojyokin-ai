@@ -188,6 +188,23 @@ function ResultTabs({ parsed }: { parsed: ParsedResult }) {
         </a>
       </div>
 
+      {/* 次のアクション3選 */}
+      <div className="mt-4 bg-white border border-green-200 rounded-xl p-4">
+        <p className="text-sm font-bold text-green-800 mb-3">📋 次にやるべきこと3選</p>
+        <ol className="space-y-2">
+          {[
+            { icon: "📅", text: "公募スケジュールを確認して申請期限をカレンダーに登録する" },
+            { icon: "📄", text: "公式公募要領をダウンロードして必要書類のリストを作る" },
+            { icon: "🏛️", text: "地域の商工会・中小企業診断士に無料相談を申し込む" },
+          ].map((item, i) => (
+            <li key={i} className="flex items-start gap-3 text-sm text-gray-700">
+              <span className="text-lg leading-none">{item.icon}</span>
+              <span>{i + 1}. {item.text}</span>
+            </li>
+          ))}
+        </ol>
+      </div>
+
       {/* 採択シェアCTA */}
       <div className="mt-4 bg-amber-50 border border-amber-300 rounded-xl p-4 text-center">
         <p className="text-sm font-bold text-amber-800 mb-1">採択が決まったらシェアしよう 🎉</p>
