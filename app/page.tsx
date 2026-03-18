@@ -590,6 +590,23 @@ export default function HojyokinLP() {
         </div>
       </section>
 
+      {/* アフィリエイト：会計ソフト */}
+      <section className="py-8 px-6 max-w-lg mx-auto">
+        <div className="bg-green-50 border border-green-200 rounded-xl p-4">
+          <p className="text-sm font-bold text-green-800 mb-3">💼 補助金獲得後の会計管理はプロのツールで（PR）</p>
+          <a href="https://px.a8.net/svt/ejp?a8mat=4AZIOF+3LSINM+3SPO+9FDPYR"
+            target="_blank" rel="noopener noreferrer sponsored"
+            className="flex items-center justify-between bg-white border border-green-300 rounded-xl px-4 py-3 hover:bg-green-50 transition-colors">
+            <div>
+              <div className="text-sm font-bold text-slate-800">freee会計 — 補助金の経理を自動化</div>
+              <div className="text-xs text-slate-500 mt-0.5">補助金実績報告もラクラク • クラウド会計ソフト</div>
+            </div>
+            <span className="text-green-700 font-bold text-xs bg-green-100 px-2 py-1 rounded-full shrink-0 ml-2">無料で試す →</span>
+          </a>
+          <p className="text-xs text-slate-400 text-center mt-2">※ 広告・PR（外部サービスサイトに遷移します）</p>
+        </div>
+      </section>
+
       {/* 経営レーダー クロスセルバナー */}
       <div className="bg-blue-50 border border-blue-200 rounded-xl px-6 py-4 max-w-2xl mx-auto my-8 flex items-center justify-between gap-4">
         <div>
