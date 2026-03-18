@@ -620,6 +620,25 @@ export default function HojyokinLP() {
         </div>
       </div>
 
+      <section className="py-12 bg-amber-50">
+        <div className="max-w-2xl mx-auto px-4">
+          <h2 className="text-xl font-bold text-center text-gray-800 mb-6">よくある質問</h2>
+          <div className="space-y-4">
+            {[
+              { q: "どんな補助金を調べられますか？", a: "ものづくり補助金・IT導入補助金・事業再構築補助金・小規模事業者持続化補助金など主要補助金に対応。業種・事業規模・目的から最適な補助金を診断します。" },
+              { q: "申請書をそのまま提出できますか？", a: "AIが生成する申請書は下書き・たたき台として活用してください。実際の提出にはJグランツ等の電子申請システムへの登録と公募要領の確認が必要です。" },
+              { q: "補助金の採択を保証してもらえますか？", a: "採択を保証するものではありません。AIは申請書の品質向上と採択可能性の向上をサポートします。採択率は審査機関が判定します。" },
+              { q: "料金はいくらですか？", a: "補助金診断は無料です。申請書生成・詳細サポートはプレミアムプラン（月額¥4,900）で利用できます。1回の申請で十分元が取れます。" },
+            ].map((faq, i) => (
+              <div key={i} className="bg-white rounded-xl p-5 shadow-sm">
+                <p className="font-semibold text-amber-800 mb-2 text-sm">Q. {faq.q}</p>
+                <p className="text-sm text-gray-600">A. {faq.a}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <footer className="border-t py-6 text-center text-xs text-gray-400 space-y-2">
         <p>AI補助金診断 © 2026 ※本サービスは情報提供を目的としており、申請を保証するものではありません。必ず公募要領をご確認ください。</p>
         <p>
