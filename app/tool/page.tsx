@@ -1,7 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import PayjpModal from "@/components/PayjpModal";
 import KomojuButton from "@/components/KomojuButton";
 import { track } from '@vercel/analytics';
 
@@ -599,13 +598,13 @@ export default function HojyokinTool() {
     <main className="min-h-screen bg-gray-50">
       {showPaywall && <Paywall onClose={() => setShowPaywall(false)} onStartPayjp={(plan) => { setPayjpPlan(plan); setShowPaywall(false); setShowPayjp(true); }} />}
       {showPayjp && (
-        <PayjpModal
-          publicKey={PAYJP_PUBLIC_KEY}
-          planLabel={payjpPlan === "once" ? "1回払い ¥1,980" : "月額プラン ¥4,980/月"}
-          plan={payjpPlan}
-          onSuccess={() => { setShowPayjp(false); setCount(0); localStorage.removeItem(KEY); }}
-          onClose={() => setShowPayjp(false)}
-        />
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-4">
+          <div className="bg-white rounded-2xl p-6 max-w-sm w-full shadow-xl relative">
+            <button onClick={() => setShowPayjp(false)} className="absolute top-3 right-3 text-gray-400 text-xl">✕</button>
+            <h2 className="text-lg font-bold mb-4 text-center">プランに登録</h2>
+            <KomojuButton planId="business" planLabel={payjpPlan === "once" ? "スタンダード ¥1,980を始める" : "ビジネス ¥4,980/月を始める"} className="w-full bg-amber-500 text-white font-bold py-3 rounded-xl hover:bg-amber-600 disabled:opacity-50" />
+          </div>
+        </div>
       )}
       <nav className="bg-white border-b px-6 py-4">
         <div className="max-w-5xl mx-auto flex items-center justify-between">
