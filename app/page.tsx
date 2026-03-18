@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
-import PayjpModal from "@/components/PayjpModal";
+import KomojuButton from "@/components/KomojuButton";
 
 const SAMPLES = [
   {
@@ -249,8 +249,6 @@ function SampleSection() {
   );
 }
 
-const PAYJP_PUBLIC_KEY = process.env.NEXT_PUBLIC_PAYJP_PUBLIC_KEY ?? "";
-
 export default function HojyokinLP() {
   const [showPayjp, setShowPayjp] = useState(false);
   const [payjpPlan, setPayjpPlan] = useState<"once" | "standard">("once");
@@ -263,13 +261,17 @@ export default function HojyokinLP() {
   return (
     <main className="min-h-screen bg-white">
       {showPayjp && (
-        <PayjpModal
-          publicKey={PAYJP_PUBLIC_KEY}
-          planLabel={payjpPlan === "once" ? "1回払い ¥1,980" : "月額プラン ¥4,980/月"}
-          plan={payjpPlan}
-          onSuccess={() => setShowPayjp(false)}
-          onClose={() => setShowPayjp(false)}
-        />
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-4">
+          <div className="bg-white rounded-2xl p-6 max-w-sm w-full shadow-xl relative">
+            <button onClick={() => setShowPayjp(false)} className="absolute top-3 right-3 text-gray-400 text-xl">✕</button>
+            <h2 className="text-lg font-bold mb-4 text-center">プレミアムプランに登録</h2>
+            {payjpPlan === "once" ? (
+              <KomojuButton planId="standard" planLabel="スタンダードプラン ¥980/月を始める" className="w-full bg-blue-600 text-white font-bold py-3 rounded-xl hover:bg-blue-700 disabled:opacity-50" />
+            ) : (
+              <KomojuButton planId="business" planLabel="ビジネスプラン ¥2,980/月を始める" className="w-full bg-blue-600 text-white font-bold py-3 rounded-xl hover:bg-blue-700 disabled:opacity-50" />
+            )}
+          </div>
+        </div>
       )}
       <div className="bg-amber-50 border-b border-amber-200 px-6 py-2 text-center text-xs text-amber-700">
         ⚠️ 本サービスは補助金情報の参考提案のみを行います。補助金申請書類の作成代行は行政書士の独占業務です。実際の申請は行政書士・認定支援機関にご依頼ください。
