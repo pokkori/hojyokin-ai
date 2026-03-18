@@ -708,6 +708,35 @@ export default function HojyokinTool() {
         </div>
       )}
 
+      {/* 専門家サポートアフィリエイト（A8.net申請後URLを差し替え） */}
+      <div className="max-w-2xl mx-auto px-4 py-6">
+        <div className="bg-green-50 border border-green-200 rounded-xl p-5">
+          <p className="text-sm font-black text-green-900 mb-1">🏆 申請を成功させる専門家サポート</p>
+          <p className="text-xs text-green-700 mb-4">AIの申請書を専門家がブラッシュアップ。採択率が大幅にUPします。</p>
+          <div className="grid grid-cols-1 gap-3">
+            {/* TODO: Replace href with A8.net affiliate URL after approval */}
+            <a href="https://freee.co.jp/houjin/" target="_blank" rel="noopener noreferrer sponsored"
+              className="flex items-center justify-between bg-white border border-green-300 rounded-xl px-4 py-3 hover:bg-green-50 transition-colors">
+              <div>
+                <div className="text-sm font-bold text-slate-800">freee会計 — 補助金申請の財務書類作成</div>
+                <div className="text-xs text-slate-500 mt-0.5">30日間無料 • 決算書・財務諸表を自動生成</div>
+              </div>
+              <span className="text-green-600 font-bold text-xs bg-green-100 px-2 py-1 rounded-full">無料で試す →</span>
+            </a>
+            {/* TODO: Replace href with A8.net affiliate URL after approval */}
+            <a href="https://biz.moneyforward.com/" target="_blank" rel="noopener noreferrer sponsored"
+              className="flex items-center justify-between bg-white border border-green-300 rounded-xl px-4 py-3 hover:bg-green-50 transition-colors">
+              <div>
+                <div className="text-sm font-bold text-slate-800">マネーフォワード クラウド — 中小企業向け</div>
+                <div className="text-xs text-slate-500 mt-0.5">補助金申請に必要な試算表を瞬時に出力</div>
+              </div>
+              <span className="text-green-600 font-bold text-xs bg-green-100 px-2 py-1 rounded-full">無料で試す →</span>
+            </a>
+          </div>
+          <p className="text-xs text-slate-400 text-center mt-3">※ 広告・PR掲載（各社公式サイトに遷移します）</p>
+        </div>
+      </div>
+
       <footer className="text-center py-6 text-xs text-gray-400 border-t mt-4 space-x-4">
         <a href="/legal" className="hover:text-gray-600">特定商取引法に基づく表記</a>
         <a href="/privacy" className="hover:text-gray-600">プライバシーポリシー</a>
