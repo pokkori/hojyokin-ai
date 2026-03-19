@@ -298,6 +298,23 @@ export default function HojyokinLP() {
           <span className="text-green-500">✓</span>
           累計1,200件以上の申請書作成をサポート
         </div>
+        {/* 無料回数バッジ（社会的証明・行動促進） */}
+        <div className="flex justify-center mb-4">
+          <div className="bg-red-50 border-2 border-red-300 rounded-2xl px-6 py-3 flex items-center gap-4 flex-wrap justify-center">
+            <div className="flex items-center gap-2">
+              <div className="bg-red-500 text-white font-black text-2xl w-12 h-12 rounded-full flex items-center justify-center">3</div>
+              <div className="text-left">
+                <p className="font-black text-red-700 text-base leading-tight">回まで無料</p>
+                <p className="text-xs text-red-500">登録不要・今すぐ試せる</p>
+              </div>
+            </div>
+            <div className="h-8 w-px bg-red-200 hidden sm:block" />
+            <div className="text-left">
+              <p className="text-xs text-gray-500">本日の診断受付</p>
+              <p className="font-bold text-gray-800 text-sm">残り <span className="text-red-600 font-black text-xl">3</span> 回分が無料</p>
+            </div>
+          </div>
+        </div>
 
         {/* ソーシャルプルーフ数値バー */}
         <div className="flex flex-wrap justify-center gap-4 mb-6 max-w-2xl mx-auto">
