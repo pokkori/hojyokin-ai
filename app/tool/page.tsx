@@ -325,42 +325,61 @@ function DraftTab({ isPremium, onShowPaywall }: { isPremium: boolean; onShowPayw
           </div>
         ) : result ? (
           <div>
-            <div className="bg-white border border-gray-200 rounded-xl p-4 min-h-[360px]">
-              <div className="space-y-2">
-                {result.split('\n').map((line, i) => {
-                  if (line.startsWith('## ') || line.startsWith('# ')) {
-                    return (
-                      <h3 key={i} className="text-sm font-black pt-2 pb-1 border-b border-amber-200 text-amber-700">
-                        {line.replace(/^#{1,3}\s/, '')}
-                      </h3>
-                    );
-                  }
-                  if (line.startsWith('✓') || line.match(/^[・•]\s/) || line.match(/^[-]\s/) || line.match(/^\d+\.\s/)) {
-                    const isCheck = line.startsWith('✓');
-                    return (
-                      <div key={i} className="flex gap-2 items-start text-sm text-gray-700">
-                        <span className="flex-shrink-0 mt-0.5 text-amber-500 font-bold">{isCheck ? '✓' : '●'}</span>
-                        <span>{line.replace(/^[✓・•\-]\s*/, '').replace(/^\d+\.\s*/, '')}</span>
-                      </div>
-                    );
-                  }
-                  if (line.trim() === '') return <div key={i} className="h-1" />;
-                  if (line.startsWith('【') || line.startsWith('■') || line.startsWith('▶') || line.startsWith('◆')) {
-                    return (
-                      <p key={i} className="text-sm font-semibold text-gray-800 mt-2">{line}</p>
-                    );
-                  }
-                  return (
-                    <p key={i} className="text-sm leading-relaxed text-gray-700">{line}</p>
-                  );
-                })}
+            {/* A4風ドキュメントプレビュー */}
+            <div className="bg-white border-2 border-gray-300 rounded-xl shadow-lg overflow-hidden">
+              {/* 文書ヘッダー */}
+              <div className="bg-amber-600 px-5 py-3 flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <span className="text-white text-lg">📄</span>
+                  <span className="text-white font-bold text-sm">補助金申請書ドラフト</span>
+                  <span className="bg-white/20 text-white text-xs px-2 py-0.5 rounded font-medium">{subsidyType}</span>
+                </div>
+                <button onClick={() => { navigator.clipboard.writeText(result); setCopied(true); setTimeout(() => setCopied(false), 2000); }}
+                  className="text-xs px-3 py-1.5 rounded-lg bg-white/90 text-amber-700 font-bold hover:bg-white transition-colors">
+                  {copied ? "✓ コピー済み" : "📋 全文コピー"}
+                </button>
               </div>
-            </div>
-            <div className="flex gap-2 mt-3 justify-end">
-              <button onClick={() => { navigator.clipboard.writeText(result); setCopied(true); setTimeout(() => setCopied(false), 2000); }}
-                className="text-xs px-3 py-1.5 rounded-lg bg-amber-500 text-white font-medium hover:bg-amber-600">
-                {copied ? "✓ コピー済み" : "全文コピー"}
-              </button>
+              {/* 文書本文 */}
+              <div className="p-6 max-h-[500px] overflow-y-auto">
+                <div className="space-y-3">
+                  {result.split('\n').map((line, i) => {
+                    if (line.startsWith('## ') || line.startsWith('# ')) {
+                      const heading = line.replace(/^#{1,3}\s/, '');
+                      return (
+                        <div key={i} className="border-l-4 border-amber-500 pl-3 mt-5 first:mt-0">
+                          <h3 className="text-sm font-black text-amber-800">{heading}</h3>
+                        </div>
+                      );
+                    }
+                    if (line.startsWith('【') || line.startsWith('■') || line.startsWith('▶') || line.startsWith('◆')) {
+                      return (
+                        <p key={i} className="text-sm font-bold text-gray-900 mt-3 bg-amber-50 px-2 py-1 rounded">{line}</p>
+                      );
+                    }
+                    if (line.startsWith('✓') || line.match(/^[・•]\s/) || line.match(/^[-]\s/) || line.match(/^\d+\.\s/)) {
+                      const isCheck = line.startsWith('✓');
+                      return (
+                        <div key={i} className="flex gap-2 items-start text-sm text-gray-700 pl-2">
+                          <span className="flex-shrink-0 mt-0.5 text-amber-500 font-bold">{isCheck ? '✓' : '●'}</span>
+                          <span className="leading-relaxed">{line.replace(/^[✓・•\-]\s*/, '').replace(/^\d+\.\s*/, '')}</span>
+                        </div>
+                      );
+                    }
+                    if (line.trim() === '') return <div key={i} className="h-2" />;
+                    return (
+                      <p key={i} className="text-sm leading-relaxed text-gray-700">{line}</p>
+                    );
+                  })}
+                </div>
+              </div>
+              {/* 文書フッター */}
+              <div className="bg-gray-50 px-5 py-3 border-t border-gray-200 flex items-center justify-between">
+                <p className="text-xs text-gray-400">※ AIが生成した参考文章です。実際の申請前に認定支援機関・行政書士に確認してください。</p>
+                <button onClick={() => { navigator.clipboard.writeText(result); setCopied(true); setTimeout(() => setCopied(false), 2000); }}
+                  className="text-xs px-3 py-1 rounded-lg bg-amber-500 text-white font-medium hover:bg-amber-600 whitespace-nowrap ml-2">
+                  {copied ? "✓ コピー済み" : "コピー"}
+                </button>
+              </div>
             </div>
           </div>
         ) : (
