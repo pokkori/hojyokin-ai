@@ -764,8 +764,170 @@ function HojyokinChecklistTab() {
   );
 }
 
+// ===== 申請スケジュール管理 =====
+const SCHEDULE_KEY = "hojyokin_schedule";
+const STATUS_CYCLE: Array<"未着手" | "準備中" | "申請済み"> = ["未着手", "準備中", "申請済み"];
+const STATUS_COLORS: Record<string, string> = {
+  "未着手":  "bg-gray-100 text-gray-600",
+  "準備中":  "bg-amber-100 text-amber-700",
+  "申請済み": "bg-green-100 text-green-700",
+};
+
+type ScheduleItem = { id: string; name: string; deadline: string; status: "未着手" | "準備中" | "申請済み" };
+
+function ScheduleTab() {
+  const [items, setItems] = useState<ScheduleItem[]>([]);
+  const [name, setName] = useState("");
+  const [deadline, setDeadline] = useState("");
+  const [openId, setOpenId] = useState<string | null>(null);
+
+  useEffect(() => {
+    try { setItems(JSON.parse(localStorage.getItem(SCHEDULE_KEY) ?? "[]")); } catch { /* */ }
+  }, []);
+
+  function save(next: ScheduleItem[]) {
+    setItems(next);
+    localStorage.setItem(SCHEDULE_KEY, JSON.stringify(next));
+  }
+
+  function addItem() {
+    if (!name.trim()) return;
+    save([...items, { id: Date.now().toString(), name: name.trim(), deadline, status: "未着手" }]);
+    setName(""); setDeadline("");
+  }
+
+  function cycleStatus(id: string) {
+    save(items.map(item => {
+      if (item.id !== id) return item;
+      const idx = STATUS_CYCLE.indexOf(item.status);
+      return { ...item, status: STATUS_CYCLE[(idx + 1) % STATUS_CYCLE.length] };
+    }));
+  }
+
+  function removeItem(id: string) {
+    save(items.filter(i => i.id !== id));
+  }
+
+  const done = items.filter(i => i.status === "申請済み").length;
+
+  return (
+    <div className="max-w-2xl mx-auto px-6 py-8">
+      <h2 className="text-xl font-bold text-gray-900 mb-1">📅 補助金申請スケジュール管理</h2>
+      <p className="text-sm text-gray-500 mb-5">申請予定の補助金を登録して、ステータスを管理しましょう。</p>
+
+      {/* 追加フォーム */}
+      <div className="bg-white border border-gray-200 rounded-xl p-4 mb-5">
+        <p className="text-sm font-bold text-gray-700 mb-3">＋ 申請予定を追加する</p>
+        <div className="flex flex-col gap-2">
+          <input
+            type="text"
+            value={name}
+            onChange={e => setName(e.target.value)}
+            placeholder="補助金名（例: ものづくり補助金）"
+            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500"
+          />
+          <div className="flex gap-2">
+            <div className="flex-1">
+              <label className="block text-xs text-gray-500 mb-1">申請期限（任意）</label>
+              <input
+                type="date"
+                value={deadline}
+                onChange={e => setDeadline(e.target.value)}
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500"
+              />
+            </div>
+            <button
+              onClick={addItem}
+              disabled={!name.trim()}
+              className="self-end bg-amber-500 hover:bg-amber-600 disabled:bg-amber-200 text-white font-bold px-4 py-2 rounded-lg text-sm transition-colors"
+            >
+              追加
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* 件数バッジ */}
+      {items.length > 0 && (
+        <div className="flex items-center gap-2 mb-3">
+          <span className="text-xs text-gray-500">{items.length}件登録中</span>
+          <span className="text-xs bg-green-100 text-green-700 font-bold px-2 py-0.5 rounded-full">{done}件申請済み</span>
+        </div>
+      )}
+
+      {/* スケジュール一覧（アコーディオン） */}
+      {items.length === 0 ? (
+        <div className="bg-white border border-dashed border-gray-300 rounded-xl p-8 text-center text-gray-400 text-sm">
+          <div className="text-3xl mb-2">📭</div>
+          <p>申請予定がまだ登録されていません</p>
+          <p className="text-xs mt-1">診断後に補助金名をメモして追加しましょう</p>
+        </div>
+      ) : (
+        <div className="space-y-2">
+          {items.map(item => {
+            const isOpen = openId === item.id;
+            return (
+              <div key={item.id} className="bg-white border border-gray-200 rounded-xl overflow-hidden">
+                <button
+                  type="button"
+                  onClick={() => setOpenId(isOpen ? null : item.id)}
+                  className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors text-left"
+                >
+                  <span className={`text-xs font-bold px-2 py-0.5 rounded-full shrink-0 ${STATUS_COLORS[item.status]}`}>{item.status}</span>
+                  <span className="flex-1 text-sm font-medium text-gray-800 truncate">{item.name}</span>
+                  {item.deadline && (
+                    <span className="text-xs text-gray-400 shrink-0">期限: {item.deadline}</span>
+                  )}
+                  <span className="text-gray-400 text-xs ml-1">{isOpen ? "▲" : "▼"}</span>
+                </button>
+                {isOpen && (
+                  <div className="px-4 pb-4 pt-1 border-t border-gray-100 bg-gray-50">
+                    <p className="text-xs text-gray-500 mb-3">
+                      {item.deadline ? `申請期限: ${item.deadline}` : "期限: 未設定"}
+                    </p>
+                    <div className="flex gap-2 flex-wrap">
+                      <button
+                        onClick={() => cycleStatus(item.id)}
+                        className="text-xs px-3 py-1.5 rounded-lg bg-amber-100 text-amber-700 font-bold hover:bg-amber-200 transition-colors"
+                      >
+                        ステータスを変更 → {STATUS_CYCLE[(STATUS_CYCLE.indexOf(item.status) + 1) % STATUS_CYCLE.length]}
+                      </button>
+                      <button
+                        onClick={() => removeItem(item.id)}
+                        className="text-xs px-3 py-1.5 rounded-lg bg-red-50 text-red-500 hover:bg-red-100 transition-colors"
+                      >
+                        削除
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {/* クイック入力ヒント */}
+      <div className="mt-6 bg-amber-50 border border-amber-200 rounded-xl p-4">
+        <p className="text-xs font-bold text-amber-800 mb-2">💡 よく使う補助金名（クリックで追加）</p>
+        <div className="flex flex-wrap gap-2">
+          {["小規模持続化補助金", "ものづくり補助金", "IT導入補助金", "事業再構築補助金", "省エネ補助金"].map(n => (
+            <button
+              key={n}
+              onClick={() => setName(n)}
+              className="text-xs px-2 py-1 rounded-lg bg-white border border-amber-300 text-amber-700 hover:bg-amber-100 transition-colors"
+            >
+              {n}
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function HojyokinTool() {
-  const [activeTab, setActiveTab] = useState<"diagnose" | "draft" | "checklist">("diagnose");
+  const [activeTab, setActiveTab] = useState<"diagnose" | "draft" | "checklist" | "schedule">("diagnose");
   const [parsed, setParsed] = useState<ParsedResult | null>(null);
   const [loading, setLoading] = useState(false);
   const [count, setCount] = useState(0);
@@ -845,7 +1007,7 @@ export default function HojyokinTool() {
       {/* タブ切り替え */}
       <div className="max-w-5xl mx-auto px-6 pt-6">
         <div className="flex gap-2 border-b border-gray-200 overflow-x-auto">
-          {([["diagnose", "🎯 補助金を診断する"], ["draft", "📝 申請書を生成する"], ["checklist", "📋 申請チェックリスト"]] as const).map(([tab, label]) => (
+          {([["diagnose", "🎯 補助金を診断する"], ["draft", "📝 申請書を生成する"], ["checklist", "📋 申請チェックリスト"], ["schedule", "📅 スケジュール管理"]] as const).map(([tab, label]) => (
             <button key={tab} onClick={() => setActiveTab(tab)}
               className={`px-5 py-2.5 text-sm font-medium border-b-2 transition-colors -mb-px whitespace-nowrap ${activeTab === tab ? "border-amber-500 text-amber-600" : "border-transparent text-gray-500 hover:text-gray-700"}`}>
               {label}
@@ -861,6 +1023,8 @@ export default function HojyokinTool() {
       )}
 
       {activeTab === "checklist" && <HojyokinChecklistTab />}
+
+      {activeTab === "schedule" && <ScheduleTab />}
 
       {activeTab === "diagnose" && (
         <div className="max-w-5xl mx-auto px-6 py-8 grid grid-cols-1 md:grid-cols-2 gap-8">
