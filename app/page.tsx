@@ -658,7 +658,13 @@ export default function HojyokinLP() {
         </div>
       </section>
 
-      <footer className="border-t py-6 text-center text-xs text-gray-400 space-y-2">
+      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-amber-300 px-4 py-3 z-40 sm:hidden shadow-lg">
+        <a href="/tool" className="block w-full bg-amber-500 hover:bg-amber-400 text-white font-black text-center py-3.5 rounded-xl text-sm">
+          無料で補助金を診断する →
+        </a>
+      </div>
+
+      <footer className="border-t py-6 pb-24 sm:pb-6 text-center text-xs text-gray-400 space-y-2">
         <p>AI補助金診断 © 2026 ※本サービスは情報提供を目的としており、申請を保証するものではありません。必ず公募要領をご確認ください。</p>
         <p>
           <Link href="/legal" className="underline hover:text-gray-600">特定商取引法に基づく表記</Link>
