@@ -554,8 +554,138 @@ function extractAdoptionScore(text: string): number | null {
   return 60 + Math.floor(Math.random() * 26);
 }
 
+// ===== 申請準備チェックリスト =====
+const HOJYOKIN_CHECKLIST = [
+  {
+    phase: "📋 申請前の準備",
+    color: "amber",
+    items: [
+      { id: "h1", text: "gBizIDプライムの取得（申請に必須・審査2〜3週間）" },
+      { id: "h2", text: "認定経営革新等支援機関（認定支援機関）を探す" },
+      { id: "h3", text: "補助金の公募要領を最新版で入手・熟読する" },
+      { id: "h4", text: "過去3期分の決算書・確定申告書を準備する" },
+      { id: "h5", text: "補助対象経費の見積書（相見積もり含む）を取得する" },
+    ],
+  },
+  {
+    phase: "📝 事業計画書の作成",
+    color: "blue",
+    items: [
+      { id: "h6", text: "自社の現状・課題を数値で整理する（売上/利益/従業員数等）" },
+      { id: "h7", text: "補助事業の実施内容・スケジュールを明確に記述する" },
+      { id: "h8", text: "投資により見込まれる数値目標（売上UP/コスト削減）を設定する" },
+      { id: "h9", text: "「なぜこの補助金が必要か」の根拠・必然性を説明できる" },
+      { id: "h10", text: "加点項目（DX・GX・賃上げ等）を確認し対応する" },
+    ],
+  },
+  {
+    phase: "✅ 申請・提出",
+    color: "green",
+    items: [
+      { id: "h11", text: "電子申請システム（Jグランツ等）でアカウント登録" },
+      { id: "h12", text: "申請書類を全てPDF化・容量確認（上限超えに注意）" },
+      { id: "h13", text: "締め切り日より余裕を持って（1週間前）申請する" },
+      { id: "h14", text: "申請受理確認・受付番号を記録する" },
+    ],
+  },
+  {
+    phase: "🏆 採択後の手続き",
+    color: "purple",
+    items: [
+      { id: "h15", text: "交付申請書を期限内に提出する" },
+      { id: "h16", text: "補助事業中の領収書・証拠書類を全て保管する" },
+      { id: "h17", text: "事業完了報告書を期限内に提出する" },
+      { id: "h18", text: "補助金の振込確認・精算完了" },
+    ],
+  },
+];
+
+const HOJYOKIN_CHECKLIST_KEY = "hojyokin_checklist";
+
+function HojyokinChecklistTab() {
+  const [checked, setChecked] = useState<Record<string, boolean>>({});
+  useEffect(() => {
+    try { setChecked(JSON.parse(localStorage.getItem(HOJYOKIN_CHECKLIST_KEY) ?? "{}")); } catch { /* */ }
+  }, []);
+  function toggle(id: string) {
+    setChecked(prev => {
+      const next = { ...prev, [id]: !prev[id] };
+      localStorage.setItem(HOJYOKIN_CHECKLIST_KEY, JSON.stringify(next));
+      return next;
+    });
+  }
+  const total = HOJYOKIN_CHECKLIST.flatMap(p => p.items).length;
+  const done = HOJYOKIN_CHECKLIST.flatMap(p => p.items).filter(i => checked[i.id]).length;
+  const pct = Math.round((done / total) * 100);
+  const colorMap: Record<string, string> = { amber: "#f59e0b", blue: "#3b82f6", green: "#10b981", purple: "#8b5cf6" };
+  return (
+    <div className="max-w-2xl mx-auto px-6 py-8">
+      <h2 className="text-xl font-bold text-gray-900 mb-2">📋 補助金申請 準備チェックリスト</h2>
+      <p className="text-sm text-gray-500 mb-4">申請前に必要な準備が揃っているか確認しましょう。チェックした内容は自動保存されます。</p>
+      {/* 進捗バー */}
+      <div className="bg-white border border-gray-200 rounded-xl p-4 mb-6">
+        <div className="flex items-center justify-between mb-2">
+          <span className="text-sm font-bold text-gray-700">申請準備の進捗</span>
+          <span className="text-sm font-black text-amber-600">{done}/{total} 完了</span>
+        </div>
+        <div className="w-full bg-gray-200 rounded-full h-3">
+          <div className="h-3 rounded-full transition-all duration-500 bg-amber-500" style={{ width: `${pct}%` }} />
+        </div>
+        <p className="text-xs text-gray-400 mt-1">{pct}% 完了</p>
+        {done === total && (
+          <div className="mt-3 bg-green-50 border border-green-300 rounded-lg p-3 text-center">
+            <p className="text-green-700 font-bold text-sm">🎉 全項目チェック完了！申請の準備が整いました</p>
+          </div>
+        )}
+      </div>
+      {/* チェックリスト */}
+      <div className="space-y-6">
+        {HOJYOKIN_CHECKLIST.map(phase => {
+          const phaseDone = phase.items.filter(i => checked[i.id]).length;
+          const phaseColor = colorMap[phase.color] ?? "#6b7280";
+          return (
+            <div key={phase.phase} className="bg-white border border-gray-200 rounded-xl overflow-hidden">
+              <div className="px-4 py-3 flex items-center justify-between" style={{ borderLeft: `4px solid ${phaseColor}` }}>
+                <span className="font-bold text-gray-800 text-sm">{phase.phase}</span>
+                <span className="text-xs font-bold" style={{ color: phaseColor }}>{phaseDone}/{phase.items.length}</span>
+              </div>
+              <ul className="divide-y divide-gray-100">
+                {phase.items.map(item => (
+                  <li key={item.id}>
+                    <button onClick={() => toggle(item.id)} className="w-full flex items-start gap-3 px-4 py-3 hover:bg-gray-50 transition-colors text-left">
+                      <span className={`mt-0.5 w-5 h-5 rounded border-2 flex items-center justify-center shrink-0 transition-colors ${checked[item.id] ? "border-amber-500 bg-amber-500" : "border-gray-300"}`}>
+                        {checked[item.id] && <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>}
+                      </span>
+                      <span className={`text-sm leading-relaxed ${checked[item.id] ? "line-through text-gray-400" : "text-gray-700"}`}>{item.text}</span>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          );
+        })}
+      </div>
+      <button onClick={() => { setChecked({}); localStorage.removeItem(HOJYOKIN_CHECKLIST_KEY); }} className="mt-4 text-xs text-gray-400 hover:text-gray-600 w-full text-center">🗑 チェックをリセット</button>
+      {/* freee アフィリ */}
+      <div className="mt-6 bg-amber-50 border border-amber-200 rounded-xl p-4">
+        <p className="text-sm font-bold text-amber-800 mb-1">📊 事業計画書・決算書の作成に</p>
+        <p className="text-xs text-amber-600 mb-3">補助金申請に必要な財務書類をクラウドで管理</p>
+        <a href="https://px.a8.net/svt/ejp?a8mat=4AZIOF+8TUYXE+3TT6+65W2N" target="_blank" rel="noopener noreferrer sponsored"
+          className="flex items-center justify-between bg-white border border-amber-300 rounded-xl px-4 py-3 hover:bg-amber-50 transition-colors">
+          <div>
+            <div className="text-sm font-bold text-gray-800">freee — 会計ソフト 30日間無料</div>
+            <div className="text-xs text-gray-500 mt-0.5">確定申告・決算書作成を自動化</div>
+          </div>
+          <span className="text-amber-600 font-bold text-xs bg-amber-100 px-2 py-1 rounded-full shrink-0 ml-2">無料で試す →</span>
+        </a>
+        <p className="text-xs text-gray-400 text-center mt-2">※ 広告（freee公式サイトに遷移します）</p>
+      </div>
+    </div>
+  );
+}
+
 export default function HojyokinTool() {
-  const [activeTab, setActiveTab] = useState<"diagnose" | "draft">("diagnose");
+  const [activeTab, setActiveTab] = useState<"diagnose" | "draft" | "checklist">("diagnose");
   const [parsed, setParsed] = useState<ParsedResult | null>(null);
   const [loading, setLoading] = useState(false);
   const [count, setCount] = useState(0);
@@ -634,21 +764,23 @@ export default function HojyokinTool() {
 
       {/* タブ切り替え */}
       <div className="max-w-5xl mx-auto px-6 pt-6">
-        <div className="flex gap-2 border-b border-gray-200">
-          {([["diagnose", "🎯 補助金を診断する"], ["draft", "📝 申請書の文章を生成する"]] as const).map(([tab, label]) => (
+        <div className="flex gap-2 border-b border-gray-200 overflow-x-auto">
+          {([["diagnose", "🎯 補助金を診断する"], ["draft", "📝 申請書を生成する"], ["checklist", "📋 申請チェックリスト"]] as const).map(([tab, label]) => (
             <button key={tab} onClick={() => setActiveTab(tab)}
-              className={`px-5 py-2.5 text-sm font-medium border-b-2 transition-colors -mb-px ${activeTab === tab ? "border-amber-500 text-amber-600" : "border-transparent text-gray-500 hover:text-gray-700"}`}>
+              className={`px-5 py-2.5 text-sm font-medium border-b-2 transition-colors -mb-px whitespace-nowrap ${activeTab === tab ? "border-amber-500 text-amber-600" : "border-transparent text-gray-500 hover:text-gray-700"}`}>
               {label}
             </button>
           ))}
         </div>
       </div>
 
-      {activeTab === "draft" ? (
+      {activeTab === "draft" && (
         <div className="max-w-5xl mx-auto px-6 py-8">
           <DraftTab isPremium={!isLimit} onShowPaywall={() => setShowPaywall(true)} />
         </div>
-      ) : null}
+      )}
+
+      {activeTab === "checklist" && <HojyokinChecklistTab />}
 
       {activeTab === "diagnose" && (
         <div className="max-w-5xl mx-auto px-6 py-8 grid grid-cols-1 md:grid-cols-2 gap-8">
