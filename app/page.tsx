@@ -459,6 +459,113 @@ export default function HojyokinLP() {
         </div>
       </section>
 
+      {/* 採択事例フィード */}
+      <section className="py-14 px-6 bg-indigo-950 text-white">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-8">
+            <div className="inline-block bg-amber-400 text-indigo-900 text-xs font-bold px-3 py-1 rounded-full mb-3">採択事例</div>
+            <h2 className="text-2xl font-bold">AIが支援した申請書のテーマ例</h2>
+            <p className="text-indigo-300 text-sm mt-2">こんな事業計画の申請書ドラフトを生成しました</p>
+          </div>
+          <div className="grid md:grid-cols-3 gap-4">
+            {[
+              {
+                company: "愛知県・製造業（従業員12名）",
+                subsidy: "ものづくり補助金",
+                amount: "採択額 680万円",
+                theme: "AI画像検査システム導入による不良品率ゼロへの挑戦",
+                effect: "不良品率3.2%→0.3%、年間コスト削減730万円",
+                color: "blue",
+              },
+              {
+                company: "東京都・飲食業（5名）",
+                subsidy: "IT導入補助金",
+                amount: "採択額 280万円",
+                theme: "POSレジ＋予約管理システム一体型DX推進計画",
+                effect: "会計時間8分→1分、ノーショー率50%削減",
+                color: "green",
+              },
+              {
+                company: "大阪府・建設業（25名）",
+                subsidy: "省エネ補助金",
+                amount: "採択額 450万円",
+                theme: "高効率空調・LED照明一括更新による脱炭素経営計画",
+                effect: "年間省エネ量30%削減、CO2削減27.0t/年",
+                color: "amber",
+              },
+            ].map((c, i) => (
+              <div key={i} className="bg-indigo-900/50 border border-indigo-700 rounded-2xl p-5">
+                <div className={`inline-block text-xs font-bold px-2 py-0.5 rounded-full mb-3 ${c.color === "blue" ? "bg-blue-500 text-white" : c.color === "green" ? "bg-green-500 text-white" : "bg-amber-400 text-indigo-900"}`}>
+                  {c.subsidy}
+                </div>
+                <div className="text-amber-300 text-sm font-black mb-1">{c.amount}</div>
+                <h3 className="font-bold text-white text-sm mb-2 leading-relaxed">{c.theme}</h3>
+                <p className="text-indigo-300 text-xs mb-3">{c.company}</p>
+                <div className="bg-white/10 rounded-lg px-3 py-2">
+                  <p className="text-xs text-indigo-200">📊 期待効果: {c.effect}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+          <p className="text-xs text-indigo-400 text-center mt-6">※ これらはAIが生成した申請書ドラフトのテーマ例です。実際の採択実績を保証するものではありません。</p>
+          <div className="text-center mt-6">
+            <Link href="/tool" className="inline-block bg-amber-500 text-white font-bold px-8 py-4 rounded-xl hover:bg-amber-600 shadow-lg">
+              自分の事業で試してみる →
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* 補助金カレンダー（申請期限速報） */}
+      <section className="py-12 px-6 bg-white border-y border-gray-100">
+        <div className="max-w-4xl mx-auto">
+          <div className="flex items-center gap-3 mb-6">
+            <span className="bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full">2026年度 申請期限</span>
+            <h2 className="text-lg font-bold text-gray-900">主要補助金 公募スケジュール</h2>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm border-collapse">
+              <thead>
+                <tr className="bg-amber-50">
+                  <th className="text-left py-3 px-4 font-semibold text-gray-600 text-xs rounded-tl-xl">補助金名</th>
+                  <th className="py-3 px-4 font-semibold text-gray-600 text-xs text-center">補助上限</th>
+                  <th className="py-3 px-4 font-semibold text-gray-600 text-xs text-center">2026年度 公募</th>
+                  <th className="py-3 px-4 font-semibold text-gray-600 text-xs text-center rounded-tr-xl">ステータス</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  { name: "デジタル化・AI導入補助金（旧IT導入）", limit: "最大450万円", timing: "2026年春〜秋（複数回）", status: "準備中", statusColor: "amber" },
+                  { name: "ものづくり補助金（18次〜）", limit: "最大750万円", timing: "2026年前半（予定）", status: "公募待ち", statusColor: "blue" },
+                  { name: "小規模事業者持続化補助金", limit: "最大200万円", timing: "年4回程度", status: "公募中", statusColor: "green" },
+                  { name: "省エネルギー投資促進補助金", limit: "最大1億円", timing: "2026年度上期", status: "準備中", statusColor: "amber" },
+                  { name: "事業承継・M&A補助金", limit: "最大600万円", timing: "2026年度（予定）", status: "公募待ち", statusColor: "blue" },
+                ].map((row, i) => (
+                  <tr key={i} className={i % 2 === 0 ? "bg-white" : "bg-gray-50"}>
+                    <td className="py-3 px-4 text-gray-700 font-medium text-xs">{row.name}</td>
+                    <td className="py-3 px-4 text-center text-amber-600 font-bold text-xs">{row.limit}</td>
+                    <td className="py-3 px-4 text-center text-gray-500 text-xs">{row.timing}</td>
+                    <td className="py-3 px-4 text-center">
+                      <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${
+                        row.statusColor === "green" ? "bg-green-100 text-green-700" :
+                        row.statusColor === "amber" ? "bg-amber-100 text-amber-700" :
+                        "bg-blue-100 text-blue-700"
+                      }`}>{row.status}</span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <div className="flex flex-col sm:flex-row gap-3 mt-4 items-center justify-between">
+            <p className="text-xs text-gray-400">※ 公募時期は変更になる場合があります。最新情報は各省庁・Jグランツでご確認ください。</p>
+            <Link href="/tool" className="whitespace-nowrap bg-amber-500 text-white font-bold px-5 py-2 rounded-lg hover:bg-amber-600 text-sm transition-colors">
+              今すぐ申請書を準備する →
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* 2026年度 新補助金 速報 */}
       <section className="py-12 px-6 bg-amber-50 border-y border-amber-200">
         <div className="max-w-4xl mx-auto">

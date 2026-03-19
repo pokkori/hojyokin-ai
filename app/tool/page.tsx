@@ -1011,8 +1011,163 @@ function ScheduleTab() {
   );
 }
 
+// ===== ROI・生産性向上コスト削減試算 =====
+function RoiCalculator() {
+  const [employees, setEmployees] = useState(10);
+  const [hourlyWage, setHourlyWage] = useState(2500);
+  const [manualHours, setManualHours] = useState(20);
+  const [subsidyAmount, setSubsidyAmount] = useState(300);
+  const [systemCost, setSystemCost] = useState(500);
+  const [showResult, setShowResult] = useState(false);
+
+  // 年間削減工数 = 従業員数 × 月間削減時間 × 12
+  const annualHoursSaved = employees * manualHours * 12;
+  // 年間コスト削減額 = 削減工数 × 時給換算
+  const annualCostSaving = Math.round(annualHoursSaved * hourlyWage / 10000);
+  // 自己負担額（補助後）
+  const selfCost = Math.max(0, systemCost - subsidyAmount);
+  // 投資回収期間（年）
+  const paybackYears = annualCostSaving > 0 ? (selfCost / annualCostSaving).toFixed(1) : "∞";
+  // 5年間の純便益
+  const netBenefit5y = annualCostSaving * 5 - selfCost;
+  // ROI
+  const roi = selfCost > 0 ? Math.round((netBenefit5y / selfCost) * 100) : 0;
+
+  const adoptionLevels = [
+    { score: 90, label: "採択可能性: 高", color: "green" },
+    { score: 70, label: "採択可能性: 中", color: "amber" },
+    { score: 50, label: "採択可能性: 低", color: "red" },
+  ];
+  // 投資回収 < 3年 → 採択率高、3〜5年 → 中、>5年 → 低
+  const paybackNum = parseFloat(paybackYears as string);
+  const adoptionIdx = isNaN(paybackNum) ? 2 : paybackNum < 3 ? 0 : paybackNum < 5 ? 1 : 2;
+  const adoption = adoptionLevels[adoptionIdx];
+
+  return (
+    <div className="bg-white rounded-2xl p-6 shadow-sm">
+      <h2 className="text-xl font-bold text-gray-900 mb-1">💹 補助金活用ROI・生産性向上試算</h2>
+      <p className="text-sm text-gray-500 mb-6">ITツール・設備投資の費用対効果と補助金活用後の投資回収期間を計算します</p>
+      <div className="space-y-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          <div>
+            <div className="flex justify-between items-center mb-2">
+              <label className="text-sm font-medium text-gray-700">対象従業員数</label>
+              <span className="text-lg font-black text-amber-600">{employees}名</span>
+            </div>
+            <input type="range" min={1} max={100} step={1} value={employees}
+              onChange={e => setEmployees(Number(e.target.value))}
+              className="w-full h-2 bg-gray-200 rounded-full appearance-none cursor-pointer accent-amber-500" />
+            <div className="flex justify-between text-xs text-gray-400 mt-1"><span>1名</span><span>100名</span></div>
+          </div>
+          <div>
+            <div className="flex justify-between items-center mb-2">
+              <label className="text-sm font-medium text-gray-700">1人あたりの時給（円）</label>
+              <span className="text-lg font-black text-amber-600">{hourlyWage.toLocaleString()}円</span>
+            </div>
+            <input type="range" min={1000} max={5000} step={100} value={hourlyWage}
+              onChange={e => setHourlyWage(Number(e.target.value))}
+              className="w-full h-2 bg-gray-200 rounded-full appearance-none cursor-pointer accent-amber-500" />
+            <div className="flex justify-between text-xs text-gray-400 mt-1"><span>1,000円</span><span>5,000円</span></div>
+          </div>
+          <div>
+            <div className="flex justify-between items-center mb-2">
+              <label className="text-sm font-medium text-gray-700">1人あたりの月間削減工数</label>
+              <span className="text-lg font-black text-amber-600">{manualHours}時間/月</span>
+            </div>
+            <input type="range" min={1} max={80} step={1} value={manualHours}
+              onChange={e => setManualHours(Number(e.target.value))}
+              className="w-full h-2 bg-gray-200 rounded-full appearance-none cursor-pointer accent-amber-500" />
+            <div className="flex justify-between text-xs text-gray-400 mt-1"><span>1時間</span><span>80時間</span></div>
+          </div>
+          <div>
+            <div className="flex justify-between items-center mb-2">
+              <label className="text-sm font-medium text-gray-700">投資総額（万円）</label>
+              <span className="text-lg font-black text-amber-600">{systemCost}万円</span>
+            </div>
+            <input type="range" min={50} max={3000} step={50} value={systemCost}
+              onChange={e => setSystemCost(Number(e.target.value))}
+              className="w-full h-2 bg-gray-200 rounded-full appearance-none cursor-pointer accent-amber-500" />
+            <div className="flex justify-between text-xs text-gray-400 mt-1"><span>50万円</span><span>3,000万円</span></div>
+          </div>
+          <div className="sm:col-span-2">
+            <div className="flex justify-between items-center mb-2">
+              <label className="text-sm font-medium text-gray-700">見込み補助金額（万円）</label>
+              <span className="text-lg font-black text-green-600">▼ {subsidyAmount}万円</span>
+            </div>
+            <input type="range" min={0} max={2000} step={50} value={subsidyAmount}
+              onChange={e => setSubsidyAmount(Number(e.target.value))}
+              className="w-full h-2 bg-gray-200 rounded-full appearance-none cursor-pointer accent-green-500" />
+            <div className="flex justify-between text-xs text-gray-400 mt-1"><span>0万円</span><span>2,000万円</span></div>
+          </div>
+        </div>
+        <button onClick={() => setShowResult(true)}
+          className="w-full bg-amber-500 hover:bg-amber-600 text-white font-bold py-3 rounded-xl transition-colors">
+          ROIを計算する
+        </button>
+      </div>
+
+      {showResult && (
+        <div className="mt-6 space-y-4">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <div className="bg-amber-50 border border-amber-200 rounded-xl p-3 text-center">
+              <p className="text-xs text-gray-500 mb-1">年間削減コスト</p>
+              <p className="text-xl font-black text-amber-600">{annualCostSaving.toLocaleString()}万円</p>
+            </div>
+            <div className="bg-green-50 border border-green-200 rounded-xl p-3 text-center">
+              <p className="text-xs text-gray-500 mb-1">自己負担額（補助後）</p>
+              <p className="text-xl font-black text-green-600">{selfCost.toLocaleString()}万円</p>
+            </div>
+            <div className="bg-blue-50 border border-blue-200 rounded-xl p-3 text-center">
+              <p className="text-xs text-gray-500 mb-1">投資回収期間</p>
+              <p className="text-xl font-black text-blue-600">{paybackYears}年</p>
+            </div>
+            <div className="bg-purple-50 border border-purple-200 rounded-xl p-3 text-center">
+              <p className="text-xs text-gray-500 mb-1">5年間ROI</p>
+              <p className="text-xl font-black text-purple-600">{roi}%</p>
+            </div>
+          </div>
+          <div className={`rounded-xl p-4 border-2 ${adoption.color === "green" ? "bg-green-50 border-green-300" : adoption.color === "amber" ? "bg-amber-50 border-amber-300" : "bg-red-50 border-red-300"}`}>
+            <div className="flex items-center gap-2 mb-2">
+              <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${adoption.color === "green" ? "bg-green-500 text-white" : adoption.color === "amber" ? "bg-amber-500 text-white" : "bg-red-500 text-white"}`}>{adoption.label}</span>
+              <span className="text-sm font-bold text-gray-800">申請書の投資回収根拠として使えます</span>
+            </div>
+            <p className="text-xs text-gray-600">
+              {adoptionIdx === 0 && "投資回収3年未満は採択審査で高評価。「事業計画書」にこの数値を明記してください。"}
+              {adoptionIdx === 1 && "投資回収3〜5年は標準的なレベル。より具体的な数値（売上UP・残業削減時間等）を追加すると採択率が上がります。"}
+              {adoptionIdx === 2 && "投資回収5年超は審査で不利になることがあります。コスト削減効果以外の売上向上・品質改善などの効果も加算してください。"}
+            </p>
+          </div>
+          <div className="bg-white border border-gray-200 rounded-xl p-4">
+            <p className="text-sm font-bold text-gray-800 mb-2">📋 この数値を申請書に使う方法</p>
+            <div className="bg-gray-50 rounded-lg p-3 text-xs text-gray-700 font-mono whitespace-pre-line">{`【期待される効果】
+・年間削減工数: ${annualHoursSaved.toLocaleString()}時間（${employees}名×${manualHours}時間/月×12ヶ月）
+・年間コスト削減額: ${annualCostSaving.toLocaleString()}万円（時給${hourlyWage.toLocaleString()}円換算）
+・投資回収期間: ${paybackYears}年（補助金活用後 自己負担${selfCost.toLocaleString()}万円）
+・5年間の純利益効果: ${netBenefit5y.toLocaleString()}万円`}</div>
+            <button
+              onClick={() => navigator.clipboard.writeText(`【期待される効果】\n・年間削減工数: ${annualHoursSaved.toLocaleString()}時間（${employees}名×${manualHours}時間/月×12ヶ月）\n・年間コスト削減額: ${annualCostSaving.toLocaleString()}万円（時給${hourlyWage.toLocaleString()}円換算）\n・投資回収期間: ${paybackYears}年（補助金活用後 自己負担${selfCost.toLocaleString()}万円）\n・5年間の純利益効果: ${netBenefit5y.toLocaleString()}万円`)}
+              className="mt-2 text-xs px-3 py-1.5 bg-amber-500 text-white rounded-lg font-bold hover:bg-amber-600 transition-colors"
+            >
+              📋 申請書用にコピーする
+            </button>
+          </div>
+          <a
+            href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`補助金AIでROI試算してみた💹\n年間コスト削減: ${annualCostSaving.toLocaleString()}万円\n投資回収期間: ${paybackYears}年\n5年間ROI: ${roi}%\n→ https://hojyokin-ai-delta.vercel.app #補助金 #中小企業DX`)}`}
+            target="_blank" rel="noopener noreferrer"
+            className="flex items-center justify-center gap-2 bg-black hover:bg-gray-800 text-white font-bold py-2 px-4 rounded-lg text-sm transition-colors w-full"
+          >
+            <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.259 5.63zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            この試算結果をXでシェアする
+          </a>
+          <p className="text-xs text-gray-400 text-center">※ この試算はあくまで参考値です。実際の効果は導入するシステム・業務内容によって異なります。</p>
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function HojyokinTool() {
-  const [activeTab, setActiveTab] = useState<"diagnose" | "draft" | "checklist" | "schedule">("diagnose");
+  const [activeTab, setActiveTab] = useState<"diagnose" | "draft" | "roi" | "checklist" | "schedule">("diagnose");
   const [parsed, setParsed] = useState<ParsedResult | null>(null);
   const [loading, setLoading] = useState(false);
   const [count, setCount] = useState(0);
@@ -1092,7 +1247,7 @@ export default function HojyokinTool() {
       {/* タブ切り替え */}
       <div className="max-w-5xl mx-auto px-6 pt-6">
         <div className="flex gap-2 border-b border-gray-200 overflow-x-auto">
-          {([["diagnose", "🎯 補助金を診断する"], ["draft", "📝 申請書を生成する"], ["checklist", "📋 申請チェックリスト"], ["schedule", "📅 スケジュール管理"]] as const).map(([tab, label]) => (
+          {([["diagnose", "🎯 補助金を診断する"], ["draft", "📝 申請書を生成する"], ["roi", "💹 ROI試算"], ["checklist", "📋 申請チェックリスト"], ["schedule", "📅 スケジュール管理"]] as const).map(([tab, label]) => (
             <button key={tab} onClick={() => setActiveTab(tab)}
               className={`px-5 py-2.5 text-sm font-medium border-b-2 transition-colors -mb-px whitespace-nowrap ${activeTab === tab ? "border-amber-500 text-amber-600" : "border-transparent text-gray-500 hover:text-gray-700"}`}>
               {label}
@@ -1104,6 +1259,12 @@ export default function HojyokinTool() {
       {activeTab === "draft" && (
         <div className="max-w-5xl mx-auto px-6 py-8">
           <DraftTab isPremium={!isLimit} onShowPaywall={() => setShowPaywall(true)} />
+        </div>
+      )}
+
+      {activeTab === "roi" && (
+        <div className="max-w-3xl mx-auto px-6 py-8">
+          <RoiCalculator />
         </div>
       )}
 
