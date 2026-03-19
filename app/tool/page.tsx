@@ -400,6 +400,86 @@ function DraftTab({ isPremium, onShowPaywall }: { isPremium: boolean; onShowPayw
   );
 }
 
+// ===== 業種別おすすめ補助金テーブル =====
+const INDUSTRY_SUBSIDIES = [
+  {
+    icon: "🏭",
+    industry: "製造業",
+    subsidies: "ものづくり補助金・省エネ補助金",
+    limit: "最大3,000万円",
+    color: "blue",
+  },
+  {
+    icon: "🍽️",
+    industry: "飲食・小売",
+    subsidies: "小規模事業者持続化補助金・IT導入補助金",
+    limit: "最大250万円",
+    color: "orange",
+  },
+  {
+    icon: "💻",
+    industry: "IT・サービス",
+    subsidies: "IT導入補助金・事業再構築補助金",
+    limit: "最大450万円",
+    color: "purple",
+  },
+  {
+    icon: "🏥",
+    industry: "医療・介護",
+    subsidies: "介護・障害福祉事業者向け補助金・医療DX推進補助金",
+    limit: "要問合せ",
+    color: "green",
+  },
+];
+
+const COLOR_MAP: Record<string, { bg: string; border: string; badge: string; text: string }> = {
+  blue:   { bg: "bg-blue-50",   border: "border-blue-200",   badge: "bg-blue-100 text-blue-700",   text: "text-blue-800" },
+  orange: { bg: "bg-orange-50", border: "border-orange-200", badge: "bg-orange-100 text-orange-700", text: "text-orange-800" },
+  purple: { bg: "bg-purple-50", border: "border-purple-200", badge: "bg-purple-100 text-purple-700", text: "text-purple-800" },
+  green:  { bg: "bg-green-50",  border: "border-green-200",  badge: "bg-green-100 text-green-700",  text: "text-green-800" },
+};
+
+function IndustrySubsidyTable() {
+  const [openIdx, setOpenIdx] = useState<number | null>(null);
+  return (
+    <div className="mt-6 bg-white border border-gray-200 rounded-xl overflow-hidden">
+      <div className="px-4 py-3 border-b border-gray-100 bg-amber-50">
+        <p className="text-sm font-bold text-amber-800">📊 業種別よくある補助金</p>
+        <p className="text-xs text-amber-600 mt-0.5">タップして詳細を確認できます</p>
+      </div>
+      <div className="divide-y divide-gray-100">
+        {INDUSTRY_SUBSIDIES.map((row, i) => {
+          const c = COLOR_MAP[row.color];
+          const isOpen = openIdx === i;
+          return (
+            <div key={i}>
+              <button
+                type="button"
+                onClick={() => setOpenIdx(isOpen ? null : i)}
+                className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors text-left"
+              >
+                <span className="text-xl shrink-0">{row.icon}</span>
+                <span className="flex-1 text-sm font-semibold text-gray-800">{row.industry}</span>
+                <span className={`text-xs font-bold px-2 py-0.5 rounded-full shrink-0 ${c.badge}`}>{row.limit}</span>
+                <span className="text-gray-400 text-xs ml-1">{isOpen ? "▲" : "▼"}</span>
+              </button>
+              {isOpen && (
+                <div className={`px-4 pb-3 pt-1 ${c.bg} border-t ${c.border}`}>
+                  <p className={`text-xs font-semibold ${c.text} mb-1`}>主な補助金</p>
+                  <p className="text-sm text-gray-700">{row.subsidies}</p>
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+      <div className="px-4 py-2 bg-gray-50 border-t border-gray-100">
+        <p className="text-xs text-gray-400">※ 上限金額は代表的な補助金の参考値です。公募時期により変動します。</p>
+      </div>
+    </div>
+  );
+}
+
 // ===== ウィザードフォームコンポーネント =====
 type WizardStep = 1 | 2 | 3;
 
@@ -784,7 +864,10 @@ export default function HojyokinTool() {
 
       {activeTab === "diagnose" && (
         <div className="max-w-5xl mx-auto px-6 py-8 grid grid-cols-1 md:grid-cols-2 gap-8">
-          <WizardForm onSubmit={handleSubmit} loading={loading} isLimit={isLimit} />
+          <div>
+            <WizardForm onSubmit={handleSubmit} loading={loading} isLimit={isLimit} />
+            <IndustrySubsidyTable />
+          </div>
 
           <div className="flex flex-col">
             <label className="text-sm font-medium text-gray-700 mb-2">診断結果</label>
