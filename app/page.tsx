@@ -299,6 +299,20 @@ export default function HojyokinLP() {
           累計1,200件以上の申請書作成をサポート
         </div>
 
+        {/* ソーシャルプルーフ数値バー */}
+        <div className="flex flex-wrap justify-center gap-4 mb-6 max-w-2xl mx-auto">
+          {[
+            { num: "35〜60%", label: "ものづくり補助金\n採択率（直近）", color: "amber" },
+            { num: "50%超", label: "IT導入補助金\n採択率（1次）", color: "blue" },
+            { num: "¥10〜30万", label: "コンサル着手金相場\n（AI無料対比）", color: "red" },
+          ].map(item => (
+            <div key={item.label} className={`bg-${item.color}-50 border border-${item.color}-200 rounded-xl px-5 py-3 text-center min-w-[130px]`}>
+              <div className={`text-xl font-black text-${item.color}-600`}>{item.num}</div>
+              <div className="text-xs text-gray-500 whitespace-pre-line leading-tight mt-0.5">{item.label}</div>
+            </div>
+          ))}
+        </div>
+
         {/* 特徴バッジ */}
         <div className="flex flex-wrap justify-center gap-3 mb-6 text-sm">
           {[
@@ -528,19 +542,25 @@ export default function HojyokinLP() {
           <h2 className="text-2xl font-bold mb-10">料金プラン</h2>
           <div className="bg-gray-50 rounded-2xl border border-gray-200 p-5 mb-8 max-w-2xl mx-auto text-sm">
             <p className="font-bold text-gray-900 mb-3 text-center">💰 補助金コンサルと比べると</p>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="text-center">
-                <div className="text-gray-500 text-xs mb-1">補助金コンサル</div>
-                <div className="text-2xl font-bold text-red-500">¥50万〜</div>
-                <div className="text-xs text-gray-400">着手金+成功報酬15%</div>
+            <div className="grid grid-cols-2 gap-4 mb-4">
+              <div className="text-center bg-red-50 rounded-xl p-3 border border-red-100">
+                <div className="text-gray-500 text-xs mb-1">補助金コンサル（相場）</div>
+                <div className="text-2xl font-bold text-red-500">¥30〜100万</div>
+                <div className="text-xs text-gray-500 mt-1 leading-relaxed">着手金¥10〜30万<br />＋成功報酬10〜15%</div>
               </div>
-              <div className="text-center">
-                <div className="text-gray-500 text-xs mb-1">補助金AI</div>
+              <div className="text-center bg-green-50 rounded-xl p-3 border border-green-200">
+                <div className="text-gray-500 text-xs mb-1">補助金AI（当サービス）</div>
                 <div className="text-2xl font-bold text-green-600">¥4,980/月</div>
-                <div className="text-xs text-gray-400">何度でも使い放題</div>
+                <div className="text-xs text-green-600 font-medium mt-1">何度でも使い放題</div>
+                <div className="text-xs text-gray-400">1申請あたり¥1,980〜</div>
               </div>
             </div>
-            <p className="text-center text-xs text-gray-500 mt-3">※申請書作成の参考ツールです。採択を保証するものではありません</p>
+            {/* 費用差訴求バナー */}
+            <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 text-center">
+              <p className="text-amber-800 text-xs font-bold">ものづくり補助金750万円採択なら、成功報酬だけで¥75〜112万円</p>
+              <p className="text-amber-600 text-xs mt-1">→ AIなら申請書下書き¥1,980から。専門家レビューとの組み合わせが最もコスパ良</p>
+            </div>
+            <p className="text-center text-xs text-gray-400 mt-2">※申請書作成の参考ツールです。採択を保証するものではありません</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl mx-auto">
             {[

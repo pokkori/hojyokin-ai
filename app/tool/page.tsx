@@ -225,6 +225,45 @@ function ResultTabs({ parsed }: { parsed: ParsedResult }) {
 
 const SUBSIDY_TYPES = ["小規模持続化補助金", "ものづくり補助金", "IT導入補助金", "事業再構築補助金", "省エネ補助金", "その他"];
 
+// クイック診断プリセット
+const QUICK_PRESETS = [
+  {
+    icon: "💻",
+    label: "ITシステム・AIを入れたい",
+    industry: "IT・Web・アプリ",
+    purpose: "ITシステム・AI・クラウドツールを導入して業務を効率化・デジタル化したい。生産性向上と人件費削減を目指す。",
+    color: "blue",
+  },
+  {
+    icon: "🏭",
+    label: "設備・機械を導入したい",
+    industry: "製造業",
+    purpose: "生産設備・機械・検査装置を新規導入して生産性を向上させたい。老朽化した設備の入れ替えや省力化も含む。",
+    color: "orange",
+  },
+  {
+    icon: "🛒",
+    label: "販路拡大・広告をしたい",
+    industry: "小売・EC",
+    purpose: "ホームページ制作・EC構築・チラシ・展示会出展など販路開拓・広告宣伝に補助金を活用したい。",
+    color: "green",
+  },
+  {
+    icon: "⚡",
+    label: "省エネ・脱炭素に取り組む",
+    industry: "建設・不動産",
+    purpose: "省エネ設備（LED・空調・太陽光等）の導入や脱炭素経営への取り組みに補助金を活用したい。",
+    color: "emerald",
+  },
+  {
+    icon: "🔄",
+    label: "新事業・業態転換したい",
+    industry: "その他",
+    purpose: "既存事業からの転換・新分野への進出・新しいビジネスモデルへの挑戦に補助金を活用したい。",
+    color: "purple",
+  },
+];
+
 function DraftTab({ isPremium, onShowPaywall }: { isPremium: boolean; onShowPaywall: () => void }) {
   const [subsidyType, setSubsidyType] = useState(SUBSIDY_TYPES[0]);
   const [bizOverview, setBizOverview] = useState("");
@@ -498,6 +537,16 @@ function WizardForm({
   const [employees, setEmployees] = useState("");
   const [prefecture, setPrefecture] = useState("東京");
   const [purpose, setPurpose] = useState("");
+  const [quickSelected, setQuickSelected] = useState<number | null>(null);
+
+  function applyQuickPreset(idx: number) {
+    const preset = QUICK_PRESETS[idx];
+    setQuickSelected(idx);
+    setIsIndividual(false);
+    setBusinessType(preset.industry);
+    setPurpose(preset.purpose);
+    setStep(2);
+  }
 
   const INDUSTRIES = ["飲食・カフェ", "IT・Web・アプリ", "製造業", "建設・不動産", "小売・EC", "医療・介護", "美容・エステ", "教育・スクール", "農業・食品", "輸送・物流", "その他"];
 
@@ -507,6 +556,36 @@ function WizardForm({
 
   return (
     <div className="space-y-4">
+      {/* クイック診断ボタン（ステップ1のみ表示） */}
+      {step === 1 && (
+        <div className="mb-5">
+          <p className="text-xs font-bold text-gray-500 mb-2">⚡ 目的から選ぶ（クイック診断）</p>
+          <div className="grid grid-cols-1 gap-2">
+            {QUICK_PRESETS.map((preset, i) => (
+              <button
+                key={i}
+                type="button"
+                onClick={() => applyQuickPreset(i)}
+                className={`flex items-center gap-3 px-4 py-2.5 rounded-xl border text-left transition-all text-sm font-medium
+                  ${quickSelected === i
+                    ? "bg-amber-500 text-white border-amber-500 shadow-md"
+                    : "bg-white text-gray-700 border-gray-200 hover:border-amber-400 hover:bg-amber-50"
+                  }`}
+              >
+                <span className="text-lg shrink-0">{preset.icon}</span>
+                <span>{preset.label}</span>
+                <span className="ml-auto text-xs opacity-60">→</span>
+              </button>
+            ))}
+          </div>
+          <div className="flex items-center gap-2 my-3">
+            <div className="flex-1 h-px bg-gray-200" />
+            <span className="text-xs text-gray-400">または詳しく入力する</span>
+            <div className="flex-1 h-px bg-gray-200" />
+          </div>
+        </div>
+      )}
+
       {/* ステッパー */}
       <div className="flex items-center gap-2 mb-6">
         {([1, 2, 3] as WizardStep[]).map((s) => (
@@ -597,6 +676,12 @@ function WizardForm({
       {step === 3 && (
         <div className="space-y-4">
           <h2 className="text-lg font-bold text-gray-900">ステップ3 / 3 — 何に使いたいか</h2>
+          {quickSelected !== null && (
+            <div className="flex items-center gap-2 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">
+              <span className="text-amber-600 text-sm">{QUICK_PRESETS[quickSelected].icon}</span>
+              <span className="text-xs text-amber-700 font-medium">「{QUICK_PRESETS[quickSelected].label}」を選択中 — 内容を自由に編集できます</span>
+            </div>
+          )}
           <p className="text-sm text-gray-500">詳しく書くほどAIの診断精度が上がります</p>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">やりたいこと・補助金の用途 <span className="text-red-500">*</span></label>
