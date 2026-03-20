@@ -176,6 +176,21 @@ function ResultTabs({ parsed }: { parsed: ParsedResult }) {
       </div>
       <div className="flex gap-2 justify-end flex-wrap">
         <CopyButton text={parsed.raw} label="全文コピー" />
+        <button
+          onClick={() => {
+            const bom = '\uFEFF';
+            const blob = new Blob([bom + parsed.raw], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `補助金申請書ドラフト_${new Date().toISOString().slice(0,10)}.txt`;
+            a.click();
+            URL.revokeObjectURL(url);
+          }}
+          className="text-xs px-3 py-1 rounded-lg bg-amber-100 hover:bg-amber-200 text-amber-700 font-medium"
+        >
+          📥 TXTダウンロード
+        </button>
         <button onClick={handlePrint} className="text-xs px-3 py-1 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-600 font-medium">
           印刷・PDF保存
         </button>

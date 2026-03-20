@@ -805,6 +805,126 @@ export default function HojyokinLP() {
         </div>
       </section>
 
+      {/* 採択率インジケーターセクション */}
+      <section className="py-14 px-6 bg-white border-t border-gray-100">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-10">
+            <div className="inline-block bg-amber-100 text-amber-700 text-xs font-bold px-3 py-1 rounded-full mb-3">直近採択率データ（2026年度）</div>
+            <h2 className="text-2xl font-bold text-gray-900">補助金別 採択率インジケーター</h2>
+            <p className="text-sm text-gray-500 mt-2">どの補助金が「通りやすいか」を把握してから申請書を準備しましょう</p>
+          </div>
+          <div className="space-y-4 max-w-2xl mx-auto">
+            {[
+              { name: "IT導入補助金（デジタル化基盤導入類型）", rate: 70, limit: "最大450万円", color: "bg-green-500", badge: "bg-green-100 text-green-700", note: "採択率が最も高い補助金のひとつ。申請書のハードルが低め。" },
+              { name: "小規模事業者持続化補助金", rate: 65, limit: "最大200万円", color: "bg-blue-500", badge: "bg-blue-100 text-blue-700", note: "年4回公募。採択率60〜70%と安定。従業員20名以下向け。" },
+              { name: "ものづくり補助金（一般型）", rate: 55, limit: "最大750万円", color: "bg-amber-500", badge: "bg-amber-100 text-amber-700", note: "申請書の質が採択率に直結。革新性・数値根拠の記載が重要。" },
+              { name: "事業再構築補助金", rate: 40, limit: "最大1,500万円", color: "bg-orange-500", badge: "bg-orange-100 text-orange-700", note: "採択率40%前後。補助金額が大きいぶん競争が激しい。" },
+              { name: "省エネルギー投資促進補助金", rate: 60, limit: "最大1億円", color: "bg-emerald-500", badge: "bg-emerald-100 text-emerald-700", note: "省エネ率の高さが採択に直結。製造業・建設業に有利。" },
+            ].map((item) => (
+              <div key={item.name} className="bg-gray-50 border border-gray-200 rounded-xl p-4">
+                <div className="flex items-start justify-between gap-2 mb-2">
+                  <div>
+                    <p className="text-sm font-bold text-gray-900">{item.name}</p>
+                    <p className="text-xs text-gray-500 mt-0.5">{item.note}</p>
+                  </div>
+                  <span className={`text-xs font-bold px-2 py-0.5 rounded-full whitespace-nowrap shrink-0 ${item.badge}`}>{item.limit}</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="flex-1 bg-gray-200 rounded-full h-4 overflow-hidden">
+                    <div className={`h-full ${item.color} rounded-full transition-all`} style={{ width: `${item.rate}%` }} />
+                  </div>
+                  <span className="text-sm font-black text-gray-800 w-12 text-right">約{item.rate}%</span>
+                </div>
+                <p className="text-xs text-gray-400 mt-1">採択率（直近公募の参考値）</p>
+              </div>
+            ))}
+          </div>
+          <p className="text-xs text-gray-400 text-center mt-4">※ 採択率は直近公募の概算値です。公募時期・審査方針により変動します。</p>
+          <div className="text-center mt-6">
+            <Link href="/tool" className="inline-block bg-amber-500 text-white font-bold px-8 py-4 rounded-xl hover:bg-amber-600 shadow-lg shadow-amber-100">
+              採択率の高い補助金を無料で診断する →
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* 顧問税理士・社労士向けBtoB特化セクション */}
+      <section className="py-14 px-6 bg-slate-900 text-white">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-10">
+            <div className="inline-block bg-amber-400 text-slate-900 text-xs font-bold px-3 py-1 rounded-full mb-3">顧問先への付加価値向上</div>
+            <h2 className="text-2xl font-bold">税理士・社労士・認定支援機関の方へ</h2>
+            <p className="text-slate-300 text-sm mt-2">顧問先の補助金申請を効率化し、報酬単価を上げる</p>
+          </div>
+          <div className="grid md:grid-cols-3 gap-6 mb-8">
+            {[
+              { icon: "📋", title: "顧問先の補助金診断を一括管理", desc: "複数クライアントの業種・規模情報を入力するだけで、最適補助金ランキングを瞬時に生成。月次面談のアジェンダに組み込める。", badge: "時間削減" },
+              { icon: "📝", title: "申請書ドラフトを提供し報酬UP", desc: "「補助金申請サポート料」として¥5〜20万円の追加収益が見込める。AIが下書きを作るため、1案件あたりの作業時間は1/5以下。", badge: "収益向上" },
+              { icon: "🎯", title: "採択率アドバイスで顧問価値を証明", desc: "「採択可能性スコア」と改善提案を顧問先に提示。専門家としての信頼が増し、顧問契約の継続率が向上する。", badge: "信頼構築" },
+            ].map((item) => (
+              <div key={item.title} className="bg-slate-800 border border-slate-700 rounded-2xl p-5">
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="text-2xl">{item.icon}</span>
+                  <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-amber-400 text-slate-900">{item.badge}</span>
+                </div>
+                <h3 className="font-bold text-white text-sm mb-2">{item.title}</h3>
+                <p className="text-slate-400 text-xs leading-relaxed">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+          <div className="bg-amber-400 rounded-2xl p-6 text-center">
+            <p className="text-slate-900 font-black text-lg mb-2">法人・士業向けの一括相談はDMで受付中</p>
+            <p className="text-slate-800 text-sm mb-4">複数の補助金を一括診断したい法人様・顧問先向けにご活用の税理士・社労士様はお問い合わせください</p>
+            <Link href="/contact" className="inline-block bg-slate-900 text-amber-400 font-bold px-6 py-3 rounded-xl hover:bg-slate-800 transition-colors">
+              法人向けお問い合わせ →
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* 補助金SEOテキストセクション */}
+      <section className="py-14 px-6 bg-white border-t border-gray-100">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">補助金申請書の書き方：採択率を上げる3つのポイント</h2>
+          <div className="prose prose-sm max-w-none text-gray-600 leading-relaxed space-y-4 mb-10">
+            <p>補助金申請書の採択率は「申請書の書き方」で大きく変わります。審査員が重視するのは「<strong className="text-gray-800">事業の革新性</strong>」「<strong className="text-gray-800">数値の根拠</strong>」「<strong className="text-gray-800">賃上げとの連動</strong>」の3点です。</p>
+            <p>ものづくり補助金の直近採択率は約50〜60%。IT導入補助金は60〜70%と高めです。しかし「審査員が読みたいと思う申請書」を書けているケースは全体の30%以下とも言われています。本AIが生成する申請書ドラフトは、審査官が評価するポイントを網羅的にカバーした構成になっています。</p>
+            <p>申請書には「現状の課題→解決策→期待する効果（数値）→賃上げ計画」の4要素を必ず含めてください。本AIはこれらを自動で生成し、コピーして使えるドラフトとして出力します。</p>
+          </div>
+
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">2026年度 補助金の変更点まとめ</h2>
+          <div className="space-y-3 mb-10">
+            {[
+              { title: "IT導入補助金→「デジタル化・AI導入補助金」に刷新", desc: "2026年度よりIT導入補助金が名称変更。AI導入特枠が新設され、補助上限450万円・補助率2/3となりました。" },
+              { title: "ものづくり補助金 18次公募が開始予定", desc: "2026年前半に18次公募が開始予定。省力化・AI活用に重点が置かれる見通しです。" },
+              { title: "賃上げ要件が全補助金で強化", desc: "ほぼすべての補助金で「賃上げ計画」の記載が求められるようになりました。申請書に数値計画を盛り込むことが採択率向上のカギです。" },
+            ].map((item, i) => (
+              <div key={i} className="flex gap-4 bg-amber-50 rounded-xl p-4">
+                <span className="bg-amber-500 text-white font-black text-sm w-7 h-7 rounded-full flex items-center justify-center shrink-0 mt-0.5">{i + 1}</span>
+                <div>
+                  <p className="font-bold text-gray-800 text-sm mb-0.5">{item.title}</p>
+                  <p className="text-xs text-gray-600 leading-relaxed">{item.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">よくある質問（補助金申請のコツ）</h2>
+          <div className="space-y-3">
+            {[
+              { q: "採択率を上げるために一番大事なことは何ですか？", a: "「数値の根拠」が最重要です。「売上20%増」という目標に対して「なぜ20%なのか」の根拠（同業他社の導入実績・市場規模・試算根拠）を明記することで、審査官への説得力が大幅に増します。本AIの申請書ドラフトには、この数値根拠の書き方も含まれています。" },
+              { q: "申請書の作成にどのくらい時間がかかりますか？", a: "通常、補助金コンサルに依頼した場合でも申請書の準備に2〜4週間かかります。本AIを使うと、事業内容の入力から申請書ドラフト完成まで最短20〜30分。その後、自社の具体的な数字を加えることで完成度が高まります。" },
+              { q: "複数の補助金に同時申請できますか？", a: "補助金によっては「重複申請禁止」の制約があります。ものづくり補助金とIT導入補助金は別々の経費に適用できるため、組み合わせ申請が可能です。本AIの「二重取り戦略」機能でベストな組み合わせを提案します。" },
+            ].map((faq, i) => (
+              <div key={i} className="bg-gray-50 rounded-xl p-5">
+                <p className="font-semibold text-amber-800 mb-2 text-sm">Q. {faq.q}</p>
+                <p className="text-sm text-gray-600">A. {faq.a}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-amber-300 px-4 py-3 z-40 sm:hidden shadow-lg">
         <a href="/tool" className="block w-full bg-amber-500 hover:bg-amber-400 text-white font-black text-center py-3.5 rounded-xl text-sm">
           無料で補助金を診断する →
