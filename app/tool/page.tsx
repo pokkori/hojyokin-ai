@@ -65,6 +65,25 @@ function ScoreCard({ score }: { score: number }) {
           : score >= 60 ? "採択ラインに近いスコアです。申請書ドラフトと採択ポイントを参考に、内容を補強してください。"
           : "現状では改善が必要です。「採択率を上げるポイント」を参照し、事業計画の数値・必然性を強化してください。"}
       </p>
+      {score < 80 && (
+        <div className="mt-3 bg-amber-50 border border-amber-300 rounded-xl p-3">
+          <p className="text-xs font-bold text-amber-800 mb-2">採択率を上げる3つの即効策</p>
+          <ol className="space-y-1 text-xs text-amber-700">
+            <li>① 数値根拠を追加：「売上○%増・コスト○万円削減」の試算を明記する</li>
+            <li>② 賃上げ計画：今期・来期の賃上げ予定を金額で明記（加点対象）</li>
+            <li>③ 革新性の強調：同業他社が未導入の技術・手法であることを強調する</li>
+          </ol>
+          <button
+            onClick={() => {
+              const draftTab = document.querySelector('[data-tab="draft"]') as HTMLButtonElement;
+              if (draftTab) draftTab.click();
+            }}
+            className="mt-2 w-full text-xs bg-amber-500 hover:bg-amber-600 text-white font-bold py-2 rounded-lg transition-colors"
+          >
+            改善済み申請書を再生成する →
+          </button>
+        </div>
+      )}
     </div>
   );
 }
@@ -359,6 +378,18 @@ function DraftTab({ isPremium, onShowPaywall }: { isPremium: boolean; onShowPayw
         </div>
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 text-xs text-blue-800">
           💡 <strong>Jグランツとの違い</strong>: Jグランツは申請の「窓口」。このAIは申請書の「文章」を書きます。
+        </div>
+        <div className="bg-amber-50 border border-amber-200 rounded-lg p-3">
+          <p className="text-xs font-bold text-amber-800 mb-2">📋 審査員が必ず確認する3点（入力前にチェック）</p>
+          <div className="space-y-1 text-xs text-amber-700">
+            {[
+              "① 現状の課題：数値で表せる課題があるか（例：不良品率3.2%・人件費年800万円）",
+              "② 革新性：競合他社が未実施の取り組みか、または業界初の事例か",
+              "③ 賃上げ：今期または来期の賃上げ予定額・率が具体的に記載できるか",
+            ].map((item, i) => (
+              <p key={i}>{item}</p>
+            ))}
+          </div>
         </div>
         <button type="submit" disabled={loading}
           className="w-full bg-amber-500 hover:bg-amber-600 disabled:bg-amber-300 text-white font-bold py-3 rounded-lg transition-colors">
@@ -1263,7 +1294,7 @@ export default function HojyokinTool() {
       <div className="max-w-5xl mx-auto px-6 pt-6">
         <div className="flex gap-2 border-b border-gray-200 overflow-x-auto">
           {([["diagnose", "🎯 補助金を診断する"], ["draft", "📝 申請書を生成する"], ["roi", "💹 ROI試算"], ["checklist", "📋 申請チェックリスト"], ["schedule", "📅 スケジュール管理"]] as const).map(([tab, label]) => (
-            <button key={tab} onClick={() => setActiveTab(tab)}
+            <button key={tab} onClick={() => setActiveTab(tab)} data-tab={tab}
               className={`px-5 py-2.5 text-sm font-medium border-b-2 transition-colors -mb-px whitespace-nowrap ${activeTab === tab ? "border-amber-500 text-amber-600" : "border-transparent text-gray-500 hover:text-gray-700"}`}>
               {label}
             </button>

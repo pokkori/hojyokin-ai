@@ -3,6 +3,121 @@ import { useState } from "react";
 import Link from "next/link";
 import KomojuButton from "@/components/KomojuButton";
 
+// ===== 採択可能性セルフチェック（5問） =====
+function AdoptionSelfCheck() {
+  const [step, setStep] = useState(0);
+  const [answers, setAnswers] = useState<number[]>([]);
+
+  const questions = [
+    {
+      q: "申請書に「現状の課題」と「解決後の数値目標」が具体的に書けていますか？",
+      opts: [
+        { label: "両方具体的に書ける", score: 3 },
+        { label: "課題は書けるが数値目標が曖昧", score: 1 },
+        { label: "まだ整理できていない", score: 0 },
+      ],
+    },
+    {
+      q: "gBizIDプライムはすでに取得していますか？",
+      opts: [
+        { label: "取得済み", score: 3 },
+        { label: "申請中（1〜2週間以内に取得見込み）", score: 2 },
+        { label: "まだ取得していない", score: 0 },
+      ],
+    },
+    {
+      q: "補助金申請に認定経営革新等支援機関（税理士・商工会等）のサポートを受けていますか？",
+      opts: [
+        { label: "すでに依頼済み", score: 3 },
+        { label: "検討中", score: 1 },
+        { label: "まだ何もしていない", score: 0 },
+      ],
+    },
+    {
+      q: "申請書に賃上げ計画（今期・来期の賃上げ数値）を盛り込めますか？",
+      opts: [
+        { label: "具体的な賃上げ計画がある", score: 3 },
+        { label: "検討中だが数値が未定", score: 1 },
+        { label: "賃上げは難しい", score: 0 },
+      ],
+    },
+    {
+      q: "投資額に対する「投資回収期間」を試算できますか？",
+      opts: [
+        { label: "3年以内で試算できる", score: 3 },
+        { label: "5年以内で試算できる", score: 2 },
+        { label: "試算できていない", score: 0 },
+      ],
+    },
+  ];
+
+  function handleSelect(score: number) {
+    const newAnswers = [...answers, score];
+    setAnswers(newAnswers);
+    if (step < questions.length - 1) {
+      setStep(step + 1);
+    } else {
+      setStep(questions.length);
+    }
+  }
+
+  const total = answers.reduce((a, b) => a + b, 0);
+  const maxScore = questions.length * 3;
+  const pct = Math.round((total / maxScore) * 100);
+
+  if (step === questions.length) {
+    const result =
+      pct >= 70
+        ? { label: "採択可能性: 高", color: "text-green-600 bg-green-50 border-green-300", msg: "現在の準備状況では採択率が高い見込みです。AIで申請書の文章を磨きましょう。", cta: "申請書ドラフトを今すぐ生成する →" }
+        : pct >= 40
+        ? { label: "採択可能性: 中（要改善）", color: "text-amber-600 bg-amber-50 border-amber-300", msg: "いくつかの準備が不足しています。AIで不足箇所を補強した申請書を作成しましょう。", cta: "改善点を含めた申請書を作成する →" }
+        : { label: "採択可能性: 低（要対策）", color: "text-red-600 bg-red-50 border-red-300", msg: "今すぐ対策が必要です。gBizID取得・認定支援機関探しを優先し、AIで申請書の骨格を作りましょう。", cta: "AIで申請書の骨格を作る →" };
+
+    return (
+      <div className={`border-2 rounded-2xl p-6 text-center ${result.color}`}>
+        <p className="text-sm font-bold mb-1">あなたの採択可能性診断結果</p>
+        <p className="text-2xl font-black mb-2">{result.label}</p>
+        <div className="w-full bg-white/60 rounded-full h-4 mb-3 mx-auto max-w-xs">
+          <div className="h-4 rounded-full bg-current transition-all duration-1000" style={{ width: `${pct}%`, opacity: 0.7 }} />
+        </div>
+        <p className="text-sm mb-4">{result.msg}</p>
+        <Link href="/tool" className="inline-block bg-amber-500 hover:bg-amber-600 text-white font-bold px-6 py-3 rounded-xl transition-colors text-sm">
+          {result.cta}
+        </Link>
+        <div className="mt-3">
+          <button onClick={() => { setAnswers([]); setStep(0); }} className="text-xs underline opacity-60">もう一度診断する</button>
+        </div>
+      </div>
+    );
+  }
+
+  const q = questions[step];
+  return (
+    <div className="bg-white border-2 border-amber-200 rounded-2xl p-6">
+      <div className="flex items-center gap-2 mb-4">
+        <div className="flex gap-1">
+          {questions.map((_, i) => (
+            <div key={i} className={`h-1.5 w-8 rounded-full ${i < step ? "bg-amber-500" : i === step ? "bg-amber-300" : "bg-gray-200"}`} />
+          ))}
+        </div>
+        <span className="text-xs text-gray-400">{step + 1}/{questions.length}</span>
+      </div>
+      <p className="font-bold text-gray-900 text-sm mb-4 leading-relaxed">{q.q}</p>
+      <div className="space-y-2">
+        {q.opts.map((opt, i) => (
+          <button
+            key={i}
+            onClick={() => handleSelect(opt.score)}
+            className="w-full text-left bg-amber-50 hover:bg-amber-100 border border-amber-200 text-gray-800 font-medium text-sm px-4 py-3 rounded-xl transition-colors"
+          >
+            {opt.label}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 const SAMPLES = [
   {
     industry: "🏭 製造業",
@@ -643,6 +758,18 @@ export default function HojyokinLP() {
       </section>
 
       <SampleSection />
+
+      {/* 採択可能性セルフチェック */}
+      <section className="py-14 px-6 bg-amber-50 border-y border-amber-200">
+        <div className="max-w-xl mx-auto">
+          <div className="text-center mb-6">
+            <div className="inline-block bg-amber-100 text-amber-700 text-xs font-bold px-3 py-1 rounded-full mb-3">30秒でわかる</div>
+            <h2 className="text-2xl font-bold text-gray-900">あなたの申請書、採択されますか？</h2>
+            <p className="text-sm text-gray-500 mt-2">審査員が最初に見る5項目をセルフチェック。採択可能性がすぐわかります。</p>
+          </div>
+          <AdoptionSelfCheck />
+        </div>
+      </section>
 
       {/* 利用者の声 */}
       <section className="bg-gray-900 py-16 px-4">
