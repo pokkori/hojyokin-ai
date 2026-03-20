@@ -279,7 +279,10 @@ export default function HojyokinLP() {
       <nav className="border-b border-gray-100 px-6 py-4">
         <div className="max-w-5xl mx-auto flex items-center justify-between">
           <span className="font-bold text-gray-900">💰 AI補助金診断</span>
-          <Link href="/tool" className="bg-amber-500 text-white text-sm font-medium px-4 py-2 rounded-lg hover:bg-amber-600">無料で診断する</Link>
+          <div className="flex items-center gap-3">
+            <Link href="/contact" className="text-amber-600 hover:text-amber-700 text-sm font-bold hidden sm:inline transition-colors">法人のご相談</Link>
+            <Link href="/tool" className="bg-amber-500 text-white text-sm font-medium px-4 py-2 rounded-lg hover:bg-amber-600">無料で診断する</Link>
+          </div>
         </div>
       </nav>
 
@@ -820,6 +823,8 @@ export default function HojyokinLP() {
           <Link href="/blog/hojyokin-shinsei-tetsuzuki" className="underline hover:text-gray-600">補助金申請の流れ</Link>
         </p>
         <p>
+          <Link href="/contact" className="underline hover:text-gray-600 font-medium text-amber-600">法人のご相談</Link>
+          {" "}・{" "}
           <Link href="/legal" className="underline hover:text-gray-600">特定商取引法に基づく表記</Link>
           {" "}・{" "}
           <Link href="/terms" className="underline hover:text-gray-600">利用規約</Link>

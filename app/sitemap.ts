@@ -18,6 +18,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: "https://hojyokin-ai-delta.vercel.app/blog/jgrants-hojyokin-ai", lastModified: new Date(), changeFrequency: "monthly", priority: 0.6 },
     { url: "https://hojyokin-ai-delta.vercel.app/blog/monodukuri-hojyokin", lastModified: new Date(), changeFrequency: "monthly", priority: 0.6 },
     { url: "https://hojyokin-ai-delta.vercel.app/blog/hojyokin-shinsei-tetsuzuki", lastModified: new Date(), changeFrequency: "monthly", priority: 0.6 },
+    { url: "https://hojyokin-ai-delta.vercel.app/blog/hojyokin-checklist", lastModified: new Date(), changeFrequency: "monthly", priority: 0.7 },
+    {
+      url: "https://hojyokin-ai-delta.vercel.app/contact",
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.6,
+    },
     {
       url: "https://hojyokin-ai-delta.vercel.app/legal",
       lastModified: new Date(),
