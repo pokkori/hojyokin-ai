@@ -2,6 +2,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import KomojuButton from "@/components/KomojuButton";
+import SubsidyDemo from "@/components/SubsidyDemo";
 
 // ===== 採択可能性セルフチェック（5問） =====
 function AdoptionSelfCheck() {
@@ -758,6 +759,18 @@ export default function HojyokinLP() {
       </section>
 
       <SampleSection />
+
+      {/* 業種別インタラクティブデモ */}
+      <section className="py-14 px-6 bg-gray-50 border-y border-gray-200">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-2">
+            <div className="inline-block bg-green-100 text-green-700 text-xs font-bold px-3 py-1 rounded-full mb-3">業種で切り替え</div>
+            <h2 className="text-2xl font-bold text-gray-900">業種別サンプルで出力イメージを確認</h2>
+            <p className="text-sm text-gray-500 mt-2">製造業・飲食業・IT業種ごとに、AIが生成する申請書ドラフトを体験できます</p>
+          </div>
+          <SubsidyDemo />
+        </div>
+      </section>
 
       {/* 採択可能性セルフチェック */}
       <section className="py-14 px-6 bg-amber-50 border-y border-amber-200">
