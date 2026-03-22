@@ -92,7 +92,7 @@ function Paywall({ onClose, onStartPayjp }: { onClose: () => void; onStartPayjp:
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-4">
       <div className="bg-white rounded-2xl p-6 max-w-sm w-full shadow-xl text-center">
-        <div className="text-3xl mb-3">💰</div>
+        <div className="flex justify-center mb-3"><svg viewBox="0 0 48 48" width="48" height="48" className="text-amber-500" aria-hidden="true"><rect x="4" y="10" width="40" height="28" rx="5" fill="currentColor"/><rect x="12" y="20" width="24" height="4" rx="2" fill="white"/><rect x="12" y="28" width="14" height="4" rx="2" fill="white"/></svg></div>
         <h2 className="text-lg font-bold mb-2">無料診断回数を使い切りました</h2>
         <p className="text-sm text-gray-500 mb-1">事業計画書の参考文・要件チェックをAIが提案</p>
         <p className="text-xs text-amber-600 bg-amber-50 rounded-lg px-3 py-2 mb-3">⚠️ 本サービスは参考情報の提供です。実際の申請書類は行政書士・認定支援機関にご確認ください。</p>
@@ -1284,7 +1284,10 @@ export default function HojyokinTool() {
       )}
       <nav className="bg-white border-b px-6 py-4">
         <div className="max-w-5xl mx-auto flex items-center justify-between">
-          <Link href="/" className="font-bold text-gray-900">💰 AI補助金診断</Link>
+          <Link href="/" className="font-bold text-gray-900 flex items-center gap-1.5">
+            <svg viewBox="0 0 24 24" width="20" height="20" className="text-amber-500" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2.5" fill="currentColor"/><rect x="6" y="10" width="12" height="2" rx="1" fill="white"/><rect x="6" y="14" width="7" height="2" rx="1" fill="white"/></svg>
+            AI補助金診断
+          </Link>
           <span className={`text-xs px-3 py-1 rounded-full ${isLimit ? "bg-red-100 text-red-600" : "bg-amber-100 text-amber-600"}`}>
             {isLimit ? "無料枠終了" : `無料あと${FREE_LIMIT - count}回`}
           </span>
@@ -1334,7 +1337,7 @@ export default function HojyokinTool() {
             <div className={`transition-all duration-500 overflow-hidden ${completionVisible && adoptionScore !== null ? "max-h-48 opacity-100 mb-4" : "max-h-0 opacity-0"}`}>
               <div className="bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-2xl px-5 py-4 shadow-lg">
                 <div className="flex items-center gap-2 font-bold text-base mb-3">
-                  <span className="text-2xl">✅</span>
+                  <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="white" opacity="0.3"/><path d="M7 12l4 4 6-7" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/></svg>
                   <span>補助金診断 完了！</span>
                 </div>
                 {adoptionScore !== null && (
@@ -1382,7 +1385,7 @@ export default function HojyokinTool() {
               </>
             ) : (
               <div className="flex-1 bg-white border border-gray-200 rounded-xl flex flex-col items-center justify-center min-h-[420px] gap-3">
-                <div className="text-4xl">💰</div>
+                <svg viewBox="0 0 48 48" width="48" height="48" className="text-amber-400 mb-1" aria-hidden="true"><rect x="4" y="10" width="40" height="28" rx="5" fill="currentColor"/><rect x="12" y="20" width="24" height="4" rx="2" fill="white"/><rect x="12" y="28" width="14" height="4" rx="2" fill="white"/></svg>
                 <p className="text-sm text-center font-medium text-gray-500">情報を入力して<br />「補助金を診断する」を押してください</p>
                 <div className="bg-gray-50 rounded-lg p-4 text-xs space-y-2 w-full max-w-[260px]">
                   <p className="font-semibold text-gray-600">生成される内容：</p>
