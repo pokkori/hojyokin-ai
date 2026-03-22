@@ -19,11 +19,11 @@ function extractScore(text: string): number | null {
 
 function parseResult(text: string): ParsedResult {
   const sectionDefs = [
-    { key: "申請可能な補助金", icon: "🎯" },
-    { key: "申請書ドラフト", icon: "📝" },
-    { key: "申請要件チェックリスト", icon: "✅" },
-    { key: "採択率を上げる", icon: "📈" },
-    { key: "よくある落選理由", icon: "⚠️" },
+    { key: "申請可能な補助金", icon: "1." },
+    { key: "申請書ドラフト", icon: "2." },
+    { key: "申請要件チェックリスト", icon: "3." },
+    { key: "採択率を上げる", icon: "4." },
+    { key: "よくある落選理由", icon: "5." },
   ];
   const score = extractScore(text);
   const cleanText = text.replace(/===SCORE===\s*\d+/g, "");
@@ -38,7 +38,7 @@ function parseResult(text: string): ParsedResult {
       sections.push({ title: matched.key, icon: matched.icon, content });
     }
   }
-  if (sections.length === 0) sections.push({ title: "診断結果", icon: "📄", content: cleanText });
+  if (sections.length === 0) sections.push({ title: "診断結果", icon: "-", content: cleanText });
   return { sections, raw: cleanText, score };
 }
 
@@ -80,7 +80,7 @@ function ScoreCard({ score }: { score: number }) {
             }}
             className="mt-2 w-full text-xs bg-amber-500 hover:bg-amber-600 text-white font-bold py-2 rounded-lg transition-colors"
           >
-            改善済み申請書を再生成する →
+            改善済み申請書を再生成する
           </button>
         </div>
       )}
@@ -95,7 +95,7 @@ function Paywall({ onClose, onStartPayjp }: { onClose: () => void; onStartPayjp:
         <div className="flex justify-center mb-3"><svg viewBox="0 0 48 48" width="48" height="48" className="text-amber-500" aria-hidden="true"><rect x="4" y="10" width="40" height="28" rx="5" fill="currentColor"/><rect x="12" y="20" width="24" height="4" rx="2" fill="white"/><rect x="12" y="28" width="14" height="4" rx="2" fill="white"/></svg></div>
         <h2 className="text-lg font-bold mb-2">無料診断回数を使い切りました</h2>
         <p className="text-sm text-gray-500 mb-1">事業計画書の参考文・要件チェックをAIが提案</p>
-        <p className="text-xs text-amber-600 bg-amber-50 rounded-lg px-3 py-2 mb-3">⚠️ 本サービスは参考情報の提供です。実際の申請書類は行政書士・認定支援機関にご確認ください。</p>
+        <p className="text-xs text-amber-600 bg-amber-50 rounded-lg px-3 py-2 mb-3">注意: 本サービスは参考情報の提供です。実際の申請書類は行政書士・認定支援機関にご確認ください。</p>
         <ul className="text-xs text-gray-400 text-left mb-5 space-y-1 mt-3">
           <li>✓ 補助金5件の優先度付き診断（採択率順）</li>
           <li>✓ AI採択可能性スコア（100点満点）</li>
@@ -208,13 +208,13 @@ function ResultTabs({ parsed }: { parsed: ParsedResult }) {
           }}
           className="text-xs px-3 py-1 rounded-lg bg-amber-100 hover:bg-amber-200 text-amber-700 font-medium"
         >
-          📥 TXTダウンロード
+          TXTダウンロード
         </button>
         <button onClick={handlePrint} className="text-xs px-3 py-1 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-600 font-medium">
           印刷・PDF保存
         </button>
         <a
-          href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`「補助金の採択可能性スコアが${parsed.score !== null ? parsed.score : "??"}点と出た💦 申請書のドラフトまで全部AIが作ってくれた → https://hojyokin-ai-delta.vercel.app #補助金 #助成金 #中小企業`)}`}
+          href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`補助金の採択可能性スコアが${parsed.score !== null ? parsed.score : "??"}点と出た！申請書のドラフトまで全部AIが作ってくれた → https://hojyokin-ai-delta.vercel.app #補助金 #助成金 #中小企業`)}`}
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 bg-black text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-gray-800 transition-colors"
@@ -225,16 +225,16 @@ function ResultTabs({ parsed }: { parsed: ParsedResult }) {
 
       {/* 次のアクション3選 */}
       <div className="mt-4 bg-white border border-green-200 rounded-xl p-4">
-        <p className="text-sm font-bold text-green-800 mb-3">📋 次にやるべきこと3選</p>
+        <p className="text-sm font-bold text-green-800 mb-3">次にやるべきこと3選</p>
         <ol className="space-y-2">
           {[
-            { icon: "📅", text: "公募スケジュールを確認して申請期限をカレンダーに登録する" },
-            { icon: "📄", text: "公式公募要領をダウンロードして必要書類のリストを作る" },
-            { icon: "🏛️", text: "地域の商工会・中小企業診断士に無料相談を申し込む" },
-          ].map((item, i) => (
+            "公募スケジュールを確認して申請期限をカレンダーに登録する",
+            "公式公募要領をダウンロードして必要書類のリストを作る",
+            "地域の商工会・中小企業診断士に無料相談を申し込む",
+          ].map((text, i) => (
             <li key={i} className="flex items-start gap-3 text-sm text-gray-700">
-              <span className="text-lg leading-none">{item.icon}</span>
-              <span>{i + 1}. {item.text}</span>
+              <span className="text-sm font-bold leading-snug text-amber-600 shrink-0">{i + 1}.</span>
+              <span>{text}</span>
             </li>
           ))}
         </ol>
@@ -242,15 +242,15 @@ function ResultTabs({ parsed }: { parsed: ParsedResult }) {
 
       {/* 採択シェアCTA */}
       <div className="mt-4 bg-amber-50 border border-amber-300 rounded-xl p-4 text-center">
-        <p className="text-sm font-bold text-amber-800 mb-1">採択が決まったらシェアしよう 🎉</p>
+        <p className="text-sm font-bold text-amber-800 mb-1">採択が決まったらシェアしよう</p>
         <p className="text-xs text-amber-600 mb-3">採択通知が届いたら、ぜひ同じ悩みを持つ経営者に教えてあげてください！</p>
         <a
-          href={`https://twitter.com/intent/tweet?text=${encodeURIComponent("「補助金に採択されました！🎉 AI補助金診断で申請書の骨格を作り、費用ほぼゼロで通った → https://hojyokin-ai-delta.vercel.app #補助金採択 #中小企業 #DX")}`}
+          href={`https://twitter.com/intent/tweet?text=${encodeURIComponent("「補助金に採択されました！AI補助金診断で申請書の骨格を作り、費用ほぼゼロで通った → https://hojyokin-ai-delta.vercel.app #補助金採択 #中小企業 #DX")}`}
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-white font-bold px-5 py-2 rounded-lg text-sm transition-colors"
         >
-          #補助金採択 でシェアする 🎉
+          #補助金採択 でシェアする
         </a>
       </div>
     </div>
@@ -377,10 +377,10 @@ function DraftTab({ isPremium, onShowPaywall }: { isPremium: boolean; onShowPayw
             className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 resize-none" />
         </div>
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 text-xs text-blue-800">
-          💡 <strong>Jグランツとの違い</strong>: Jグランツは申請の「窓口」。このAIは申請書の「文章」を書きます。
+          <strong>Jグランツとの違い</strong>: Jグランツは申請の「窓口」。このAIは申請書の「文章」を書きます。
         </div>
         <div className="bg-amber-50 border border-amber-200 rounded-lg p-3">
-          <p className="text-xs font-bold text-amber-800 mb-2">📋 審査員が必ず確認する3点（入力前にチェック）</p>
+          <p className="text-xs font-bold text-amber-800 mb-2">審査員が必ず確認する3点（入力前にチェック）</p>
           <div className="space-y-1 text-xs text-amber-700">
             {[
               "① 現状の課題：数値で表せる課題があるか（例：不良品率3.2%・人件費年800万円）",
@@ -404,7 +404,7 @@ function DraftTab({ isPremium, onShowPaywall }: { isPremium: boolean; onShowPayw
             <div className="text-center">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-amber-500 mx-auto mb-3" />
               <p className="text-sm text-gray-500">申請書の文章を作成しています...</p>
-              <p className="text-xs text-gray-400 mt-2">📋 申請条件確認 → 💡 補助金マッチング → 📄 申請書ドラフト生成</p>
+              <p className="text-xs text-gray-400 mt-2">申請条件確認 → 補助金マッチング → 申請書ドラフト生成</p>
               <p className="text-xs text-gray-300 mt-1">20〜30秒かかります</p>
             </div>
           </div>
@@ -415,13 +415,13 @@ function DraftTab({ isPremium, onShowPaywall }: { isPremium: boolean; onShowPayw
               {/* 文書ヘッダー */}
               <div className="bg-amber-600 px-5 py-3 flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <span className="text-white text-lg">📄</span>
+                  <svg viewBox="0 0 24 24" width="18" height="18" className="text-white" aria-hidden="true"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" fill="none" stroke="currentColor" strokeWidth="2"/><polyline points="14 2 14 8 20 8" fill="none" stroke="currentColor" strokeWidth="2"/><line x1="16" y1="13" x2="8" y2="13" stroke="currentColor" strokeWidth="2"/><line x1="16" y1="17" x2="8" y2="17" stroke="currentColor" strokeWidth="2"/></svg>
                   <span className="text-white font-bold text-sm">補助金申請書ドラフト</span>
                   <span className="bg-white/20 text-white text-xs px-2 py-0.5 rounded font-medium">{subsidyType}</span>
                 </div>
                 <button onClick={() => { navigator.clipboard.writeText(result); setCopied(true); setTimeout(() => setCopied(false), 2000); }}
                   className="text-xs px-3 py-1.5 rounded-lg bg-white/90 text-amber-700 font-bold hover:bg-white transition-colors">
-                  {copied ? "✓ コピー済み" : "📋 全文コピー"}
+                  {copied ? "✓ コピー済み" : "全文コピー"}
                 </button>
               </div>
               {/* 文書本文 */}
@@ -469,7 +469,7 @@ function DraftTab({ isPremium, onShowPaywall }: { isPremium: boolean; onShowPayw
           </div>
         ) : (
           <div className="bg-white border border-gray-200 rounded-xl flex flex-col items-center justify-center min-h-[360px] gap-3">
-            <div className="text-4xl">📝</div>
+            <svg viewBox="0 0 48 48" width="40" height="40" className="text-amber-300" aria-hidden="true"><path d="M28 4H12a4 4 0 00-4 4v32a4 4 0 004 4h24a4 4 0 004-4V20z" fill="none" stroke="currentColor" strokeWidth="3"/><polyline points="28 4 28 20 44 20" fill="none" stroke="currentColor" strokeWidth="3"/><line x1="32" y1="28" x2="16" y2="28" stroke="currentColor" strokeWidth="2.5"/><line x1="32" y1="34" x2="16" y2="34" stroke="currentColor" strokeWidth="2.5"/></svg>
             <p className="text-sm text-center text-gray-500">左のフォームを入力して<br />「申請書の文章を生成する」を押してください</p>
             <div className="bg-gray-50 rounded-lg p-4 text-xs space-y-1.5 w-full max-w-[260px]">
               <p className="font-semibold text-gray-600">生成される内容：</p>
@@ -529,7 +529,7 @@ function IndustrySubsidyTable() {
   return (
     <div className="mt-6 bg-white border border-gray-200 rounded-xl overflow-hidden">
       <div className="px-4 py-3 border-b border-gray-100 bg-amber-50">
-        <p className="text-sm font-bold text-amber-800">📊 業種別よくある補助金</p>
+        <p className="text-sm font-bold text-amber-800">業種別よくある補助金</p>
         <p className="text-xs text-amber-600 mt-0.5">タップして詳細を確認できます</p>
       </div>
       <div className="divide-y divide-gray-100">
@@ -605,7 +605,7 @@ function WizardForm({
       {/* クイック診断ボタン（ステップ1のみ表示） */}
       {step === 1 && (
         <div className="mb-5">
-          <p className="text-xs font-bold text-gray-500 mb-2">⚡ 目的から選ぶ（クイック診断）</p>
+          <p className="text-xs font-bold text-gray-500 mb-2">目的から選ぶ（クイック診断）</p>
           <div className="grid grid-cols-1 gap-2">
             {QUICK_PRESETS.map((preset, i) => (
               <button
@@ -737,7 +737,7 @@ function WizardForm({
             <p className="text-xs text-gray-400 mt-1">詳しく書くほど精度が上がります（{purpose.length}/1000文字）</p>
           </div>
           <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 text-xs text-amber-800">
-            ⚠️ <strong>ご注意</strong>：この診断はAIによる参考情報です。申請前に必ず各補助金の公式サイトでご確認ください。
+            注意: この診断はAIによる参考情報です。申請前に必ず各補助金の公式サイトでご確認ください。
           </div>
           <div className="flex gap-3">
             <button type="button" onClick={() => setStep(2)}
@@ -769,7 +769,7 @@ function extractAdoptionScore(text: string): number | null {
 // ===== 申請準備チェックリスト =====
 const HOJYOKIN_CHECKLIST = [
   {
-    phase: "📋 申請前の準備",
+    phase: "申請前の準備",
     color: "amber",
     items: [
       { id: "h1", text: "gBizIDプライムの取得（申請に必須・審査2〜3週間）" },
@@ -780,7 +780,7 @@ const HOJYOKIN_CHECKLIST = [
     ],
   },
   {
-    phase: "📝 事業計画書の作成",
+    phase: "事業計画書の作成",
     color: "blue",
     items: [
       { id: "h6", text: "自社の現状・課題を数値で整理する（売上/利益/従業員数等）" },
@@ -791,7 +791,7 @@ const HOJYOKIN_CHECKLIST = [
     ],
   },
   {
-    phase: "✅ 申請・提出",
+    phase: "申請・提出",
     color: "green",
     items: [
       { id: "h11", text: "電子申請システム（Jグランツ等）でアカウント登録" },
@@ -801,7 +801,7 @@ const HOJYOKIN_CHECKLIST = [
     ],
   },
   {
-    phase: "🏆 採択後の手続き",
+    phase: "採択後の手続き",
     color: "purple",
     items: [
       { id: "h15", text: "交付申請書を期限内に提出する" },
@@ -832,7 +832,7 @@ function HojyokinChecklistTab() {
   const colorMap: Record<string, string> = { amber: "#f59e0b", blue: "#3b82f6", green: "#10b981", purple: "#8b5cf6" };
   return (
     <div className="max-w-2xl mx-auto px-6 py-8">
-      <h2 className="text-xl font-bold text-gray-900 mb-2">📋 補助金申請 準備チェックリスト</h2>
+      <h2 className="text-xl font-bold text-gray-900 mb-2">補助金申請 準備チェックリスト</h2>
       <p className="text-sm text-gray-500 mb-4">申請前に必要な準備が揃っているか確認しましょう。チェックした内容は自動保存されます。</p>
       {/* 進捗バー */}
       <div className="bg-white border border-gray-200 rounded-xl p-4 mb-6">
@@ -846,7 +846,7 @@ function HojyokinChecklistTab() {
         <p className="text-xs text-gray-400 mt-1">{pct}% 完了</p>
         {done === total && (
           <div className="mt-3 bg-green-50 border border-green-300 rounded-lg p-3 text-center">
-            <p className="text-green-700 font-bold text-sm">🎉 全項目チェック完了！申請の準備が整いました</p>
+            <p className="text-green-700 font-bold text-sm">全項目チェック完了！申請の準備が整いました</p>
           </div>
         )}
       </div>
@@ -877,10 +877,10 @@ function HojyokinChecklistTab() {
           );
         })}
       </div>
-      <button onClick={() => { setChecked({}); localStorage.removeItem(HOJYOKIN_CHECKLIST_KEY); }} className="mt-4 text-xs text-gray-400 hover:text-gray-600 w-full text-center">🗑 チェックをリセット</button>
+      <button onClick={() => { setChecked({}); localStorage.removeItem(HOJYOKIN_CHECKLIST_KEY); }} className="mt-4 text-xs text-gray-400 hover:text-gray-600 w-full text-center">チェックをリセット</button>
       {/* freee アフィリ */}
       <div className="mt-6 bg-amber-50 border border-amber-200 rounded-xl p-4">
-        <p className="text-sm font-bold text-amber-800 mb-1">📊 事業計画書・決算書の作成に</p>
+        <p className="text-sm font-bold text-amber-800 mb-1">事業計画書・決算書の作成に</p>
         <p className="text-xs text-amber-600 mb-3">補助金申請に必要な財務書類をクラウドで管理</p>
         <a href="https://px.a8.net/svt/ejp?a8mat=4AZIOF+8TUYXE+3TT6+65W2N" target="_blank" rel="noopener noreferrer sponsored"
           className="flex items-center justify-between bg-white border border-amber-300 rounded-xl px-4 py-3 hover:bg-amber-50 transition-colors">
@@ -944,7 +944,7 @@ function ScheduleTab() {
 
   return (
     <div className="max-w-2xl mx-auto px-6 py-8">
-      <h2 className="text-xl font-bold text-gray-900 mb-1">📅 補助金申請スケジュール管理</h2>
+      <h2 className="text-xl font-bold text-gray-900 mb-1">補助金申請スケジュール管理</h2>
       <p className="text-sm text-gray-500 mb-5">申請予定の補助金を登録して、ステータスを管理しましょう。</p>
 
       {/* 追加フォーム */}
@@ -990,7 +990,7 @@ function ScheduleTab() {
       {/* スケジュール一覧（アコーディオン） */}
       {items.length === 0 ? (
         <div className="bg-white border border-dashed border-gray-300 rounded-xl p-8 text-center text-gray-400 text-sm">
-          <div className="text-3xl mb-2">📭</div>
+          <svg viewBox="0 0 48 48" width="36" height="36" className="text-gray-300 mb-2" aria-hidden="true"><rect x="8" y="10" width="32" height="28" rx="4" fill="none" stroke="currentColor" strokeWidth="3"/><path d="M16 22h16M16 30h10" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"/></svg>
           <p>申請予定がまだ登録されていません</p>
           <p className="text-xs mt-1">診断後に補助金名をメモして追加しましょう</p>
         </div>
@@ -1041,7 +1041,7 @@ function ScheduleTab() {
 
       {/* クイック入力ヒント */}
       <div className="mt-6 bg-amber-50 border border-amber-200 rounded-xl p-4">
-        <p className="text-xs font-bold text-amber-800 mb-2">💡 よく使う補助金名（クリックで追加）</p>
+        <p className="text-xs font-bold text-amber-800 mb-2">よく使う補助金名（クリックで追加）</p>
         <div className="flex flex-wrap gap-2">
           {["小規模持続化補助金", "ものづくり補助金", "IT導入補助金", "事業再構築補助金", "省エネ補助金"].map(n => (
             <button
@@ -1092,7 +1092,7 @@ function RoiCalculator() {
 
   return (
     <div className="bg-white rounded-2xl p-6 shadow-sm">
-      <h2 className="text-xl font-bold text-gray-900 mb-1">💹 補助金活用ROI・生産性向上試算</h2>
+      <h2 className="text-xl font-bold text-gray-900 mb-1">補助金活用ROI・生産性向上試算</h2>
       <p className="text-sm text-gray-500 mb-6">ITツール・設備投資の費用対効果と補助金活用後の投資回収期間を計算します</p>
       <div className="space-y-6">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -1185,7 +1185,7 @@ function RoiCalculator() {
             </p>
           </div>
           <div className="bg-white border border-gray-200 rounded-xl p-4">
-            <p className="text-sm font-bold text-gray-800 mb-2">📋 この数値を申請書に使う方法</p>
+            <p className="text-sm font-bold text-gray-800 mb-2">この数値を申請書に使う方法</p>
             <div className="bg-gray-50 rounded-lg p-3 text-xs text-gray-700 font-mono whitespace-pre-line">{`【期待される効果】
 ・年間削減工数: ${annualHoursSaved.toLocaleString()}時間（${employees}名×${manualHours}時間/月×12ヶ月）
 ・年間コスト削減額: ${annualCostSaving.toLocaleString()}万円（時給${hourlyWage.toLocaleString()}円換算）
@@ -1195,11 +1195,11 @@ function RoiCalculator() {
               onClick={() => navigator.clipboard.writeText(`【期待される効果】\n・年間削減工数: ${annualHoursSaved.toLocaleString()}時間（${employees}名×${manualHours}時間/月×12ヶ月）\n・年間コスト削減額: ${annualCostSaving.toLocaleString()}万円（時給${hourlyWage.toLocaleString()}円換算）\n・投資回収期間: ${paybackYears}年（補助金活用後 自己負担${selfCost.toLocaleString()}万円）\n・5年間の純利益効果: ${netBenefit5y.toLocaleString()}万円`)}
               className="mt-2 text-xs px-3 py-1.5 bg-amber-500 text-white rounded-lg font-bold hover:bg-amber-600 transition-colors"
             >
-              📋 申請書用にコピーする
+              申請書用にコピーする
             </button>
           </div>
           <a
-            href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`補助金AIでROI試算してみた💹\n年間コスト削減: ${annualCostSaving.toLocaleString()}万円\n投資回収期間: ${paybackYears}年\n5年間ROI: ${roi}%\n→ https://hojyokin-ai-delta.vercel.app #補助金 #中小企業DX`)}`}
+            href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`補助金AIでROI試算してみた！年間コスト削減: ${annualCostSaving.toLocaleString()}万円 / 投資回収期間: ${paybackYears}年 / 5年間ROI: ${roi}% → https://hojyokin-ai-delta.vercel.app #補助金 #中小企業DX`)}`}
             target="_blank" rel="noopener noreferrer"
             className="flex items-center justify-center gap-2 bg-black hover:bg-gray-800 text-white font-bold py-2 px-4 rounded-lg text-sm transition-colors w-full"
           >
@@ -1207,6 +1207,60 @@ function RoiCalculator() {
             この試算結果をXでシェアする
           </a>
           <p className="text-xs text-gray-400 text-center">※ この試算はあくまで参考値です。実際の効果は導入するシステム・業務内容によって異なります。</p>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ===== 診断履歴 =====
+const HISTORY_KEY = "hojyokin_history";
+const MAX_HISTORY = 3;
+
+type DiagnosisHistory = {
+  id: string;
+  industry: string;
+  purpose: string;
+  score: number | null;
+  date: string;
+};
+
+function DiagnosisHistoryPanel() {
+  const [history, setHistory] = useState<DiagnosisHistory[]>([]);
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    try { setHistory(JSON.parse(localStorage.getItem(HISTORY_KEY) ?? "[]")); } catch { /* */ }
+  }, []);
+
+  if (history.length === 0) return null;
+
+  return (
+    <div className="bg-white border border-amber-200 rounded-xl overflow-hidden mb-4">
+      <button
+        type="button"
+        onClick={() => setOpen(o => !o)}
+        className="w-full flex items-center justify-between px-4 py-3 hover:bg-amber-50 transition-colors text-left"
+      >
+        <span className="text-sm font-bold text-amber-800">過去の診断履歴（直近{history.length}件）</span>
+        <span className="text-gray-400 text-xs">{open ? "▲" : "▼"}</span>
+      </button>
+      {open && (
+        <div className="divide-y divide-gray-100">
+          {history.map(h => (
+            <div key={h.id} className="px-4 py-3">
+              <div className="flex items-center justify-between mb-1">
+                <span className="text-xs font-semibold text-gray-700 truncate max-w-[60%]">{h.industry || "業種未入力"}</span>
+                {h.score !== null && (
+                  <span className={`text-xs font-black px-2 py-0.5 rounded-full ${h.score >= 75 ? "bg-green-100 text-green-700" : h.score >= 60 ? "bg-amber-100 text-amber-700" : "bg-red-100 text-red-700"}`}>
+                    スコア {h.score}点
+                  </span>
+                )}
+              </div>
+              <p className="text-xs text-gray-500 truncate">{h.purpose}</p>
+              <p className="text-xs text-gray-400 mt-0.5">{h.date}</p>
+            </div>
+          ))}
         </div>
       )}
     </div>
@@ -1224,6 +1278,7 @@ export default function HojyokinTool() {
   const [error, setError] = useState("");
   const [completionVisible, setCompletionVisible] = useState(false);
   const [adoptionScore, setAdoptionScore] = useState<number | null>(null);
+  const [lastDiagnosisData, setLastDiagnosisData] = useState<{ industry: string; purpose: string } | null>(null);
 
   useEffect(() => { setCount(parseInt(localStorage.getItem(KEY) || "0")); }, []);
   const isLimit = count >= FREE_LIMIT;
@@ -1232,6 +1287,7 @@ export default function HojyokinTool() {
     if (isLimit) { track('paywall_shown', { service: '補助金AI' }); setShowPaywall(true); return; }
     track('ai_generated', { service: '補助金AI' });
     setLoading(true); setParsed(null); setError(""); setCompletionVisible(false); setAdoptionScore(null);
+    setLastDiagnosisData({ industry: data.businessType, purpose: data.purpose.slice(0, 60) });
     try {
       const res = await fetch("/api/generate", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) });
       if (res.status === 429) { track('paywall_shown', { service: '補助金AI' }); setShowPaywall(true); setLoading(false); return; }
@@ -1266,6 +1322,21 @@ export default function HojyokinTool() {
       setAdoptionScore(score);
       setCompletionVisible(true);
       setTimeout(() => setCompletionVisible(false), 5000);
+      // 診断履歴をLocalStorageに保存（最新3件）
+      if (lastDiagnosisData) {
+        try {
+          const prev: DiagnosisHistory[] = JSON.parse(localStorage.getItem(HISTORY_KEY) ?? "[]");
+          const entry: DiagnosisHistory = {
+            id: Date.now().toString(),
+            industry: lastDiagnosisData.industry,
+            purpose: lastDiagnosisData.purpose,
+            score,
+            date: new Date().toLocaleDateString("ja-JP", { year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit" }),
+          };
+          const next = [entry, ...prev].slice(0, MAX_HISTORY);
+          localStorage.setItem(HISTORY_KEY, JSON.stringify(next));
+        } catch { /* ignore */ }
+      }
     } catch { setError("通信エラーが発生しました。インターネット接続を確認してください。"); }
     finally { setLoading(false); }
   };
@@ -1326,6 +1397,7 @@ export default function HojyokinTool() {
       {activeTab === "diagnose" && (
         <div className="max-w-5xl mx-auto px-6 py-8 grid grid-cols-1 md:grid-cols-2 gap-8">
           <div>
+            <DiagnosisHistoryPanel />
             <WizardForm onSubmit={handleSubmit} loading={loading} isLimit={isLimit} />
             <IndustrySubsidyTable />
           </div>
@@ -1366,7 +1438,7 @@ export default function HojyokinTool() {
                 <div className="text-center">
                   <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-amber-500 mx-auto mb-3" />
                   <p className="text-sm text-gray-500 font-medium">AIが補助金を診断しています...</p>
-                  <p className="text-xs text-gray-400 mt-2">🎯 採択可能性スコア算出 → 📝 申請書ドラフト → ✅ チェックリスト</p>
+                  <p className="text-xs text-gray-400 mt-2">採択可能性スコア算出 → 申請書ドラフト → チェックリスト</p>
                   <p className="text-xs text-gray-300 mt-1">通常20〜30秒かかります</p>
                 </div>
               </div>
@@ -1375,7 +1447,7 @@ export default function HojyokinTool() {
                 <ResultTabs parsed={parsed} />
                 {/* 経営計画書AIへのクロスセル */}
                 <div className="mt-8 p-4 bg-green-50 border border-green-200 rounded-xl">
-                  <p className="text-sm font-bold text-green-800 mb-1">📊 融資申請・投資家向けの経営計画書も作れます</p>
+                  <p className="text-sm font-bold text-green-800 mb-1">融資申請・投資家向けの経営計画書も作れます</p>
                   <p className="text-xs text-green-600 mb-3">SWOT分析・収支計画・投資家ピッチまで5分でAI自動作成</p>
                   <a href="https://ai-keiei-keikaku.vercel.app" target="_blank" rel="noopener noreferrer"
                     className="inline-block bg-green-600 text-white text-sm font-bold px-4 py-2 rounded-lg hover:bg-green-700">
@@ -1389,12 +1461,12 @@ export default function HojyokinTool() {
                 <p className="text-sm text-center font-medium text-gray-500">情報を入力して<br />「補助金を診断する」を押してください</p>
                 <div className="bg-gray-50 rounded-lg p-4 text-xs space-y-2 w-full max-w-[260px]">
                   <p className="font-semibold text-gray-600">生成される内容：</p>
-                  <p className="text-gray-500">🏆 AI採択可能性スコア（100点満点）</p>
-                  <p className="text-gray-500">🎯 申請可能な補助金（優先度順5件）</p>
-                  <p className="text-gray-500">📝 申請書ドラフト（提出ベース）</p>
-                  <p className="text-gray-500">✅ 申請要件チェックリスト</p>
-                  <p className="text-gray-500">📈 採択率を上げる3つのポイント</p>
-                  <p className="text-gray-500">⚠️ よくある落選理由と対策</p>
+                  <p className="text-gray-500">AI採択可能性スコア（100点満点）</p>
+                  <p className="text-gray-500">申請可能な補助金（優先度順5件）</p>
+                  <p className="text-gray-500">申請書ドラフト（提出ベース）</p>
+                  <p className="text-gray-500">申請要件チェックリスト</p>
+                  <p className="text-gray-500">採択率を上げる3つのポイント</p>
+                  <p className="text-gray-500">よくある落選理由と対策</p>
                 </div>
               </div>
             )}
@@ -1407,7 +1479,7 @@ export default function HojyokinTool() {
       {/* 専門家サポートアフィリエイト（A8.net） */}
       <div className="max-w-2xl mx-auto px-4 py-6">
         <div className="bg-green-50 border border-green-200 rounded-xl p-5">
-          <p className="text-sm font-black text-green-900 mb-1">🏆 申請を成功させる専門家サポート</p>
+          <p className="text-sm font-black text-green-900 mb-1">申請を成功させる専門家サポート</p>
           <p className="text-xs text-green-700 mb-4">AIの申請書を専門家がブラッシュアップ。採択率が大幅にUPします。</p>
           <div className="grid grid-cols-1 gap-3">
             <a href="https://px.a8.net/svt/ejp?a8mat=4AZIOF+3LSINM+3SPO+9FDPYR" target="_blank" rel="noopener noreferrer sponsored"
