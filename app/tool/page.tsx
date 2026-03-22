@@ -746,6 +746,7 @@ function WizardForm({
             </button>
             <button type="button" onClick={() => onSubmit({ isIndividual, businessType, employees, prefecture, purpose })}
               disabled={loading || !canSubmit}
+              aria-label={isLimit ? "プレミアムプランで申請書を完成させる" : "補助金を無料診断する"}
               className={`flex-1 font-bold py-3 rounded-lg text-white transition-colors ${isLimit ? "bg-orange-500 hover:bg-orange-600" : "bg-amber-500 hover:bg-amber-600 disabled:bg-amber-300"}`}>
               {loading ? "診断中..." : isLimit ? "¥1,980で申請書を完成させる" : "補助金を診断する（無料）"}
             </button>
@@ -1293,8 +1294,9 @@ export default function HojyokinTool() {
       {/* タブ切り替え */}
       <div className="max-w-5xl mx-auto px-6 pt-6">
         <div className="flex gap-2 border-b border-gray-200 overflow-x-auto">
-          {([["diagnose", "🎯 補助金を診断する"], ["draft", "📝 申請書を生成する"], ["roi", "💹 ROI試算"], ["checklist", "📋 申請チェックリスト"], ["schedule", "📅 スケジュール管理"]] as const).map(([tab, label]) => (
+          {([["diagnose", "補助金を診断する"], ["draft", "申請書を生成する"], ["roi", "ROI試算"], ["checklist", "申請チェックリスト"], ["schedule", "スケジュール管理"]] as const).map(([tab, label]) => (
             <button key={tab} onClick={() => setActiveTab(tab)} data-tab={tab}
+              aria-label={label}
               className={`px-5 py-2.5 text-sm font-medium border-b-2 transition-colors -mb-px whitespace-nowrap ${activeTab === tab ? "border-amber-500 text-amber-600" : "border-transparent text-gray-500 hover:text-gray-700"}`}>
               {label}
             </button>
