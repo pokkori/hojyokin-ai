@@ -326,6 +326,8 @@ function SampleSection() {
         <div className="flex gap-2 mb-4 flex-wrap">
           {SAMPLES.map((s, i) => (
             <button key={i} onClick={() => { setActiveIndustry(i); setActiveTab(0); }}
+              aria-label={`${s.industry}の補助金申請書サンプルを表示`}
+              aria-pressed={activeIndustry === i}
               className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${activeIndustry === i ? "bg-amber-500 text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200"}`}>
               {s.industry}
             </button>
@@ -344,6 +346,8 @@ function SampleSection() {
             <div className="flex gap-1 mb-4 flex-wrap">
               {sample.tabs.map((tab, i) => (
                 <button key={i} onClick={() => setActiveTab(i)}
+                  aria-label={`${tab.label}タブを表示`}
+                  aria-pressed={activeTab === i}
                   className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${activeTab === i ? "bg-amber-500 text-white" : "bg-white border border-gray-200 text-gray-600 hover:bg-gray-50"}`}>
                   {tab.label}
                 </button>
@@ -849,6 +853,7 @@ export default function HojyokinLP() {
                 ) : (
                   <button
                     onClick={() => startCheckout(plan.plan!)}
+                    aria-label={`${plan.name}（${plan.price}）に申し込む`}
                     className={`block w-full text-center text-sm font-medium py-2.5 rounded-lg ${plan.highlight ? "bg-amber-500 text-white hover:bg-amber-600" : "bg-gray-100 text-gray-700 hover:bg-gray-200"}`}
                   >
                     申し込む
@@ -1071,6 +1076,21 @@ export default function HojyokinLP() {
           無料で補助金を診断する →
         </a>
       </div>
+
+      {/* X(Twitter) Share */}
+      <section className="max-w-4xl mx-auto px-4 py-10 text-center">
+        <p className="text-gray-400 text-sm mb-4">補助金の採択可能性をAIがスコア化！中小企業・フリーランスの方にシェアしませんか？</p>
+        <a
+          href={`https://twitter.com/intent/tweet?text=${encodeURIComponent("AIが補助金の採択可能性をスコア化！無料診断3回 #補助金AI #中小企業")}&url=${encodeURIComponent("https://hojyokin-ai-delta.vercel.app")}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="XでシェアするXでシェアする"
+          className="inline-flex items-center gap-2 bg-black text-white px-5 py-3 rounded-xl font-bold hover:bg-gray-800 transition-colors min-h-[44px]"
+        >
+          <span>𝕏</span>
+          <span>Xでシェアする</span>
+        </a>
+      </section>
 
       <footer className="border-t py-6 pb-24 sm:pb-6 text-center text-xs text-gray-400 space-y-2">
         <p>AI補助金診断 © 2026 ※本サービスは情報提供を目的としており、申請を保証するものではありません。必ず公募要領をご確認ください。</p>
