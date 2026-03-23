@@ -358,6 +358,8 @@ function DraftTab({ isPremium, onShowPaywall }: { isPremium: boolean; onShowPayw
           <div className="flex flex-wrap gap-2">
             {SUBSIDY_TYPES.map(t => (
               <button key={t} type="button" onClick={() => setSubsidyType(t)}
+                aria-label={`補助金の種類「${t}」を選択`}
+                aria-pressed={subsidyType === t}
                 className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors ${subsidyType === t ? "bg-amber-500 text-white border-amber-500" : "bg-white text-gray-600 border-gray-300 hover:border-amber-400"}`}>
                 {t}
               </button>
@@ -368,12 +370,14 @@ function DraftTab({ isPremium, onShowPaywall }: { isPremium: boolean; onShowPayw
           <label className="block text-sm font-medium text-gray-700 mb-1">自社事業の概要 <span className="text-red-500">*</span></label>
           <textarea value={bizOverview} onChange={e => setBizOverview(e.target.value)} rows={3} required
             placeholder="例: 愛知県の製造業（従業員12名）。AI画像検査システムを導入して不良品率を削減したい。"
+            aria-label="自社事業の概要を入力（必須）"
             className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 resize-none" />
         </div>
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">補助金で何をするか <span className="text-red-500">*</span></label>
           <textarea value={subsidyUse} onChange={e => setSubsidyUse(e.target.value)} rows={3} required
             placeholder="例: AIを使った画像検査装置を3台導入し、検査工程を自動化する。費用は約500万円。"
+            aria-label="補助金で何をするかを入力（必須）"
             className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 resize-none" />
         </div>
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 text-xs text-blue-800">
@@ -392,6 +396,7 @@ function DraftTab({ isPremium, onShowPaywall }: { isPremium: boolean; onShowPayw
           </div>
         </div>
         <button type="submit" disabled={loading}
+          aria-label="補助金申請書の文章をAIで生成する"
           className="w-full bg-amber-500 hover:bg-amber-600 disabled:bg-amber-300 text-white font-bold py-3 rounded-lg transition-colors">
           {loading ? "申請書を生成中..." : "申請書の文章を生成する"}
         </button>

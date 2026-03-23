@@ -86,7 +86,7 @@ function AdoptionSelfCheck() {
           {result.cta}
         </Link>
         <div className="mt-3">
-          <button onClick={() => { setAnswers([]); setStep(0); }} className="text-xs underline opacity-60">もう一度診断する</button>
+          <button type="button" onClick={() => { setAnswers([]); setStep(0); }} aria-label="採択可能性診断をもう一度やり直す" className="text-xs underline opacity-60">もう一度診断する</button>
         </div>
       </div>
     );
@@ -108,7 +108,9 @@ function AdoptionSelfCheck() {
         {q.opts.map((opt, i) => (
           <button
             key={i}
+            type="button"
             onClick={() => handleSelect(opt.score)}
+            aria-label={`回答「${opt.label}」を選択`}
             className="w-full text-left bg-amber-50 hover:bg-amber-100 border border-amber-200 text-gray-800 font-medium text-sm px-4 py-3 rounded-xl transition-colors"
           >
             {opt.label}
