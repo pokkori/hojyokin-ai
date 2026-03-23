@@ -1,0 +1,24 @@
+{
+  "name": "AI補助金診断",
+  "short_name": "補助金AI",
+  "description": "補助金申請書の文章生成をAIが自動化。事業内容を入力するだけで使える補助金を無料診断し、申請書ドラフトまでAIが自動生成。",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2563eb",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
