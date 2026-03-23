@@ -259,12 +259,16 @@ function ResultTabs({ parsed }: { parsed: ParsedResult }) {
           印刷・PDF保存
         </button>
         <a
-          href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`補助金の採択可能性スコアが${parsed.score !== null ? parsed.score : "??"}点と出た！申請書のドラフトまで全部AIが作ってくれた → https://hojyokin-ai-delta.vercel.app #補助金 #助成金 #中小企業`)}`}
+          href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`補助金AIで申請可能性を診断しました！\n\n#補助金 #中小企業 #補助金AI\nhttps://hojyokin-ai.vercel.app`)}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 bg-black text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-gray-800 transition-colors"
+          aria-label="診断結果をXでシェアする"
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-gray-900 text-white hover:bg-gray-700 transition-colors"
         >
-          𝕏 でシェアする
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.259 5.627zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+          </svg>
+          Xでシェア
         </a>
       </div>
 
@@ -290,7 +294,7 @@ function ResultTabs({ parsed }: { parsed: ParsedResult }) {
         <p className="text-sm font-bold text-amber-800 mb-1">採択が決まったらシェアしよう</p>
         <p className="text-xs text-amber-600 mb-3">採択通知が届いたら、ぜひ同じ悩みを持つ経営者に教えてあげてください！</p>
         <a
-          href={`https://twitter.com/intent/tweet?text=${encodeURIComponent("「補助金に採択されました！AI補助金診断で申請書の骨格を作り、費用ほぼゼロで通った → https://hojyokin-ai-delta.vercel.app #補助金採択 #中小企業 #DX")}`}
+          href={`https://twitter.com/intent/tweet?text=${encodeURIComponent("「補助金に採択されました！AI補助金診断で申請書の骨格を作り、費用ほぼゼロで通った → https://hojyokin-ai.vercel.app #補助金採択 #中小企業 #DX")}`}
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-white font-bold px-5 py-2 rounded-lg text-sm transition-colors"
