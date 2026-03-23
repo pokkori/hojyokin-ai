@@ -279,7 +279,7 @@ function ResultTabs({ parsed }: { parsed: ParsedResult }) {
       </div>
 
       {/* 次のアクション3選 */}
-      <div className="mt-4 bg-white border border-green-200 rounded-xl p-4">
+      <div className="mt-4 bg-white/95 backdrop-blur-sm border border-green-200 rounded-xl p-4">
         <p className="text-sm font-bold text-green-800 mb-3">次にやるべきこと3選</p>
         <ol className="space-y-2">
           {[
@@ -296,7 +296,7 @@ function ResultTabs({ parsed }: { parsed: ParsedResult }) {
       </div>
 
       {/* 採択シェアCTA */}
-      <div className="mt-4 bg-amber-50 border border-amber-300 rounded-xl p-4 text-center">
+      <div className="mt-4 bg-amber-50/90 backdrop-blur-sm border border-amber-300 rounded-xl p-4 text-center">
         <p className="text-sm font-bold text-amber-800 mb-1">採択が決まったらシェアしよう</p>
         <p className="text-xs text-amber-600 mb-3">採択通知が届いたら、ぜひ同じ悩みを持つ経営者に教えてあげてください！</p>
         <a
@@ -955,7 +955,7 @@ function HojyokinChecklistTab() {
       </div>
       <button onClick={() => { setChecked({}); localStorage.removeItem(HOJYOKIN_CHECKLIST_KEY); }} aria-label="補助金申請チェックリストのすべてのチェックをリセットする" className="mt-4 text-xs text-gray-400 hover:text-gray-600 w-full text-center">チェックをリセット</button>
       {/* freee アフィリ */}
-      <div className="mt-6 bg-amber-50 border border-amber-200 rounded-xl p-4">
+      <div className="mt-6 bg-amber-50/90 backdrop-blur-sm border border-amber-200 rounded-xl p-4">
         <p className="text-sm font-bold text-amber-800 mb-1">事業計画書・決算書の作成に</p>
         <p className="text-xs text-amber-600 mb-3">補助金申請に必要な財務書類をクラウドで管理</p>
         <a href="https://px.a8.net/svt/ejp?a8mat=4AZIOF+8TUYXE+3TT6+65W2N" target="_blank" rel="noopener noreferrer sponsored"
@@ -1123,7 +1123,7 @@ function ScheduleTab() {
       )}
 
       {/* クイック入力ヒント */}
-      <div className="mt-6 bg-amber-50 border border-amber-200 rounded-xl p-4">
+      <div className="mt-6 bg-amber-50/90 backdrop-blur-sm border border-amber-200 rounded-xl p-4">
         <p className="text-xs font-bold text-amber-800 mb-2">よく使う補助金名（クリックで追加）</p>
         <div className="flex flex-wrap gap-2">
           {["小規模持続化補助金", "ものづくり補助金", "IT導入補助金", "事業再構築補助金", "省エネ補助金"].map(n => (
