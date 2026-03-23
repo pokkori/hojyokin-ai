@@ -361,7 +361,7 @@ function SampleSection() {
         </div>
 
         <div className="text-center mt-8">
-          <Link href="/tool" className="inline-block bg-amber-500 text-white font-bold px-8 py-4 rounded-xl hover:bg-amber-600 shadow-lg shadow-amber-100">
+          <Link href="/tool" aria-label="自分の事業に合う補助金を無料で診断する" className="inline-block bg-amber-500 text-white font-bold px-8 py-4 rounded-xl hover:bg-amber-600 shadow-lg shadow-amber-100">
             自分の補助金を無料で診断する →
           </Link>
           <p className="text-xs text-gray-400 mt-2">クレジットカード不要・3回まで無料</p>
@@ -385,7 +385,7 @@ export default function HojyokinLP() {
       {showPayjp && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-4">
           <div className="bg-white rounded-2xl p-6 max-w-sm w-full shadow-xl relative">
-            <button onClick={() => setShowPayjp(false)} className="absolute top-3 right-3 text-gray-400 text-xl">✕</button>
+            <button onClick={() => setShowPayjp(false)} aria-label="プラン登録モーダルを閉じる" className="absolute top-3 right-3 text-gray-400 text-xl">✕</button>
             <h2 className="text-lg font-bold mb-4 text-center">プレミアムプランに登録</h2>
             {payjpPlan === "once" ? (
               <KomojuButton planId="standard" planLabel="スタンダードプラン ¥980/月を始める" className="w-full bg-blue-600 text-white font-bold py-3 rounded-xl hover:bg-blue-700 disabled:opacity-50" />
@@ -402,8 +402,8 @@ export default function HojyokinLP() {
         <div className="max-w-5xl mx-auto flex items-center justify-between">
           <span className="font-bold text-gray-900">AI補助金診断</span>
           <div className="flex items-center gap-3">
-            <Link href="/contact" className="text-amber-600 hover:text-amber-700 text-sm font-bold hidden sm:inline transition-colors">法人のご相談</Link>
-            <Link href="/tool" className="bg-amber-500 text-white text-sm font-medium px-4 py-2 rounded-lg hover:bg-amber-600">無料で診断する</Link>
+            <Link href="/contact" aria-label="法人向けご相談ページへ移動する" className="text-amber-600 hover:text-amber-700 text-sm font-bold hidden sm:inline transition-colors">法人のご相談</Link>
+            <Link href="/tool" aria-label="補助金AI診断ツールで無料診断を始める" className="bg-amber-500 text-white text-sm font-medium px-4 py-2 rounded-lg hover:bg-amber-600">無料で診断する</Link>
           </div>
         </div>
       </nav>
@@ -474,7 +474,7 @@ export default function HojyokinLP() {
             <span key={s} className="flex items-center gap-1 bg-amber-50 text-amber-700 px-3 py-1.5 rounded-full font-medium">{s}</span>
           ))}
         </div>
-        <Link href="/tool" className="inline-block bg-amber-500 text-white font-bold text-lg px-8 py-4 rounded-xl hover:bg-amber-600 shadow-lg shadow-amber-100">無料で申請書を書いてみる →</Link>
+        <Link href="/tool" aria-label="補助金AI診断ツールで申請書を無料で書いてみる" className="inline-block bg-amber-500 text-white font-bold text-lg px-8 py-4 rounded-xl hover:bg-amber-600 shadow-lg shadow-amber-100">無料で申請書を書いてみる →</Link>
         <p className="text-xs text-gray-400 mt-3">クレジットカード不要・3回まで無料</p>
       </section>
 
@@ -502,6 +502,7 @@ export default function HojyokinLP() {
             <p className="text-sm text-amber-700">業種・規模・目的を入力するだけで、適合補助金ランキング＋申請書ドラフトが自動生成されます。</p>
             <Link
               href="/tool"
+              aria-label="AI補助金診断ツールで無料診断する（3回・登録不要）"
               className="inline-block mt-4 bg-amber-500 text-white font-bold px-6 py-3 rounded-xl hover:bg-amber-600 transition-colors text-sm"
             >
               無料で補助金を診断する（3回・登録不要）→
@@ -593,7 +594,7 @@ export default function HojyokinLP() {
             ))}
           </div>
           <div className="text-center mt-8">
-            <Link href="/tool" className="inline-block bg-amber-500 text-white font-bold px-8 py-4 rounded-xl hover:bg-amber-600 shadow-lg shadow-amber-100">
+            <Link href="/tool" aria-label="補助金AI診断ツールで申請書を無料で書いてみる" className="inline-block bg-amber-500 text-white font-bold px-8 py-4 rounded-xl hover:bg-amber-600 shadow-lg shadow-amber-100">
               無料で申請書を書いてみる →
             </Link>
             <p className="text-xs text-gray-400 mt-2">事業再構築補助金・省エネ補助金など他の補助金にも対応</p>
@@ -651,7 +652,7 @@ export default function HojyokinLP() {
           </div>
           <p className="text-xs text-indigo-400 text-center mt-6">※ これらはAIが生成した申請書ドラフトのテーマ例です。実際の採択実績を保証するものではありません。</p>
           <div className="text-center mt-6">
-            <Link href="/tool" className="inline-block bg-amber-500 text-white font-bold px-8 py-4 rounded-xl hover:bg-amber-600 shadow-lg">
+            <Link href="/tool" aria-label="AI補助金診断ツールで自分の事業の補助金申請書を作成する" className="inline-block bg-amber-500 text-white font-bold px-8 py-4 rounded-xl hover:bg-amber-600 shadow-lg">
               自分の事業で試してみる →
             </Link>
           </div>
@@ -701,7 +702,7 @@ export default function HojyokinLP() {
           </div>
           <div className="flex flex-col sm:flex-row gap-3 mt-4 items-center justify-between">
             <p className="text-xs text-gray-400">※ 公募時期は変更になる場合があります。最新情報は各省庁・Jグランツでご確認ください。</p>
-            <Link href="/tool" className="whitespace-nowrap bg-amber-500 text-white font-bold px-5 py-2 rounded-lg hover:bg-amber-600 text-sm transition-colors">
+            <Link href="/tool" aria-label="AI補助金診断ツールで今すぐ申請書を準備する" className="whitespace-nowrap bg-amber-500 text-white font-bold px-5 py-2 rounded-lg hover:bg-amber-600 text-sm transition-colors">
               今すぐ申請書を準備する →
             </Link>
           </div>
@@ -744,7 +745,7 @@ export default function HojyokinLP() {
               <li>• 採択されやすい表現・訴求ポイントをAIが提案</li>
             </ul>
           </div>
-          <a href="#tool" className="inline-block bg-amber-500 hover:bg-amber-600 text-white font-bold px-8 py-3 rounded-full transition-colors text-sm">
+          <a href="#tool" aria-label="補助金診断と事業計画参考文の作成ツールに移動する" className="inline-block bg-amber-500 hover:bg-amber-600 text-white font-bold px-8 py-3 rounded-full transition-colors text-sm">
             今すぐ補助金診断と事業計画の参考文を作る →
           </a>
         </div>
@@ -868,7 +869,7 @@ export default function HojyokinLP() {
       <section className="bg-amber-500 py-16 text-center px-6">
         <h2 className="text-2xl font-bold text-white mb-3">申請書の文章、AIに書かせてみませんか</h2>
         <p className="text-amber-100 text-sm mb-6 max-w-md mx-auto">Jグランツでは書いてくれない「申請書の本文」を、AIが自動生成。コピーして使うだけ。</p>
-        <Link href="/tool" className="inline-block bg-white text-amber-600 font-bold px-8 py-4 rounded-xl hover:bg-amber-50">無料で申請書を書いてみる →</Link>
+        <Link href="/tool" aria-label="補助金AI診断ツールで申請書を無料で書いてみる" className="inline-block bg-white text-amber-600 font-bold px-8 py-4 rounded-xl hover:bg-amber-50">無料で申請書を書いてみる →</Link>
         <p className="text-amber-200 text-xs mt-3">クレジットカード不要・3回まで無料</p>
         <div className="mt-8 pt-6 border-t border-amber-400">
           <p className="text-amber-100 text-sm mb-4">補助金申請に悩む経営者・事業者にシェアする</p>
@@ -876,6 +877,7 @@ export default function HojyokinLP() {
             href={`https://twitter.com/intent/tweet?text=${encodeURIComponent("補助金申請書の文章をAIが自動生成してくれるサービスを発見。ものづくり補助金・IT導入補助金・持続化補助金に対応。行政書士コンサルに50万払う前に試してほしい。 #補助金 #中小企業 #DX #ものづくり補助金")}&url=${encodeURIComponent("https://hojyokin-ai-delta.vercel.app")}`}
             target="_blank"
             rel="noopener noreferrer"
+            aria-label="AI補助金診断サービスをXでシェアする"
             className="inline-flex items-center gap-2 bg-black hover:bg-gray-800 text-white font-bold py-3 px-6 rounded-xl transition-all text-sm"
           >
             <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -892,6 +894,7 @@ export default function HojyokinLP() {
           <p className="text-sm font-bold text-green-800 mb-3">💼 補助金獲得後の会計管理はプロのツールで（PR）</p>
           <a href="https://px.a8.net/svt/ejp?a8mat=4AZIOF+3LSINM+3SPO+9FDPYR"
             target="_blank" rel="noopener noreferrer sponsored"
+            aria-label="freee会計で補助金獲得後の会計管理を自動化する（外部サービス・PR）"
             className="flex items-center justify-between bg-white border border-green-300 rounded-xl px-4 py-3 hover:bg-green-50 transition-colors">
             <div>
               <div className="text-sm font-bold text-slate-800">freee会計 — 補助金の経理を自動化</div>
@@ -910,6 +913,7 @@ export default function HojyokinLP() {
           <p className="text-xs text-blue-600 mt-0.5">無料・週1回・いつでも解除可</p>
         </div>
         <a href="https://keiei-radar.vercel.app" target="_blank" rel="noopener noreferrer"
+          aria-label="経営レーダーに無料登録して補助金最新情報を受け取る（外部サービス）"
           className="whitespace-nowrap bg-blue-600 text-white text-xs font-bold px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
           無料登録 →
         </a>
@@ -926,6 +930,7 @@ export default function HojyokinLP() {
             href="https://twitter.com/levona_design"
             target="_blank"
             rel="noopener noreferrer"
+            aria-label="法人向け補助金相談をXのDMで問い合わせる（外部サービス）"
             className="whitespace-nowrap bg-white text-blue-600 font-bold px-5 py-3 rounded-lg hover:bg-blue-50 transition-colors text-sm"
           >
             お問い合わせ →
@@ -988,7 +993,7 @@ export default function HojyokinLP() {
           </div>
           <p className="text-xs text-gray-400 text-center mt-4">※ 採択率は直近公募の概算値です。公募時期・審査方針により変動します。</p>
           <div className="text-center mt-6">
-            <Link href="/tool" className="inline-block bg-amber-500 text-white font-bold px-8 py-4 rounded-xl hover:bg-amber-600 shadow-lg shadow-amber-100">
+            <Link href="/tool" aria-label="採択率の高い補助金をAI診断ツールで無料診断する" className="inline-block bg-amber-500 text-white font-bold px-8 py-4 rounded-xl hover:bg-amber-600 shadow-lg shadow-amber-100">
               採択率の高い補助金を無料で診断する →
             </Link>
           </div>
@@ -1021,7 +1026,7 @@ export default function HojyokinLP() {
           <div className="bg-amber-400 rounded-2xl p-6 text-center">
             <p className="text-slate-900 font-black text-lg mb-2">法人・士業向けの一括相談はDMで受付中</p>
             <p className="text-slate-800 text-sm mb-4">複数の補助金を一括診断したい法人様・顧問先向けにご活用の税理士・社労士様はお問い合わせください</p>
-            <Link href="/contact" className="inline-block bg-slate-900 text-amber-400 font-bold px-6 py-3 rounded-xl hover:bg-slate-800 transition-colors">
+            <Link href="/contact" aria-label="法人・士業向けの補助金AIお問い合わせページへ移動する" className="inline-block bg-slate-900 text-amber-400 font-bold px-6 py-3 rounded-xl hover:bg-slate-800 transition-colors">
               法人向けお問い合わせ →
             </Link>
           </div>
@@ -1072,7 +1077,7 @@ export default function HojyokinLP() {
       </section>
 
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-amber-300 px-4 py-3 z-40 sm:hidden shadow-lg">
-        <a href="/tool" className="block w-full bg-amber-500 hover:bg-amber-400 text-white font-black text-center py-3.5 rounded-xl text-sm">
+        <a href="/tool" aria-label="補助金AI診断ツールで補助金を無料診断する" className="block w-full bg-amber-500 hover:bg-amber-400 text-white font-black text-center py-3.5 rounded-xl text-sm">
           無料で補助金を診断する →
         </a>
       </div>
@@ -1084,7 +1089,7 @@ export default function HojyokinLP() {
           href={`https://twitter.com/intent/tweet?text=${encodeURIComponent("AIが補助金の採択可能性をスコア化！無料診断3回 #補助金AI #中小企業")}&url=${encodeURIComponent("https://hojyokin-ai-delta.vercel.app")}`}
           target="_blank"
           rel="noopener noreferrer"
-          aria-label="XでシェアするXでシェアする"
+          aria-label="補助金AIを中小企業・フリーランスの方にXでシェアする"
           className="inline-flex items-center gap-2 bg-black text-white px-5 py-3 rounded-xl font-bold hover:bg-gray-800 transition-colors min-h-[44px]"
         >
           <span>𝕏</span>
@@ -1095,31 +1100,31 @@ export default function HojyokinLP() {
       <footer className="border-t py-6 pb-24 sm:pb-6 text-center text-xs text-gray-400 space-y-2">
         <p>AI補助金診断 © 2026 ※本サービスは情報提供を目的としており、申請を保証するものではありません。必ず公募要領をご確認ください。</p>
         <p>
-          <Link href="/blog" className="underline hover:text-gray-600 font-medium">補助金コラム</Link>
+          <Link href="/blog" aria-label="補助金コラム一覧ページを開く" className="underline hover:text-gray-600 font-medium">補助金コラム</Link>
           {" "}・{" "}
-          <Link href="/blog/jgrants-hojyokin-ai" className="underline hover:text-gray-600">Jグランツとは</Link>
+          <Link href="/blog/jgrants-hojyokin-ai" aria-label="Jグランツとは何かを解説するページを開く" className="underline hover:text-gray-600">Jグランツとは</Link>
           {" "}・{" "}
-          <Link href="/blog/monodukuri-hojyokin" className="underline hover:text-gray-600">ものづくり補助金の書き方</Link>
+          <Link href="/blog/monodukuri-hojyokin" aria-label="ものづくり補助金の書き方を解説するページを開く" className="underline hover:text-gray-600">ものづくり補助金の書き方</Link>
           {" "}・{" "}
-          <Link href="/blog/hojyokin-shinsei-tetsuzuki" className="underline hover:text-gray-600">補助金申請の流れ</Link>
+          <Link href="/blog/hojyokin-shinsei-tetsuzuki" aria-label="補助金申請の流れを解説するページを開く" className="underline hover:text-gray-600">補助金申請の流れ</Link>
         </p>
         <p>
-          <Link href="/contact" className="underline hover:text-gray-600 font-medium text-amber-600">法人のご相談</Link>
+          <Link href="/contact" aria-label="法人向けご相談ページへ移動する" className="underline hover:text-gray-600 font-medium text-amber-600">法人のご相談</Link>
           {" "}・{" "}
-          <Link href="/legal" className="underline hover:text-gray-600">特定商取引法に基づく表記</Link>
+          <Link href="/legal" aria-label="特定商取引法に基づく表記ページを開く" className="underline hover:text-gray-600">特定商取引法に基づく表記</Link>
           {" "}・{" "}
-          <Link href="/terms" className="underline hover:text-gray-600">利用規約</Link>
+          <Link href="/terms" aria-label="利用規約ページを開く" className="underline hover:text-gray-600">利用規約</Link>
           {" "}・{" "}
-          <Link href="/privacy" className="underline hover:text-gray-600">プライバシーポリシー</Link>
+          <Link href="/privacy" aria-label="プライバシーポリシーページを開く" className="underline hover:text-gray-600">プライバシーポリシー</Link>
         </p>
         <div className="pt-2 border-t border-gray-100">
           <p className="mb-1">ポッコリラボの他のサービス</p>
           <div className="flex flex-wrap justify-center gap-x-4 gap-y-1">
-            <a href="https://claim-ai-beryl.vercel.app" className="hover:text-gray-600">クレームAI</a>
-            <a href="https://keiyakusho-ai.vercel.app" className="hover:text-gray-600">契約書AIレビュー</a>
-            <a href="https://rougo-sim-ai.vercel.app" className="hover:text-gray-600">老後シミュレーターAI</a>
-            <a href="https://keiba-yoso-ai.vercel.app" className="hover:text-gray-600">競馬予想AI</a>
-            <a href="https://ai-keiei-keikaku.vercel.app" className="hover:text-gray-600">AI経営計画書</a>
+            <a href="https://claim-ai-beryl.vercel.app" aria-label="クレームAIサービスを開く（外部サービス）" className="hover:text-gray-600">クレームAI</a>
+            <a href="https://keiyakusho-ai.vercel.app" aria-label="契約書AIレビューサービスを開く（外部サービス）" className="hover:text-gray-600">契約書AIレビュー</a>
+            <a href="https://rougo-sim-ai.vercel.app" aria-label="老後シミュレーターAIサービスを開く（外部サービス）" className="hover:text-gray-600">老後シミュレーターAI</a>
+            <a href="https://keiba-yoso-ai.vercel.app" aria-label="競馬予想AIサービスを開く（外部サービス）" className="hover:text-gray-600">競馬予想AI</a>
+            <a href="https://ai-keiei-keikaku.vercel.app" aria-label="AI経営計画書サービスを開く（外部サービス）" className="hover:text-gray-600">AI経営計画書</a>
           </div>
         </div>
       </footer>

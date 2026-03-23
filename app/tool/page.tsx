@@ -124,6 +124,7 @@ function ScoreCard({ score }: { score: number }) {
               const draftTab = document.querySelector('[data-tab="draft"]') as HTMLButtonElement;
               if (draftTab) draftTab.click();
             }}
+            aria-label="申請書生成タブに移動して改善済みの申請書を再生成する"
             className="mt-2 w-full text-xs bg-amber-500 hover:bg-amber-600 text-white font-bold py-2 rounded-lg transition-colors"
           >
             改善済み申請書を再生成する
@@ -163,7 +164,7 @@ function Paywall({ onClose, onStartPayjp }: { onClose: () => void; onStartPayjp:
           />
         </div>
         <p className="text-xs text-gray-400 mb-3">行政書士に頼むと10〜30万円。AIなら¥1,980で今すぐ。</p>
-        <button onClick={onClose} className="text-xs text-gray-400">閉じる</button>
+        <button onClick={onClose} aria-label="有料プランへの案内を閉じる" className="text-xs text-gray-400">閉じる</button>
       </div>
     </div>
   );
@@ -173,6 +174,7 @@ function CopyButton({ text, label = "コピー" }: { text: string; label?: strin
   const [copied, setCopied] = useState(false);
   return (
     <button onClick={() => { navigator.clipboard.writeText(text); setCopied(true); setTimeout(() => setCopied(false), 2000); }}
+      aria-label={copied ? "コピーしました" : `${label}をクリップボードにコピーする`}
       className="text-xs px-3 py-1 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-600 font-medium transition-colors">
       {copied ? "✓ コピー済み" : label}
     </button>
@@ -199,6 +201,8 @@ function ResultTabs({ parsed }: { parsed: ParsedResult }) {
       <div className="flex gap-1 flex-wrap">
         {parsed.sections.map((s, i) => (
           <button key={i} onClick={() => setActiveTab(i)}
+            aria-label={`${s.title}タブを表示`}
+            aria-pressed={activeTab === i}
             className={`flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${activeTab === i ? "bg-amber-500 text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200"}`}>
             <span>{s.icon}</span><span className="hidden sm:inline">{s.title}</span>
           </button>
@@ -252,11 +256,12 @@ function ResultTabs({ parsed }: { parsed: ParsedResult }) {
             a.click();
             URL.revokeObjectURL(url);
           }}
+          aria-label="診断結果をテキストファイル（TXT）でダウンロードする"
           className="text-xs px-3 py-1 rounded-lg bg-amber-100 hover:bg-amber-200 text-amber-700 font-medium"
         >
           TXTダウンロード
         </button>
-        <button onClick={handlePrint} className="text-xs px-3 py-1 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-600 font-medium">
+        <button onClick={handlePrint} aria-label="診断結果を印刷またはPDFとして保存する" className="text-xs px-3 py-1 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-600 font-medium">
           印刷・PDF保存
         </button>
         <a
@@ -475,6 +480,7 @@ function DraftTab({ isPremium, onShowPaywall }: { isPremium: boolean; onShowPayw
                   <span className="bg-white/20 text-white text-xs px-2 py-0.5 rounded font-medium">{subsidyType}</span>
                 </div>
                 <button onClick={() => { navigator.clipboard.writeText(result); setCopied(true); setTimeout(() => setCopied(false), 2000); }}
+                  aria-label={copied ? "コピーしました" : "申請書の全文をクリップボードにコピーする"}
                   className="text-xs px-3 py-1.5 rounded-lg bg-white/90 text-amber-700 font-bold hover:bg-white transition-colors">
                   {copied ? "✓ コピー済み" : "全文コピー"}
                 </button>
@@ -516,6 +522,7 @@ function DraftTab({ isPremium, onShowPaywall }: { isPremium: boolean; onShowPayw
               <div className="bg-gray-50 px-5 py-3 border-t border-gray-200 flex items-center justify-between">
                 <p className="text-xs text-gray-400">※ AIが生成した参考文章です。実際の申請前に認定支援機関・行政書士に確認してください。</p>
                 <button onClick={() => { navigator.clipboard.writeText(result); setCopied(true); setTimeout(() => setCopied(false), 2000); }}
+                  aria-label={copied ? "コピーしました" : "申請書の全文をクリップボードにコピーする"}
                   className="text-xs px-3 py-1 rounded-lg bg-amber-500 text-white font-medium hover:bg-amber-600 whitespace-nowrap ml-2">
                   {copied ? "✓ コピー済み" : "コピー"}
                 </button>
@@ -596,6 +603,8 @@ function IndustrySubsidyTable() {
               <button
                 type="button"
                 onClick={() => setOpenIdx(isOpen ? null : i)}
+                aria-label={`${row.industry}の主な補助金を${isOpen ? "閉じる" : "表示する"}`}
+                aria-expanded={isOpen}
                 className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors text-left"
               >
                 <span className="text-xl shrink-0">{row.icon}</span>
@@ -711,6 +720,8 @@ function WizardForm({
             <div className="flex gap-3">
               {[{ label: "法人・個人事業主", val: false }, { label: "個人（一般）", val: true }].map(opt => (
                 <button key={opt.label} type="button" onClick={() => setIsIndividual(opt.val)}
+                  aria-label={`事業形態「${opt.label}」を選択`}
+                  aria-pressed={isIndividual === opt.val}
                   className={`flex-1 py-2.5 rounded-lg border text-sm font-medium transition-colors ${isIndividual === opt.val ? "bg-amber-500 text-white border-amber-500" : "bg-white text-gray-700 border-gray-300 hover:border-amber-400"}`}>
                   {opt.label}
                 </button>
@@ -724,6 +735,8 @@ function WizardForm({
                 <div className="flex flex-wrap gap-2">
                   {INDUSTRIES.map(ind => (
                     <button key={ind} type="button" onClick={() => setBusinessType(ind)}
+                      aria-label={`業種「${ind}」を選択`}
+                      aria-pressed={businessType === ind}
                       className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors ${businessType === ind ? "bg-amber-500 text-white border-amber-500" : "bg-white text-gray-600 border-gray-300 hover:border-amber-400"}`}>
                       {ind}
                     </button>
@@ -731,17 +744,20 @@ function WizardForm({
                 </div>
                 <input type="text" value={businessType} onChange={e => setBusinessType(e.target.value)}
                   placeholder="上記にない場合は直接入力"
+                  aria-label="業種を直接入力（上記にない場合）"
                   className="mt-2 w-full border border-gray-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500" />
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">従業員数</label>
                 <input type="number" value={employees} onChange={e => setEmployees(e.target.value)}
                   placeholder="例: 5"
+                  aria-label="従業員数を入力（人数）"
                   className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500" />
               </div>
             </>
           )}
           <button type="button" onClick={() => setStep(2)} disabled={!canNext1}
+            aria-label="ステップ2（所在地）に進む"
             className="w-full bg-amber-500 hover:bg-amber-600 disabled:bg-amber-200 text-white font-bold py-3 rounded-lg transition-colors">
             次へ →
           </button>
@@ -756,16 +772,19 @@ function WizardForm({
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">都道府県</label>
             <select value={prefecture} onChange={e => setPrefecture(e.target.value)}
+              aria-label="事業所在地の都道府県を選択"
               className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500">
               {PREFECTURES.map(p => <option key={p} value={p}>{p}</option>)}
             </select>
           </div>
           <div className="flex gap-3">
             <button type="button" onClick={() => setStep(1)}
+              aria-label="ステップ1（業種・規模）に戻る"
               className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold py-3 rounded-lg transition-colors">
               ← 戻る
             </button>
             <button type="button" onClick={() => setStep(3)} disabled={!canNext2}
+              aria-label="ステップ3（やりたいこと）に進む"
               className="flex-1 bg-amber-500 hover:bg-amber-600 disabled:bg-amber-200 text-white font-bold py-3 rounded-lg transition-colors">
               次へ →
             </button>
@@ -788,6 +807,7 @@ function WizardForm({
             <label className="block text-sm font-medium text-gray-700 mb-1">やりたいこと・補助金の用途 <span className="text-red-500">*</span></label>
             <textarea value={purpose} onChange={e => setPurpose(e.target.value)} rows={6} required
               placeholder={"例:\n・店舗にPOSレジシステムを導入したい\n・設備を新しくして生産性を上げたい\n・省エネ設備に切り替えたい\n・ECサイトを立ち上げたい"}
+              aria-label="補助金で何をしたいか・補助金の用途を入力（必須）"
               className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 resize-none" />
             <p className="text-xs text-gray-400 mt-1">詳しく書くほど精度が上がります（{purpose.length}/1000文字）</p>
           </div>
@@ -796,6 +816,7 @@ function WizardForm({
           </div>
           <div className="flex gap-3">
             <button type="button" onClick={() => setStep(2)}
+              aria-label="ステップ2（所在地）に戻る"
               className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold py-3 rounded-lg transition-colors">
               ← 戻る
             </button>
@@ -919,7 +940,7 @@ function HojyokinChecklistTab() {
               <ul className="divide-y divide-gray-100">
                 {phase.items.map(item => (
                   <li key={item.id}>
-                    <button onClick={() => toggle(item.id)} className="w-full flex items-start gap-3 px-4 py-3 hover:bg-gray-50 transition-colors text-left">
+                    <button onClick={() => toggle(item.id)} aria-label={`${item.text}を${checked[item.id] ? "未完了に戻す" : "完了にチェックする"}`} aria-pressed={!!checked[item.id]} className="w-full flex items-start gap-3 px-4 py-3 hover:bg-gray-50 transition-colors text-left">
                       <span className={`mt-0.5 w-5 h-5 rounded border-2 flex items-center justify-center shrink-0 transition-colors ${checked[item.id] ? "border-amber-500 bg-amber-500" : "border-gray-300"}`}>
                         {checked[item.id] && <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>}
                       </span>
@@ -932,7 +953,7 @@ function HojyokinChecklistTab() {
           );
         })}
       </div>
-      <button onClick={() => { setChecked({}); localStorage.removeItem(HOJYOKIN_CHECKLIST_KEY); }} className="mt-4 text-xs text-gray-400 hover:text-gray-600 w-full text-center">チェックをリセット</button>
+      <button onClick={() => { setChecked({}); localStorage.removeItem(HOJYOKIN_CHECKLIST_KEY); }} aria-label="補助金申請チェックリストのすべてのチェックをリセットする" className="mt-4 text-xs text-gray-400 hover:text-gray-600 w-full text-center">チェックをリセット</button>
       {/* freee アフィリ */}
       <div className="mt-6 bg-amber-50 border border-amber-200 rounded-xl p-4">
         <p className="text-sm font-bold text-amber-800 mb-1">事業計画書・決算書の作成に</p>
@@ -1011,6 +1032,7 @@ function ScheduleTab() {
             value={name}
             onChange={e => setName(e.target.value)}
             placeholder="補助金名（例: ものづくり補助金）"
+            aria-label="申請予定の補助金名を入力"
             className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500"
           />
           <div className="flex gap-2">
@@ -1020,12 +1042,14 @@ function ScheduleTab() {
                 type="date"
                 value={deadline}
                 onChange={e => setDeadline(e.target.value)}
+                aria-label="補助金の申請期限日を選択（任意）"
                 className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500"
               />
             </div>
             <button
               onClick={addItem}
               disabled={!name.trim()}
+              aria-label="申請予定の補助金をスケジュールに追加する"
               className="self-end bg-amber-500 hover:bg-amber-600 disabled:bg-amber-200 text-white font-bold px-4 py-2 rounded-lg text-sm transition-colors"
             >
               追加
@@ -1058,6 +1082,8 @@ function ScheduleTab() {
                 <button
                   type="button"
                   onClick={() => setOpenId(isOpen ? null : item.id)}
+                  aria-label={`補助金「${item.name}」の詳細を${isOpen ? "閉じる" : "表示する"}`}
+                  aria-expanded={isOpen}
                   className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors text-left"
                 >
                   <span className={`text-xs font-bold px-2 py-0.5 rounded-full shrink-0 ${STATUS_COLORS[item.status]}`}>{item.status}</span>
@@ -1075,12 +1101,14 @@ function ScheduleTab() {
                     <div className="flex gap-2 flex-wrap">
                       <button
                         onClick={() => cycleStatus(item.id)}
+                        aria-label={`「${item.name}」のステータスを「${STATUS_CYCLE[(STATUS_CYCLE.indexOf(item.status) + 1) % STATUS_CYCLE.length]}」に変更する`}
                         className="text-xs px-3 py-1.5 rounded-lg bg-amber-100 text-amber-700 font-bold hover:bg-amber-200 transition-colors"
                       >
                         ステータスを変更 → {STATUS_CYCLE[(STATUS_CYCLE.indexOf(item.status) + 1) % STATUS_CYCLE.length]}
                       </button>
                       <button
                         onClick={() => removeItem(item.id)}
+                        aria-label={`「${item.name}」をスケジュールから削除する`}
                         className="text-xs px-3 py-1.5 rounded-lg bg-red-50 text-red-500 hover:bg-red-100 transition-colors"
                       >
                         削除
@@ -1102,6 +1130,7 @@ function ScheduleTab() {
             <button
               key={n}
               onClick={() => setName(n)}
+              aria-label={`「${n}」を補助金名として入力する`}
               className="text-xs px-2 py-1 rounded-lg bg-white border border-amber-300 text-amber-700 hover:bg-amber-100 transition-colors"
             >
               {n}
@@ -1158,6 +1187,7 @@ function RoiCalculator() {
             </div>
             <input type="range" min={1} max={100} step={1} value={employees}
               onChange={e => setEmployees(Number(e.target.value))}
+              aria-label={`対象従業員数: ${employees}名（1〜100名で調整）`}
               className="w-full h-2 bg-gray-200 rounded-full appearance-none cursor-pointer accent-amber-500" />
             <div className="flex justify-between text-xs text-gray-400 mt-1"><span>1名</span><span>100名</span></div>
           </div>
@@ -1168,6 +1198,7 @@ function RoiCalculator() {
             </div>
             <input type="range" min={1000} max={5000} step={100} value={hourlyWage}
               onChange={e => setHourlyWage(Number(e.target.value))}
+              aria-label={`1人あたりの時給: ${hourlyWage.toLocaleString()}円（1,000〜5,000円で調整）`}
               className="w-full h-2 bg-gray-200 rounded-full appearance-none cursor-pointer accent-amber-500" />
             <div className="flex justify-between text-xs text-gray-400 mt-1"><span>1,000円</span><span>5,000円</span></div>
           </div>
@@ -1178,6 +1209,7 @@ function RoiCalculator() {
             </div>
             <input type="range" min={1} max={80} step={1} value={manualHours}
               onChange={e => setManualHours(Number(e.target.value))}
+              aria-label={`1人あたりの月間削減工数: ${manualHours}時間/月（1〜80時間で調整）`}
               className="w-full h-2 bg-gray-200 rounded-full appearance-none cursor-pointer accent-amber-500" />
             <div className="flex justify-between text-xs text-gray-400 mt-1"><span>1時間</span><span>80時間</span></div>
           </div>
@@ -1188,6 +1220,7 @@ function RoiCalculator() {
             </div>
             <input type="range" min={50} max={3000} step={50} value={systemCost}
               onChange={e => setSystemCost(Number(e.target.value))}
+              aria-label={`投資総額: ${systemCost}万円（50〜3,000万円で調整）`}
               className="w-full h-2 bg-gray-200 rounded-full appearance-none cursor-pointer accent-amber-500" />
             <div className="flex justify-between text-xs text-gray-400 mt-1"><span>50万円</span><span>3,000万円</span></div>
           </div>
@@ -1198,11 +1231,13 @@ function RoiCalculator() {
             </div>
             <input type="range" min={0} max={2000} step={50} value={subsidyAmount}
               onChange={e => setSubsidyAmount(Number(e.target.value))}
+              aria-label={`見込み補助金額: ${subsidyAmount}万円（0〜2,000万円で調整）`}
               className="w-full h-2 bg-gray-200 rounded-full appearance-none cursor-pointer accent-green-500" />
             <div className="flex justify-between text-xs text-gray-400 mt-1"><span>0万円</span><span>2,000万円</span></div>
           </div>
         </div>
         <button onClick={() => setShowResult(true)}
+          aria-label="入力した数値でROI（投資対効果）を計算する"
           className="w-full bg-amber-500 hover:bg-amber-600 text-white font-bold py-3 rounded-xl transition-colors">
           ROIを計算する
         </button>
@@ -1248,6 +1283,7 @@ function RoiCalculator() {
 ・5年間の純利益効果: ${netBenefit5y.toLocaleString()}万円`}</div>
             <button
               onClick={() => navigator.clipboard.writeText(`【期待される効果】\n・年間削減工数: ${annualHoursSaved.toLocaleString()}時間（${employees}名×${manualHours}時間/月×12ヶ月）\n・年間コスト削減額: ${annualCostSaving.toLocaleString()}万円（時給${hourlyWage.toLocaleString()}円換算）\n・投資回収期間: ${paybackYears}年（補助金活用後 自己負担${selfCost.toLocaleString()}万円）\n・5年間の純利益効果: ${netBenefit5y.toLocaleString()}万円`)}
+              aria-label="ROI試算結果を申請書用テキストとしてクリップボードにコピーする"
               className="mt-2 text-xs px-3 py-1.5 bg-amber-500 text-white rounded-lg font-bold hover:bg-amber-600 transition-colors"
             >
               申請書用にコピーする
@@ -1256,6 +1292,7 @@ function RoiCalculator() {
           <a
             href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`補助金AIでROI試算してみた！年間コスト削減: ${annualCostSaving.toLocaleString()}万円 / 投資回収期間: ${paybackYears}年 / 5年間ROI: ${roi}% → https://hojyokin-ai-delta.vercel.app #補助金 #中小企業DX`)}`}
             target="_blank" rel="noopener noreferrer"
+            aria-label="ROI試算結果をXでシェアする"
             className="flex items-center justify-center gap-2 bg-black hover:bg-gray-800 text-white font-bold py-2 px-4 rounded-lg text-sm transition-colors w-full"
           >
             <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.259 5.63zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
@@ -1295,6 +1332,8 @@ function DiagnosisHistoryPanel() {
       <button
         type="button"
         onClick={() => setOpen(o => !o)}
+        aria-label={`過去の診断履歴を${open ? "閉じる" : "表示する"}`}
+        aria-expanded={open}
         className="w-full flex items-center justify-between px-4 py-3 hover:bg-amber-50 transition-colors text-left"
       >
         <span className="text-sm font-bold text-amber-800">過去の診断履歴（直近{history.length}件）</span>
@@ -1409,7 +1448,7 @@ export default function HojyokinTool() {
       {showPayjp && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-4">
           <div className="backdrop-blur-sm bg-white/90 rounded-2xl p-6 max-w-sm w-full shadow-xl relative">
-            <button onClick={() => setShowPayjp(false)} className="absolute top-3 right-3 text-gray-400 text-xl">✕</button>
+            <button onClick={() => setShowPayjp(false)} aria-label="プラン登録モーダルを閉じる" className="absolute top-3 right-3 text-gray-400 text-xl">✕</button>
             <h2 className="text-lg font-bold mb-4 text-center">プランに登録</h2>
             <KomojuButton planId="business" planLabel={payjpPlan === "once" ? "スタンダード ¥1,980を始める" : "ビジネス ¥4,980/月を始める"} className="w-full bg-amber-500 text-white font-bold py-3 rounded-xl hover:bg-amber-600 disabled:opacity-50" />
           </div>
@@ -1540,6 +1579,7 @@ export default function HojyokinTool() {
                   <p className="text-sm font-bold text-green-800 mb-1">融資申請・投資家向けの経営計画書も作れます</p>
                   <p className="text-xs text-green-600 mb-3">SWOT分析・収支計画・投資家ピッチまで5分でAI自動作成</p>
                   <a href="https://ai-keiei-keikaku.vercel.app" target="_blank" rel="noopener noreferrer"
+                    aria-label="AI経営計画書ツールで経営計画書を作成する（外部サービス）"
                     className="inline-block bg-green-600 text-white text-sm font-bold px-4 py-2 rounded-lg hover:bg-green-700">
                     AI経営計画書を作成 →
                   </a>
@@ -1573,6 +1613,7 @@ export default function HojyokinTool() {
           <p className="text-xs text-green-700 mb-4">AIの申請書を専門家がブラッシュアップ。採択率が大幅にUPします。</p>
           <div className="grid grid-cols-1 gap-3">
             <a href="https://px.a8.net/svt/ejp?a8mat=4AZIOF+3LSINM+3SPO+9FDPYR" target="_blank" rel="noopener noreferrer sponsored"
+              aria-label="freee会計で補助金申請の財務書類を作成する（外部サイト・PR）"
               className="flex items-center justify-between bg-white border border-green-300 rounded-xl px-4 py-3 hover:bg-green-50 transition-colors">
               <div>
                 <div className="text-sm font-bold text-slate-800">freee会計 — 補助金申請の財務書類作成</div>
@@ -1581,6 +1622,7 @@ export default function HojyokinTool() {
               <span className="text-green-600 font-bold text-xs bg-green-100 px-2 py-1 rounded-full">無料で試す →</span>
             </a>
             <a href="https://biz.moneyforward.com/" target="_blank" rel="noopener noreferrer sponsored"
+              aria-label="マネーフォワード クラウドで補助金申請に必要な試算表を出力する（外部サイト・PR）"
               className="flex items-center justify-between bg-white border border-green-300 rounded-xl px-4 py-3 hover:bg-green-50 transition-colors">
               <div>
                 <div className="text-sm font-bold text-slate-800">マネーフォワード クラウド — 中小企業向け</div>
@@ -1594,8 +1636,8 @@ export default function HojyokinTool() {
       </div>
 
       <footer className="text-center py-6 text-xs text-gray-400 border-t mt-4 space-x-4">
-        <a href="/legal" className="hover:text-gray-600">特定商取引法に基づく表記</a>
-        <a href="/privacy" className="hover:text-gray-600">プライバシーポリシー</a>
+        <a href="/legal" aria-label="特定商取引法に基づく表記ページを開く" className="hover:text-gray-600">特定商取引法に基づく表記</a>
+        <a href="/privacy" aria-label="プライバシーポリシーページを開く" className="hover:text-gray-600">プライバシーポリシー</a>
         <p className="mt-2 text-gray-300">本サービスはAI生成情報を提供します。採択を保証するものではありません。専門家（行政書士・中小企業診断士）への相談を推奨します。</p>
       </footer>
     </main>
