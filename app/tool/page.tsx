@@ -137,7 +137,7 @@ function ScoreCard({ score }: { score: number }) {
 function Paywall({ onClose, onStartPayjp }: { onClose: () => void; onStartPayjp: (plan: string) => void }) {
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-4">
-      <div className="bg-white rounded-2xl p-6 max-w-sm w-full shadow-xl text-center">
+      <div className="backdrop-blur-sm bg-white/90 rounded-2xl p-6 max-w-sm w-full shadow-xl text-center">
         <div className="flex justify-center mb-3"><svg viewBox="0 0 48 48" width="48" height="48" className="text-amber-500" aria-hidden="true"><rect x="4" y="10" width="40" height="28" rx="5" fill="currentColor"/><rect x="12" y="20" width="24" height="4" rx="2" fill="white"/><rect x="12" y="28" width="14" height="4" rx="2" fill="white"/></svg></div>
         <h2 className="text-lg font-bold mb-2">無料診断回数を使い切りました</h2>
         <p className="text-sm text-gray-500 mb-1">事業計画書の参考文・要件チェックをAIが提案</p>
@@ -455,7 +455,7 @@ function DraftTab({ isPremium, onShowPaywall }: { isPremium: boolean; onShowPayw
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-2">生成された申請書文章</label>
         {loading ? (
-          <div className="bg-white border border-gray-200 rounded-xl flex items-center justify-center min-h-[360px]">
+          <div className="backdrop-blur-sm bg-white/90 border border-white/20 rounded-xl flex items-center justify-center min-h-[360px]">
             <div className="text-center">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-amber-500 mx-auto mb-3" />
               <p className="text-sm text-gray-500">申請書の文章を作成しています...</p>
@@ -523,10 +523,10 @@ function DraftTab({ isPremium, onShowPaywall }: { isPremium: boolean; onShowPayw
             </div>
           </div>
         ) : (
-          <div className="bg-white border border-gray-200 rounded-xl flex flex-col items-center justify-center min-h-[360px] gap-3">
+          <div className="backdrop-blur-sm bg-white/90 border border-white/20 rounded-xl flex flex-col items-center justify-center min-h-[360px] gap-3">
             <svg viewBox="0 0 48 48" width="40" height="40" className="text-amber-300" aria-hidden="true"><path d="M28 4H12a4 4 0 00-4 4v32a4 4 0 004 4h24a4 4 0 004-4V20z" fill="none" stroke="currentColor" strokeWidth="3"/><polyline points="28 4 28 20 44 20" fill="none" stroke="currentColor" strokeWidth="3"/><line x1="32" y1="28" x2="16" y2="28" stroke="currentColor" strokeWidth="2.5"/><line x1="32" y1="34" x2="16" y2="34" stroke="currentColor" strokeWidth="2.5"/></svg>
             <p className="text-sm text-center text-gray-500">左のフォームを入力して<br />「申請書の文章を生成する」を押してください</p>
-            <div className="bg-gray-50 rounded-lg p-4 text-xs space-y-1.5 w-full max-w-[260px]">
+            <div className="backdrop-blur-sm bg-white/80 rounded-lg p-4 text-xs space-y-1.5 w-full max-w-[260px]">
               <p className="font-semibold text-gray-600">生成される内容：</p>
               <p className="text-gray-500">① 事業概要・現状の課題（300〜500字）</p>
               <p className="text-gray-500">② 補助事業の実施内容（300〜500字）</p>
@@ -1054,7 +1054,7 @@ function ScheduleTab() {
           {items.map(item => {
             const isOpen = openId === item.id;
             return (
-              <div key={item.id} className="bg-white border border-gray-200 rounded-xl overflow-hidden">
+              <div key={item.id} className="backdrop-blur-sm bg-white/90 border border-white/20 rounded-xl overflow-hidden">
                 <button
                   type="button"
                   onClick={() => setOpenId(isOpen ? null : item.id)}
@@ -1408,7 +1408,7 @@ export default function HojyokinTool() {
       {showPaywall && <Paywall onClose={() => setShowPaywall(false)} onStartPayjp={(plan) => { setPayjpPlan(plan); setShowPaywall(false); setShowPayjp(true); }} />}
       {showPayjp && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-4">
-          <div className="bg-white rounded-2xl p-6 max-w-sm w-full shadow-xl relative">
+          <div className="backdrop-blur-sm bg-white/90 rounded-2xl p-6 max-w-sm w-full shadow-xl relative">
             <button onClick={() => setShowPayjp(false)} className="absolute top-3 right-3 text-gray-400 text-xl">✕</button>
             <h2 className="text-lg font-bold mb-4 text-center">プランに登録</h2>
             <KomojuButton planId="business" planLabel={payjpPlan === "once" ? "スタンダード ¥1,980を始める" : "ビジネス ¥4,980/月を始める"} className="w-full bg-amber-500 text-white font-bold py-3 rounded-xl hover:bg-amber-600 disabled:opacity-50" />
@@ -1549,7 +1549,7 @@ export default function HojyokinTool() {
               <div className="flex-1 backdrop-blur-sm bg-white/80 border border-white/20 shadow-lg rounded-2xl flex flex-col items-center justify-center min-h-[420px] gap-3">
                 <svg viewBox="0 0 48 48" width="48" height="48" className="text-amber-400 mb-1" aria-hidden="true"><rect x="4" y="10" width="40" height="28" rx="5" fill="currentColor"/><rect x="12" y="20" width="24" height="4" rx="2" fill="white"/><rect x="12" y="28" width="14" height="4" rx="2" fill="white"/></svg>
                 <p className="text-sm text-center font-medium text-gray-500">情報を入力して<br />「補助金を診断する」を押してください</p>
-                <div className="bg-gray-50 rounded-lg p-4 text-xs space-y-2 w-full max-w-[260px]">
+                <div className="backdrop-blur-sm bg-white/80 rounded-lg p-4 text-xs space-y-2 w-full max-w-[260px]">
                   <p className="font-semibold text-gray-600">生成される内容：</p>
                   <p className="text-gray-500">AI採択可能性スコア（100点満点）</p>
                   <p className="text-gray-500">申請可能な補助金（優先度順5件）</p>
