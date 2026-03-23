@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import KomojuButton from "@/components/KomojuButton";
 import { track } from '@vercel/analytics';
@@ -10,6 +10,51 @@ const PREFECTURES = ["北海道","青森","岩手","宮城","秋田","山形","�
 
 type Section = { title: string; icon: string; content: string };
 type ParsedResult = { sections: Section[]; raw: string; score: number | null };
+
+// StreamingWordReveal: ストリーミング中のテキストを単語単位でフェードイン表示
+function StreamingWordReveal({ text, className = "" }: { text: string; className?: string }) {
+  const [revealedText, setRevealedText] = useState("");
+  const [pendingWords, setPendingWords] = useState<string[]>([]);
+  const prevLengthRef = useRef(0);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    if (text.length > prevLengthRef.current) {
+      const newChunk = text.slice(prevLengthRef.current);
+      prevLengthRef.current = text.length;
+      const words = newChunk.split(/(\s+)/).filter(w => w.length > 0);
+      setPendingWords(prev => [...prev, ...words]);
+    }
+  }, [text]);
+
+  useEffect(() => {
+    if (pendingWords.length === 0) return;
+    if (timerRef.current) return;
+    timerRef.current = setTimeout(() => {
+      timerRef.current = null;
+      setPendingWords(prev => {
+        if (prev.length === 0) return prev;
+        setRevealedText(rt => rt + prev[0]);
+        return prev.slice(1);
+      });
+    }, 15);
+    return () => {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+        timerRef.current = null;
+      }
+    };
+  }, [pendingWords]);
+
+  return (
+    <span className={className}>
+      <span>{revealedText}</span>
+      {pendingWords.length > 0 && (
+        <span className="animate-pulse opacity-50">{pendingWords[0]}</span>
+      )}
+    </span>
+  );
+}
 
 function extractScore(text: string): number | null {
   const m = text.match(/===SCORE===\s*(\d+)/);
@@ -1438,13 +1483,23 @@ export default function HojyokinTool() {
               </div>
             </div>
 
-            {loading ? (
+            {loading && !parsed ? (
               <div className="flex-1 bg-white border border-gray-200 rounded-xl flex items-center justify-center min-h-[420px]">
                 <div className="text-center">
                   <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-amber-500 mx-auto mb-3" />
                   <p className="text-sm text-gray-500 font-medium">AIが補助金を診断しています...</p>
                   <p className="text-xs text-gray-400 mt-2">採択可能性スコア算出 → 申請書ドラフト → チェックリスト</p>
                   <p className="text-xs text-gray-300 mt-1">通常20〜30秒かかります</p>
+                </div>
+              </div>
+            ) : loading && parsed ? (
+              <div className="flex-1 bg-white border border-gray-200 rounded-xl p-4 min-h-[420px]">
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-amber-500" />
+                  <span className="text-xs text-gray-500">AIが診断結果を生成中...</span>
+                </div>
+                <div className="text-sm text-gray-700 leading-relaxed whitespace-pre-wrap">
+                  <StreamingWordReveal text={parsed.raw} />
                 </div>
               </div>
             ) : parsed ? (
