@@ -204,7 +204,7 @@ function ResultTabs({ parsed }: { parsed: ParsedResult }) {
           </button>
         ))}
       </div>
-      <div className="bg-white border border-gray-200 rounded-xl p-4 min-h-[360px]">
+      <div className="backdrop-blur-sm bg-white/90 border border-white/30 shadow-lg rounded-2xl p-4 min-h-[360px]">
         <div className="flex items-center justify-between mb-3">
           <span className="text-sm font-semibold text-gray-700">{section.icon} {section.title}</span>
           <CopyButton text={section.content} />
@@ -582,8 +582,8 @@ const COLOR_MAP: Record<string, { bg: string; border: string; badge: string; tex
 function IndustrySubsidyTable() {
   const [openIdx, setOpenIdx] = useState<number | null>(null);
   return (
-    <div className="mt-6 bg-white border border-gray-200 rounded-xl overflow-hidden">
-      <div className="px-4 py-3 border-b border-gray-100 bg-amber-50">
+    <div className="mt-6 backdrop-blur-sm bg-white/80 border border-white/20 shadow-lg rounded-2xl overflow-hidden">
+      <div className="px-4 py-3 border-b border-white/20 bg-amber-50/80">
         <p className="text-sm font-bold text-amber-800">業種別よくある補助金</p>
         <p className="text-xs text-amber-600 mt-0.5">タップして詳細を確認できます</p>
       </div>
@@ -890,7 +890,7 @@ function HojyokinChecklistTab() {
       <h2 className="text-xl font-bold text-gray-900 mb-2">補助金申請 準備チェックリスト</h2>
       <p className="text-sm text-gray-500 mb-4">申請前に必要な準備が揃っているか確認しましょう。チェックした内容は自動保存されます。</p>
       {/* 進捗バー */}
-      <div className="bg-white border border-gray-200 rounded-xl p-4 mb-6">
+      <div className="backdrop-blur-sm bg-white/80 border border-white/20 shadow-lg rounded-2xl p-4 mb-6">
         <div className="flex items-center justify-between mb-2">
           <span className="text-sm font-bold text-gray-700">申請準備の進捗</span>
           <span className="text-sm font-black text-amber-600">{done}/{total} 完了</span>
@@ -911,7 +911,7 @@ function HojyokinChecklistTab() {
           const phaseDone = phase.items.filter(i => checked[i.id]).length;
           const phaseColor = colorMap[phase.color] ?? "#6b7280";
           return (
-            <div key={phase.phase} className="bg-white border border-gray-200 rounded-xl overflow-hidden">
+            <div key={phase.phase} className="backdrop-blur-sm bg-white/80 border border-white/20 shadow-lg rounded-2xl overflow-hidden">
               <div className="px-4 py-3 flex items-center justify-between" style={{ borderLeft: `4px solid ${phaseColor}` }}>
                 <span className="font-bold text-gray-800 text-sm">{phase.phase}</span>
                 <span className="text-xs font-bold" style={{ color: phaseColor }}>{phaseDone}/{phase.items.length}</span>
@@ -1003,7 +1003,7 @@ function ScheduleTab() {
       <p className="text-sm text-gray-500 mb-5">申請予定の補助金を登録して、ステータスを管理しましょう。</p>
 
       {/* 追加フォーム */}
-      <div className="bg-white border border-gray-200 rounded-xl p-4 mb-5">
+      <div className="backdrop-blur-sm bg-white/80 border border-white/20 shadow-lg rounded-2xl p-4 mb-5">
         <p className="text-sm font-bold text-gray-700 mb-3">＋ 申請予定を追加する</p>
         <div className="flex flex-col gap-2">
           <input
@@ -1146,7 +1146,7 @@ function RoiCalculator() {
   const adoption = adoptionLevels[adoptionIdx];
 
   return (
-    <div className="bg-white rounded-2xl p-6 shadow-sm">
+    <div className="backdrop-blur-sm bg-white/80 border border-white/20 shadow-lg rounded-2xl p-6">
       <h2 className="text-xl font-bold text-gray-900 mb-1">補助金活用ROI・生産性向上試算</h2>
       <p className="text-sm text-gray-500 mb-6">ITツール・設備投資の費用対効果と補助金活用後の投資回収期間を計算します</p>
       <div className="space-y-6">
@@ -1239,7 +1239,7 @@ function RoiCalculator() {
               {adoptionIdx === 2 && "投資回収5年超は審査で不利になることがあります。コスト削減効果以外の売上向上・品質改善などの効果も加算してください。"}
             </p>
           </div>
-          <div className="bg-white border border-gray-200 rounded-xl p-4">
+          <div className="backdrop-blur-sm bg-white/90 border border-white/30 shadow-lg rounded-2xl p-4">
             <p className="text-sm font-bold text-gray-800 mb-2">この数値を申請書に使う方法</p>
             <div className="bg-gray-50 rounded-lg p-3 text-xs text-gray-700 font-mono whitespace-pre-line">{`【期待される効果】
 ・年間削減工数: ${annualHoursSaved.toLocaleString()}時間（${employees}名×${manualHours}時間/月×12ヶ月）
@@ -1514,7 +1514,7 @@ export default function HojyokinTool() {
             </div>
 
             {loading && !parsed ? (
-              <div className="flex-1 bg-white border border-gray-200 rounded-xl flex items-center justify-center min-h-[420px]">
+              <div className="flex-1 backdrop-blur-sm bg-white/90 border border-white/30 shadow-lg rounded-2xl flex items-center justify-center min-h-[420px]">
                 <div className="text-center">
                   <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-amber-500 mx-auto mb-3" />
                   <p className="text-sm text-gray-500 font-medium">AIが補助金を診断しています...</p>
@@ -1523,7 +1523,7 @@ export default function HojyokinTool() {
                 </div>
               </div>
             ) : loading && parsed ? (
-              <div className="flex-1 bg-white border border-gray-200 rounded-xl p-4 min-h-[420px]">
+              <div className="flex-1 backdrop-blur-sm bg-white/90 border border-white/30 shadow-lg rounded-2xl p-4 min-h-[420px]">
                 <div className="flex items-center gap-2 mb-3">
                   <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-amber-500" />
                   <span className="text-xs text-gray-500">AIが診断結果を生成中...</span>
@@ -1546,7 +1546,7 @@ export default function HojyokinTool() {
                 </div>
               </>
             ) : (
-              <div className="flex-1 bg-white border border-gray-200 rounded-xl flex flex-col items-center justify-center min-h-[420px] gap-3">
+              <div className="flex-1 backdrop-blur-sm bg-white/80 border border-white/20 shadow-lg rounded-2xl flex flex-col items-center justify-center min-h-[420px] gap-3">
                 <svg viewBox="0 0 48 48" width="48" height="48" className="text-amber-400 mb-1" aria-hidden="true"><rect x="4" y="10" width="40" height="28" rx="5" fill="currentColor"/><rect x="12" y="20" width="24" height="4" rx="2" fill="white"/><rect x="12" y="28" width="14" height="4" rx="2" fill="white"/></svg>
                 <p className="text-sm text-center font-medium text-gray-500">情報を入力して<br />「補助金を診断する」を押してください</p>
                 <div className="bg-gray-50 rounded-lg p-4 text-xs space-y-2 w-full max-w-[260px]">
