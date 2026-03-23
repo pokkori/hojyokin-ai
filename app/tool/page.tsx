@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import KomojuButton from "@/components/KomojuButton";
 import { track } from '@vercel/analytics';
+import { updateStreak, loadStreak, getStreakMilestoneMessage, type StreakData } from "@/lib/streak";
 
 const FREE_LIMIT = 3;
 const KEY = "hojyokin_count";
@@ -1333,8 +1334,12 @@ export default function HojyokinTool() {
   const [completionVisible, setCompletionVisible] = useState(false);
   const [adoptionScore, setAdoptionScore] = useState<number | null>(null);
   const [lastDiagnosisData, setLastDiagnosisData] = useState<{ industry: string; purpose: string } | null>(null);
+  const [streakData, setStreakData] = useState<StreakData>({ count: 0, lastPlayDate: "", shieldCount: 1, longestStreak: 0, totalDays: 0 });
 
-  useEffect(() => { setCount(parseInt(localStorage.getItem(KEY) || "0")); }, []);
+  useEffect(() => {
+    setCount(parseInt(localStorage.getItem(KEY) || "0"));
+    setStreakData(loadStreak("hojyokin"));
+  }, []);
   const isLimit = count >= FREE_LIMIT;
 
   const handleSubmit = async (data: { isIndividual: boolean; businessType: string; employees: string; prefecture: string; purpose: string }) => {
@@ -1391,6 +1396,9 @@ export default function HojyokinTool() {
           localStorage.setItem(HISTORY_KEY, JSON.stringify(next));
         } catch { /* ignore */ }
       }
+      // ストリーク更新
+      const newStreak = updateStreak("hojyokin");
+      setStreakData(newStreak);
     } catch { setError("通信エラーが発生しました。インターネット接続を確認してください。"); }
     finally { setLoading(false); }
   };
@@ -1413,9 +1421,27 @@ export default function HojyokinTool() {
             <svg viewBox="0 0 24 24" width="20" height="20" className="text-amber-500" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2.5" fill="currentColor"/><rect x="6" y="10" width="12" height="2" rx="1" fill="white"/><rect x="6" y="14" width="7" height="2" rx="1" fill="white"/></svg>
             AI補助金診断
           </Link>
-          <span className={`text-xs px-3 py-1 rounded-full ${isLimit ? "bg-red-100 text-red-600" : "bg-amber-100 text-amber-600"}`}>
-            {isLimit ? "無料枠終了" : `無料あと${FREE_LIMIT - count}回`}
-          </span>
+          <div className="flex items-center gap-2">
+            {streakData.count >= 1 && (
+              <div
+                aria-label={`${streakData.count}日連続利用中`}
+                className="flex items-center gap-1 bg-amber-50 border border-amber-200 rounded-full px-3 py-1"
+              >
+                <span aria-hidden="true" className="text-amber-500 text-xs font-black">
+                  {streakData.count >= 7 ? "★" : streakData.count >= 3 ? "▲" : "●"}
+                </span>
+                <span className="text-amber-700 text-xs font-bold">{streakData.count}日連続利用中</span>
+                {getStreakMilestoneMessage(streakData.count) && (
+                  <span className="text-amber-600 text-xs hidden sm:inline">
+                    {getStreakMilestoneMessage(streakData.count)}
+                  </span>
+                )}
+              </div>
+            )}
+            <span className={`text-xs px-3 py-1 rounded-full ${isLimit ? "bg-red-100 text-red-600" : "bg-amber-100 text-amber-600"}`}>
+              {isLimit ? "無料枠終了" : `無料あと${FREE_LIMIT - count}回`}
+            </span>
+          </div>
         </div>
       </nav>
 
