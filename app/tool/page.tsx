@@ -265,7 +265,7 @@ function ResultTabs({ parsed }: { parsed: ParsedResult }) {
           印刷・PDF保存
         </button>
         <a
-          href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`補助金AIで申請可能性を診断しました！\n\n#補助金 #中小企業 #補助金AI\nhttps://hojyokin-ai.vercel.app`)}`}
+          href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`補助金AIで申請可能性を診断しました！\n\n#補助金 #中小企業 #補助金AI\nhttps://hojyokin-ai-delta.vercel.app`)}`}
           target="_blank"
           rel="noopener noreferrer"
           aria-label="診断結果をXでシェアする"
@@ -300,7 +300,7 @@ function ResultTabs({ parsed }: { parsed: ParsedResult }) {
         <p className="text-sm font-bold text-amber-800 mb-1">採択が決まったらシェアしよう</p>
         <p className="text-xs text-amber-600 mb-3">採択通知が届いたら、ぜひ同じ悩みを持つ経営者に教えてあげてください！</p>
         <a
-          href={`https://twitter.com/intent/tweet?text=${encodeURIComponent("「補助金に採択されました！AI補助金診断で申請書の骨格を作り、費用ほぼゼロで通った → https://hojyokin-ai.vercel.app #補助金採択 #中小企業 #DX")}`}
+          href={`https://twitter.com/intent/tweet?text=${encodeURIComponent("「補助金に採択されました！AI補助金診断で申請書の骨格を作り、費用ほぼゼロで通った → https://hojyokin-ai-delta.vercel.app #補助金採択 #中小企業 #DX")}`}
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-white font-bold px-5 py-2 rounded-lg text-sm transition-colors"
