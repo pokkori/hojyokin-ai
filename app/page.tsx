@@ -94,7 +94,7 @@ function AdoptionSelfCheck() {
 
   const q = questions[step];
   return (
-    <div className="bg-white border-2 border-amber-200 rounded-2xl p-6">
+    <div className="rounded-2xl p-6" style={{ background: 'rgba(255,255,255,0.90)', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)', border: '2px solid rgba(253,230,138,0.75)' }}>
       <div className="flex items-center gap-2 mb-4">
         <div className="flex gap-1">
           {questions.map((_, i) => (
@@ -491,13 +491,13 @@ export default function HojyokinLP() {
               "「事業計画書って何をどう書けばいいか全くイメージが湧かない」",
               "「申請要件を満たしているか自己判断できず、結局申請しないまま締め切りが過ぎた」",
             ].map((v, i) => (
-              <div key={i} className="flex items-start gap-3 bg-red-50 border border-red-100 rounded-xl px-5 py-4">
+              <div key={i} className="flex items-start gap-3 rounded-xl px-5 py-4" style={{ background: 'rgba(254,242,242,0.80)', backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)', border: '1px solid rgba(254,202,202,0.70)' }}>
                 <span className="text-red-400 font-bold text-lg mt-0.5 shrink-0">✗</span>
                 <p className="text-sm text-gray-700 leading-relaxed">{v}</p>
               </div>
             ))}
           </div>
-          <div className="mt-8 bg-amber-50 border border-amber-200 rounded-xl p-6 text-center">
+          <div className="mt-8 rounded-xl p-6 text-center" style={{ background: 'rgba(255,251,235,0.82)', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)', border: '1px solid rgba(253,230,138,0.70)' }}>
             <p className="text-amber-800 font-bold text-base mb-2">AI補助金診断が、これら全てを解決します</p>
             <p className="text-sm text-amber-700">業種・規模・目的を入力するだけで、適合補助金ランキング＋申請書ドラフトが自動生成されます。</p>
             <Link
@@ -581,7 +581,7 @@ export default function HojyokinLP() {
                 doc: "経営計画書・補助事業計画書",
               },
             ].map(item => (
-              <div key={item.name} className="bg-gray-50 rounded-2xl border border-gray-200 p-5">
+              <div key={item.name} className="rounded-2xl p-5" style={{ background: 'rgba(249,250,251,0.85)', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)', border: '1px solid rgba(229,231,235,0.75)' }}>
                 <div className="inline-block bg-amber-100 text-amber-700 text-xs font-bold px-2 py-0.5 rounded-full mb-3">{item.badge}</div>
                 <h3 className="font-bold text-gray-900 mb-2 whitespace-pre-line">{item.name}</h3>
                 <p className="text-xs text-gray-500 mb-2">{item.target}</p>
@@ -637,7 +637,7 @@ export default function HojyokinLP() {
                 color: "amber",
               },
             ].map((c, i) => (
-              <div key={i} className="bg-indigo-900/50 border border-indigo-700 rounded-2xl p-5">
+              <div key={i} className="rounded-2xl p-5" style={{ background: 'rgba(30,27,75,0.50)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', border: '1px solid rgba(99,102,241,0.40)' }}>
                 <div className={`inline-block text-xs font-bold px-2 py-0.5 rounded-full mb-3 ${c.color === "blue" ? "bg-blue-500 text-white" : c.color === "green" ? "bg-green-500 text-white" : "bg-amber-400 text-indigo-900"}`}>
                   {c.subsidy}
                 </div>
