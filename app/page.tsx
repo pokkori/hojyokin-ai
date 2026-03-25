@@ -402,7 +402,7 @@ export default function HojyokinLP() {
         <div className="max-w-5xl mx-auto flex items-center justify-between">
           <span className="font-bold text-gray-900">AI補助金診断</span>
           <div className="flex items-center gap-3">
-            <Link href="/contact" aria-label="法人向けご相談ページへ移動する" className="text-amber-600 hover:text-amber-700 text-sm font-bold hidden sm:inline transition-colors">法人のご相談</Link>
+            <Link href="/business" aria-label="士業・顧問先向け補助金AI法人プランを見る" className="text-amber-600 hover:text-amber-700 text-sm font-bold hidden sm:inline transition-colors">法人・士業向け</Link>
             <Link href="/tool" aria-label="補助金AI診断ツールで無料診断を始める" className="bg-amber-500 text-white text-sm font-medium px-4 py-2 rounded-lg hover:bg-amber-600">無料で診断する</Link>
           </div>
         </div>
