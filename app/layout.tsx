@@ -1,7 +1,15 @@
 import type { Metadata } from "next";
+import { Noto_Sans_JP } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import FeedbackButton from "@/components/FeedbackButton";
 import "./globals.css";
+
+const notoSansJP = Noto_Sans_JP({
+  subsets: ["latin"],
+  weight: ["400", "500", "700"],
+  display: "swap",
+  variable: "--font-noto-sans-jp",
+});
 
 
 const SITE_URL = "https://hojyokin-ai-delta.vercel.app";
@@ -28,6 +36,7 @@ export const metadata: Metadata = {
   },
   metadataBase: new URL(SITE_URL),
   manifest: "/manifest.json",
+  other: { "theme-color": "#0B0F1E" },
 };
 
 const breadcrumbLd = {
@@ -142,7 +151,7 @@ const jsonLd = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="ja">
+    <html lang="ja" className={`dark ${notoSansJP.variable}`}>
       <head>
         <script
           type="application/ld+json"
@@ -153,7 +162,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="antialiased">
+      <body className={`${notoSansJP.className} antialiased`}>
         {children}
         <footer className="flex justify-center py-2">
           <FeedbackButton serviceName="補助金AI" />

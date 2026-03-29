@@ -317,35 +317,35 @@ const SUBSIDY_TYPES = ["小規模持続化補助金", "ものづくり補助金"
 // クイック診断プリセット
 const QUICK_PRESETS = [
   {
-    icon: "💻",
+    icon: "IT",
     label: "ITシステム・AIを入れたい",
     industry: "IT・Web・アプリ",
     purpose: "ITシステム・AI・クラウドツールを導入して業務を効率化・デジタル化したい。生産性向上と人件費削減を目指す。",
     color: "blue",
   },
   {
-    icon: "🏭",
+    icon: "工",
     label: "設備・機械を導入したい",
     industry: "製造業",
     purpose: "生産設備・機械・検査装置を新規導入して生産性を向上させたい。老朽化した設備の入れ替えや省力化も含む。",
     color: "orange",
   },
   {
-    icon: "🛒",
+    icon: "販",
     label: "販路拡大・広告をしたい",
     industry: "小売・EC",
     purpose: "ホームページ制作・EC構築・チラシ・展示会出展など販路開拓・広告宣伝に補助金を活用したい。",
     color: "green",
   },
   {
-    icon: "⚡",
+    icon: "省",
     label: "省エネ・脱炭素に取り組む",
     industry: "建設・不動産",
     purpose: "省エネ設備（LED・空調・太陽光等）の導入や脱炭素経営への取り組みに補助金を活用したい。",
     color: "emerald",
   },
   {
-    icon: "🔄",
+    icon: "新",
     label: "新事業・業態転換したい",
     industry: "その他",
     purpose: "既存事業からの転換・新分野への進出・新しいビジネスモデルへの挑戦に補助金を活用したい。",
@@ -405,11 +405,11 @@ function DraftTab({ isPremium, onShowPaywall }: { isPremium: boolean; onShowPayw
     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <h2 className="text-xl font-bold text-gray-900">申請書の文章を自動生成</h2>
+          <h2 className="text-xl font-bold bg-gradient-to-r from-amber-300 via-yellow-200 to-orange-300 bg-clip-text text-transparent">申請書の文章を自動生成</h2>
           <p className="text-sm text-gray-500 mt-1">補助金の種類と事業内容を入力するだけで、そのまま使える申請書の文章が完成します。</p>
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">補助金の種類</label>
+          <label className="block text-sm font-medium text-gray-300 mb-1">補助金の種類</label>
           <div className="flex flex-wrap gap-2">
             {SUBSIDY_TYPES.map(t => (
               <button key={t} type="button" onClick={() => setSubsidyType(t)}
@@ -422,18 +422,18 @@ function DraftTab({ isPremium, onShowPaywall }: { isPremium: boolean; onShowPayw
           </div>
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">自社事業の概要 <span className="text-red-500">*</span></label>
+          <label className="block text-sm font-medium text-gray-300 mb-1">自社事業の概要 <span className="text-red-500">*</span></label>
           <textarea value={bizOverview} onChange={e => setBizOverview(e.target.value)} rows={3} required
             placeholder="例: 愛知県の製造業（従業員12名）。AI画像検査システムを導入して不良品率を削減したい。"
             aria-label="自社事業の概要を入力（必須）"
-            className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 resize-none" />
+            className="w-full border border-white/20 bg-white/5 backdrop-blur-sm text-white placeholder-gray-400 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all resize-none" />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">補助金で何をするか <span className="text-red-500">*</span></label>
+          <label className="block text-sm font-medium text-gray-300 mb-1">補助金で何をするか <span className="text-red-500">*</span></label>
           <textarea value={subsidyUse} onChange={e => setSubsidyUse(e.target.value)} rows={3} required
             placeholder="例: AIを使った画像検査装置を3台導入し、検査工程を自動化する。費用は約500万円。"
             aria-label="補助金で何をするかを入力（必須）"
-            className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 resize-none" />
+            className="w-full border border-white/20 bg-white/5 backdrop-blur-sm text-white placeholder-gray-400 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all resize-none" />
         </div>
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 text-xs text-blue-800">
           <strong>Jグランツとの違い</strong>: Jグランツは申請の「窓口」。このAIは申請書の「文章」を書きます。
@@ -452,13 +452,13 @@ function DraftTab({ isPremium, onShowPaywall }: { isPremium: boolean; onShowPayw
         </div>
         <button type="submit" disabled={loading}
           aria-label="補助金申請書の文章をAIで生成する"
-          className="w-full bg-amber-500 hover:bg-amber-600 disabled:bg-amber-300 text-white font-bold py-3 rounded-lg transition-colors">
+          className="w-full text-white font-bold py-3 rounded-xl transition-all min-h-[44px]" style={{ background: "linear-gradient(135deg, #6366F1, #8B5CF6)", boxShadow: "0 0 20px rgba(99,102,241,0.4)" }}>
           {loading ? "申請書を生成中..." : "申請書の文章を生成する"}
         </button>
         {error && <p className="text-sm text-red-500">{error}</p>}
       </form>
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">生成された申請書文章</label>
+        <label className="block text-sm font-medium text-gray-300 mb-2">生成された申請書文章</label>
         {loading ? (
           <div className="backdrop-blur-sm bg-white/90 border border-white/20 rounded-xl flex items-center justify-center min-h-[360px]">
             <div className="text-center">
@@ -550,28 +550,28 @@ function DraftTab({ isPremium, onShowPaywall }: { isPremium: boolean; onShowPayw
 // ===== 業種別おすすめ補助金テーブル =====
 const INDUSTRY_SUBSIDIES = [
   {
-    icon: "🏭",
+    icon: "工",
     industry: "製造業",
     subsidies: "ものづくり補助金・省エネ補助金",
     limit: "最大3,000万円",
     color: "blue",
   },
   {
-    icon: "🍽️",
+    icon: "飲",
     industry: "飲食・小売",
     subsidies: "小規模事業者持続化補助金・IT導入補助金",
     limit: "最大250万円",
     color: "orange",
   },
   {
-    icon: "💻",
+    icon: "IT",
     industry: "IT・サービス",
     subsidies: "IT導入補助金・事業再構築補助金",
     limit: "最大450万円",
     color: "purple",
   },
   {
-    icon: "🏥",
+    icon: "医",
     industry: "医療・介護",
     subsidies: "介護・障害福祉事業者向け補助金・医療DX推進補助金",
     limit: "要問合せ",
@@ -808,7 +808,7 @@ function WizardForm({
             <textarea value={purpose} onChange={e => setPurpose(e.target.value)} rows={6} required
               placeholder={"例:\n・店舗にPOSレジシステムを導入したい\n・設備を新しくして生産性を上げたい\n・省エネ設備に切り替えたい\n・ECサイトを立ち上げたい"}
               aria-label="補助金で何をしたいか・補助金の用途を入力（必須）"
-              className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 resize-none" />
+              className="w-full border border-white/20 bg-white/5 backdrop-blur-sm text-white placeholder-gray-400 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all resize-none" />
             <p className="text-xs text-gray-400 mt-1">詳しく書くほど精度が上がります（{purpose.length}/1000文字）</p>
           </div>
           <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 text-xs text-amber-800">
@@ -1443,7 +1443,7 @@ export default function HojyokinTool() {
   };
 
   return (
-    <main className="min-h-screen bg-gray-50">
+    <main className="min-h-screen" style={{ background: "radial-gradient(ellipse at 20% 50%, rgba(120,119,198,0.15) 0%, transparent 50%), radial-gradient(ellipse at 80% 20%, rgba(255,119,198,0.1) 0%, transparent 50%), #0F0F1A" }}>
       {showPaywall && <Paywall onClose={() => setShowPaywall(false)} onStartPayjp={(plan) => { setPayjpPlan(plan); setShowPaywall(false); setShowPayjp(true); }} />}
       {showPayjp && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-4">
@@ -1454,9 +1454,9 @@ export default function HojyokinTool() {
           </div>
         </div>
       )}
-      <nav className="bg-white border-b px-6 py-4">
+      <nav className="backdrop-blur-sm bg-white/5 border-b border-white/10 px-6 py-4">
         <div className="max-w-5xl mx-auto flex items-center justify-between">
-          <Link href="/" className="font-bold text-gray-900 flex items-center gap-1.5">
+          <Link href="/" className="font-bold text-white flex items-center gap-1.5">
             <svg viewBox="0 0 24 24" width="20" height="20" className="text-amber-500" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2.5" fill="currentColor"/><rect x="6" y="10" width="12" height="2" rx="1" fill="white"/><rect x="6" y="14" width="7" height="2" rx="1" fill="white"/></svg>
             AI補助金診断
           </Link>
@@ -1464,20 +1464,20 @@ export default function HojyokinTool() {
             {streakData.count >= 1 && (
               <div
                 aria-label={`${streakData.count}日連続利用中`}
-                className="flex items-center gap-1 bg-amber-50 border border-amber-200 rounded-full px-3 py-1"
+                className="flex items-center gap-1 bg-amber-500/20 border border-amber-400/30 rounded-full px-3 py-1"
               >
                 <span aria-hidden="true" className="text-amber-500 text-xs font-black">
                   {streakData.count >= 7 ? "★" : streakData.count >= 3 ? "▲" : "●"}
                 </span>
-                <span className="text-amber-700 text-xs font-bold">{streakData.count}日連続利用中</span>
+                <span className="text-amber-300 text-xs font-bold">{streakData.count}日連続利用中</span>
                 {getStreakMilestoneMessage(streakData.count) && (
-                  <span className="text-amber-600 text-xs hidden sm:inline">
+                  <span className="text-amber-400 text-xs hidden sm:inline">
                     {getStreakMilestoneMessage(streakData.count)}
                   </span>
                 )}
               </div>
             )}
-            <span className={`text-xs px-3 py-1 rounded-full ${isLimit ? "bg-red-100 text-red-600" : "bg-amber-100 text-amber-600"}`}>
+            <span className={`text-xs px-3 py-1 rounded-full ${isLimit ? "bg-red-500/20 text-red-300" : "bg-amber-500/20 text-amber-300"}`}>
               {isLimit ? "無料枠終了" : `無料あと${FREE_LIMIT - count}回`}
             </span>
           </div>
@@ -1486,11 +1486,11 @@ export default function HojyokinTool() {
 
       {/* タブ切り替え */}
       <div className="max-w-5xl mx-auto px-6 pt-6">
-        <div className="flex gap-2 border-b border-gray-200 overflow-x-auto">
+        <div className="flex gap-2 border-b border-white/10 overflow-x-auto">
           {([["diagnose", "補助金を診断する"], ["draft", "申請書を生成する"], ["roi", "ROI試算"], ["checklist", "申請チェックリスト"], ["schedule", "スケジュール管理"]] as const).map(([tab, label]) => (
             <button key={tab} onClick={() => setActiveTab(tab)} data-tab={tab}
               aria-label={label}
-              className={`px-5 py-2.5 text-sm font-medium border-b-2 transition-colors -mb-px whitespace-nowrap ${activeTab === tab ? "border-amber-500 text-amber-600" : "border-transparent text-gray-500 hover:text-gray-700"}`}>
+              className={`px-5 py-2.5 text-sm font-medium border-b-2 transition-colors -mb-px whitespace-nowrap ${activeTab === tab ? "border-amber-400 text-amber-300" : "border-transparent text-gray-400 hover:text-gray-200"}`}>
               {label}
             </button>
           ))}
