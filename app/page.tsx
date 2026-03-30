@@ -581,6 +581,24 @@ export default function HojyokinLP() {
  </div>
  <div className="max-w-xs mx-auto mb-4"><UsageCounter /></div>
  <TrustBadge />
+ {/* ヒーロー内サンプルプレビュー — アハモーメント */}
+ <div className="max-w-xl mx-auto mb-6 mt-4">
+   <p className="text-xs text-white/40 text-center mb-2">AIが生成する申請書の一例</p>
+   <div className="bg-white/5 border border-amber-300/30 rounded-xl overflow-hidden text-left">
+     <div className="bg-amber-500/10 border-b border-amber-300/20 px-4 py-2 flex items-center gap-2">
+       <span className="text-xs font-bold text-amber-400">入力:</span>
+       <span className="text-xs text-white/70">愛知県・製造業（12名）・AI画像検査システム導入</span>
+     </div>
+     <div className="px-4 py-3">
+       <span className="inline-block bg-amber-500 text-white text-xs font-bold px-2 py-0.5 rounded mb-2">診断結果</span>
+       <pre className="text-xs text-white/80 whitespace-pre-wrap font-sans leading-relaxed">{`ものづくり補助金（一般型）が最有力候補です
+
+1位 ものづくり補助金　補助上限：750万円 / 補助率：1/2
+2位 デジタル化・AI導入補助金　補助上限：450万円 / 補助率：2/3
+3位 IT導入補助金（デジタル化基盤）　補助上限：350万円 / 補助率：3/4`}</pre>
+     </div>
+   </div>
+ </div>
  <Link href="/tool" aria-label="補助金AI診断ツールで申請書を無料で書いてみる" className="inline-block bg-amber-500/100 text-white font-bold text-lg px-8 py-4 rounded-xl hover:bg-amber-600 shadow-xl shadow-amber-100">無料で申請書を書いてみる →</Link>
  <p className="text-xs text-white/40 mt-3">クレジットカード不要・3回まで無料</p>
  </section>
