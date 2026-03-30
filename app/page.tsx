@@ -6,6 +6,8 @@ import SubsidyDemo from "@/components/SubsidyDemo";
 import { AdBanner } from "@/components/AdBanner";
 import { THEMES } from "@/lib/design-system-themes";
 import { ShareButtons } from "@/components/ShareButtons";
+import { StreakBanner } from "@/components/StreakBanner";
+import { UsageCounter } from "@/components/UsageCounter";
 const T = THEMES.legal;
 
 /* ---- SVG Icon helper (replaces all emoji) ---- */
@@ -506,6 +508,8 @@ export default function HojyokinLP() {
  </div>
  </nav>
 
+ <StreakBanner />
+
  <section className="max-w-4xl mx-auto px-6 py-20 text-center">
  <div className="inline-block bg-amber-500/10 text-amber-400 text-xs font-medium px-3 py-1 rounded-full mb-6">IT導入補助金・ものづくり補助金・小規模持続化補助金 対応</div>
  <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 leading-tight">
@@ -572,6 +576,7 @@ export default function HojyokinLP() {
  <span key={s} className="flex items-center gap-1 bg-amber-500/10 text-amber-400 px-3 py-1.5 rounded-full font-medium">{s}</span>
  ))}
  </div>
+ <div className="max-w-xs mx-auto mb-4"><UsageCounter /></div>
  <Link href="/tool" aria-label="補助金AI診断ツールで申請書を無料で書いてみる" className="inline-block bg-amber-500/100 text-white font-bold text-lg px-8 py-4 rounded-xl hover:bg-amber-600 shadow-xl shadow-amber-100">無料で申請書を書いてみる →</Link>
  <p className="text-xs text-white/40 mt-3">クレジットカード不要・3回まで無料</p>
  </section>
