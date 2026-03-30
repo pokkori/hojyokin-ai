@@ -8,6 +8,7 @@ import { THEMES } from "@/lib/design-system-themes";
 import { ShareButtons } from "@/components/ShareButtons";
 import { StreakBanner } from "@/components/StreakBanner";
 import { UsageCounter } from "@/components/UsageCounter";
+import { CrossSell } from "@/components/CrossSell";
 const T = THEMES.legal;
 
 /* ---- SVG Icon helper (replaces all emoji) ---- */
@@ -430,8 +431,9 @@ function SampleSection() {
 
  <div className="text-center mt-8">
  <Link href="/tool" aria-label="自分の事業に合う補助金を無料で診断する" className="inline-block bg-amber-500/100 text-white font-bold px-8 py-4 rounded-xl hover:bg-amber-600 shadow-xl shadow-amber-100">
- 自分の補助金を無料で診断する →
+ 私に合う補助金を無料診断 →
  </Link>
+ <p className="text-xs opacity-60 mt-2">※3項目入力で結果表示</p>
  <p className="text-xs text-white/40 mt-2">クレジットカード不要・3回まで無料</p>
  </div>
  </div>
@@ -1200,6 +1202,8 @@ export default function HojyokinLP() {
  </p>
  </div>
  </section>
+
+ <CrossSell currentService="補助金AI" />
 
  <footer className="border-t py-6 pb-24 sm:pb-6 text-center text-xs text-white/40 space-y-2">
  <p>AI補助金診断 © 2026 ※本サービスは情報提供を目的としており、申請を保証するものではありません。必ず公募要領をご確認ください。</p>
