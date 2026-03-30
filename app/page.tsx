@@ -447,6 +447,35 @@ export default function HojyokinLP() {
  }
 
  return (
+ <>
+ <script
+   type="application/ld+json"
+   dangerouslySetInnerHTML={{
+     __html: JSON.stringify({
+       '@context': 'https://schema.org',
+       '@type': 'FAQPage',
+       mainEntity: [
+         { '@type': 'Question', name: 'どんな補助金を調べられますか？', acceptedAnswer: { '@type': 'Answer', text: 'ものづくり補助金・IT導入補助金・事業再構築補助金・小規模事業者持続化補助金など主要補助金に対応。業種・事業規模・目的から最適な補助金を診断します。' } },
+         { '@type': 'Question', name: '申請書をそのまま提出できますか？', acceptedAnswer: { '@type': 'Answer', text: 'AIが生成する申請書は下書き・たたき台として活用してください。実際の提出にはJグランツ等の電子申請システムへの登録と公募要領の確認が必要です。' } },
+         { '@type': 'Question', name: '補助金の採択を保証してもらえますか？', acceptedAnswer: { '@type': 'Answer', text: '採択を保証するものではありません。AIは申請書の品質向上と採択可能性の向上をサポートします。採択率は審査機関が判定します。' } },
+         { '@type': 'Question', name: '料金はいくらですか？', acceptedAnswer: { '@type': 'Answer', text: '補助金診断は無料です。申請書生成・詳細サポートはプレミアムプラン（月額¥4,900）で利用できます。1回の申請で十分元が取れます。' } },
+       ],
+     }).replace(/</g, '\\u003c'),
+   }}
+ />
+ <script
+   type="application/ld+json"
+   dangerouslySetInnerHTML={{
+     __html: JSON.stringify({
+       '@context': 'https://schema.org',
+       '@type': 'SoftwareApplication',
+       name: '補助金AI',
+       operatingSystem: 'Web',
+       applicationCategory: 'BusinessApplication',
+       offers: { '@type': 'Offer', price: 0, priceCurrency: 'JPY' },
+     }).replace(/</g, '\\u003c'),
+   }}
+ />
  <main className="min-h-screen text-white relative" style={{background: T.bg}}>
  <div className="fixed inset-0 pointer-events-none overflow-hidden z-0" aria-hidden="true">
  {[{size:4,x:'10%',y:'20%',dur:'6s',delay:'0s'},{size:3,x:'85%',y:'15%',dur:'8s',delay:'1s'},{size:5,x:'70%',y:'60%',dur:'7s',delay:'2s'},{size:3,x:'25%',y:'75%',dur:'9s',delay:'0.5s'},{size:4,x:'50%',y:'40%',dur:'10s',delay:'3s'},{size:6,x:'90%',y:'80%',dur:'7s',delay:'1.5s'}].map((p,i)=>(<div key={i} className="absolute rounded-full animate-pulse" style={{width:p.size,height:p.size,left:p.x,top:p.y,background:T.particleColor,animationDuration:p.dur,animationDelay:p.delay}}/>))}
@@ -1202,5 +1231,6 @@ export default function HojyokinLP() {
  </footer>
  <AdBanner slot="" />
  </main>
+ </>
  );
 }
