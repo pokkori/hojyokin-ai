@@ -11,6 +11,7 @@ interface KwData {
   features: { icon: string; title: string; desc: string }[];
   faqs: { q: string; a: string }[];
   crossSell: { href: string; label: string }[];
+  lastUpdated: string;
 }
 
 const SITE_URL = "https://hojyokin-ai-delta.vercel.app";
@@ -37,6 +38,7 @@ const KEYWORDS: Record<string, KwData> = {
       { href: "/keywords/hojokin-shinsei-kakikata", label: "補助金申請書の書き方ガイド" },
       { href: "/keywords/hojokin-shinsa-point", label: "審査で加点されるポイント" },
     ],
+    lastUpdated: "2026-03-31",
   },
   "hojokin-it-dounyu": {
     title: "IT導入補助金｜対象ツール・申請要件をAIが自動チェック",
@@ -59,6 +61,7 @@ const KEYWORDS: Record<string, KwData> = {
       { href: "/keywords/hojokin-kobojigyo", label: "小規模事業者持続化補助金" },
       { href: "/keywords/hojokin-freelance", label: "フリーランス向け補助金" },
     ],
+    lastUpdated: "2026-03-31",
   },
   "hojokin-jigyou-saikouchiku": {
     title: "事業再構築補助金｜対象要件をAIが判定・採択率アップのコツ",
@@ -81,6 +84,7 @@ const KEYWORDS: Record<string, KwData> = {
       { href: "/keywords/hojokin-shinsa-point", label: "補助金審査のポイント" },
       { href: "/keywords/hojokin-shinsei-kakikata", label: "申請書の書き方ガイド" },
     ],
+    lastUpdated: "2026-03-31",
   },
   "hojokin-shinsei-kakikata": {
     title: "補助金申請書の書き方｜AIが採択される事業計画書を自動ガイド",
@@ -103,6 +107,7 @@ const KEYWORDS: Record<string, KwData> = {
       { href: "/keywords/hojokin-shinsa-point", label: "審査で加点されるポイント" },
       { href: "/keywords/hojokin-consultant-hiyou", label: "コンサル費用を削減する方法" },
     ],
+    lastUpdated: "2026-03-31",
   },
   "hojokin-freelance": {
     title: "フリーランス向け補助金一覧｜AIが使える補助金を検索・判定",
@@ -125,6 +130,7 @@ const KEYWORDS: Record<string, KwData> = {
       { href: "/keywords/hojokin-sougyou", label: "創業時に使える補助金" },
       { href: "/keywords/hojokin-kobojigyo", label: "小規模事業者持続化補助金" },
     ],
+    lastUpdated: "2026-03-31",
   },
   "hojokin-inshokuten": {
     title: "飲食店向け補助金・助成金｜AIが一括検索・申請書自動生成",
@@ -147,6 +153,7 @@ const KEYWORDS: Record<string, KwData> = {
       { href: "/keywords/hojokin-kobojigyo", label: "小規模事業者持続化補助金の詳細" },
       { href: "/keywords/hojokin-it-dounyu", label: "IT導入補助金でPOSレジ導入" },
     ],
+    lastUpdated: "2026-03-31",
   },
   "josei-kin-ichiran-2026": {
     title: "助成金一覧 2026年最新版｜業種別にAIが検索",
@@ -169,6 +176,7 @@ const KEYWORDS: Record<string, KwData> = {
       { href: "/keywords/hojokin-freelance", label: "フリーランス向け補助金" },
       { href: "/keywords/hojokin-inshokuten", label: "飲食店向け補助金" },
     ],
+    lastUpdated: "2026-03-31",
   },
   "hojokin-sougyou": {
     title: "創業補助金｜起業時に使える補助金をAIが診断・最大200万円",
@@ -191,6 +199,7 @@ const KEYWORDS: Record<string, KwData> = {
       { href: "/keywords/hojokin-freelance", label: "フリーランス向け補助金" },
       { href: "/keywords/hojokin-shinsei-kakikata", label: "申請書の書き方ガイド" },
     ],
+    lastUpdated: "2026-03-31",
   },
   "hojokin-shinsa-point": {
     title: "補助金審査で加点されるポイント｜AIが解説・採択率アップ",
@@ -213,6 +222,7 @@ const KEYWORDS: Record<string, KwData> = {
       { href: "/keywords/hojokin-shinsei-kakikata", label: "申請書の書き方ガイド" },
       { href: "/keywords/hojokin-jigyou-saikouchiku", label: "事業再構築補助金" },
     ],
+    lastUpdated: "2026-03-31",
   },
   "hojokin-consultant-hiyou": {
     title: "補助金コンサル費用¥30万→¥2,980｜AIで申請を自動サポート",
@@ -235,6 +245,7 @@ const KEYWORDS: Record<string, KwData> = {
       { href: "/keywords/hojokin-shinsei-kakikata", label: "申請書の書き方ガイド" },
       { href: "/keywords/hojokin-shinsa-point", label: "審査で加点されるポイント" },
     ],
+    lastUpdated: "2026-03-31",
   },
 };
 
@@ -250,6 +261,9 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
   return {
     title: kw.title,
     description: kw.description,
+    other: {
+      "article:modified_time": kw.lastUpdated,
+    },
     openGraph: {
       title: kw.title,
       description: kw.description,
@@ -272,6 +286,7 @@ export default function KeywordPage({ params }: { params: { slug: string } }) {
   const faqLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
+    "dateModified": kw.lastUpdated,
     mainEntity: kw.faqs.map((f) => ({
       "@type": "Question",
       name: f.q,
@@ -369,6 +384,11 @@ export default function KeywordPage({ params }: { params: { slug: string } }) {
             </Link>
           </div>
         </section>
+
+        {/* LastUpdated */}
+        <p className="text-center text-xs text-white/40 mt-8">
+          最終更新: 2026年3月31日
+        </p>
 
         {/* ───── CrossSell ───── */}
         {kw.crossSell.length > 0 && (
