@@ -9,6 +9,7 @@ import { ShareButtons } from "@/components/ShareButtons";
 import { StreakBanner } from "@/components/StreakBanner";
 import { UsageCounter } from "@/components/UsageCounter";
 import { CrossSell } from "@/components/CrossSell";
+import { TrustBadge } from "@/components/TrustBadge";
 const T = THEMES.legal;
 
 /* ---- SVG Icon helper (replaces all emoji) ---- */
@@ -579,6 +580,7 @@ export default function HojyokinLP() {
  ))}
  </div>
  <div className="max-w-xs mx-auto mb-4"><UsageCounter /></div>
+ <TrustBadge />
  <Link href="/tool" aria-label="補助金AI診断ツールで申請書を無料で書いてみる" className="inline-block bg-amber-500/100 text-white font-bold text-lg px-8 py-4 rounded-xl hover:bg-amber-600 shadow-xl shadow-amber-100">無料で申請書を書いてみる →</Link>
  <p className="text-xs text-white/40 mt-3">クレジットカード不要・3回まで無料</p>
  </section>
