@@ -3,7 +3,9 @@ import { useState } from "react";
 import Link from "next/link";
 import KomojuButton from "@/components/KomojuButton";
 import SubsidyDemo from "@/components/SubsidyDemo";
+import { AdBanner } from "@/components/AdBanner";
 import { THEMES } from "@/lib/design-system-themes";
+import { ShareButtons } from "@/components/ShareButtons";
 const T = THEMES.legal;
 
 /* ---- SVG Icon helper (replaces all emoji) ---- */
@@ -1149,19 +1151,20 @@ export default function HojyokinLP() {
  </a>
  </div>
 
- {/* X(Twitter) Share */}
+ {/* シェアセクション */}
  <section className="max-w-4xl mx-auto px-4 py-10 text-center">
- <p className="text-white/40 text-sm mb-4">補助金の採択可能性をAIがスコア化！中小企業・フリーランスの方にシェアしませんか？</p>
- <a
- href={`https://twitter.com/intent/tweet?text=${encodeURIComponent("AIが補助金の採択可能性をスコア化！無料診断3回 #補助金AI #中小企業")}&url=${encodeURIComponent("https://hojyokin-ai-delta.vercel.app")}`}
- target="_blank"
- rel="noopener noreferrer"
- aria-label="補助金AIを中小企業・フリーランスの方にXでシェアする"
- className="inline-flex items-center gap-2 bg-black text-white px-5 py-3 rounded-xl font-bold hover:bg-gray-800 transition-colors min-h-[44px]"
- >
- <span>𝕏</span>
- <span>Xでシェアする</span>
- </a>
+ <p className="text-white/40 text-sm mb-4">補助金AIを友達にシェア</p>
+ <ShareButtons url="https://hojyokin-ai-delta.vercel.app" text="補助金AIを使ってみた！" hashtags="補助金AI" />
+ </section>
+
+ {/* AI免責バナー */}
+ <section className="px-4 py-6">
+ <div className="max-w-3xl mx-auto bg-yellow-900/30 border border-yellow-700/50 rounded-lg p-3 text-sm text-yellow-200">
+ <p>
+ <svg className="w-4 h-4 inline-block mr-1 -mt-0.5 text-yellow-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M12 9v4M12 17h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" strokeLinecap="round" strokeLinejoin="round"/></svg>
+ 本サービスはAIによる参考情報です。2026年3月時点の補助金情報に基づいています。公募要領・申請期間は変更される場合があります。申請書類の作成代行は行政書士の独占業務です。実際の申請は行政書士・認定支援機関にご依頼ください。
+ </p>
+ </div>
  </section>
 
  <footer className="border-t py-6 pb-24 sm:pb-6 text-center text-xs text-white/40 space-y-2">
@@ -1183,6 +1186,8 @@ export default function HojyokinLP() {
  <Link href="/terms" aria-label="利用規約ページを開く" className="underline hover:text-white/60">利用規約</Link>
  {" "}・{" "}
  <Link href="/privacy" aria-label="プライバシーポリシーページを開く" className="underline hover:text-white/60">プライバシーポリシー</Link>
+ {" "}・{" "}
+ <Link href="/cancel" aria-label="解約・退会ページを開く" className="underline hover:text-white/60">解約・退会</Link>
  </p>
  <div className="pt-2 border-t border-white/10">
  <p className="mb-1">ポッコリラボの他のサービス</p>
@@ -1195,6 +1200,7 @@ export default function HojyokinLP() {
  </div>
  </div>
  </footer>
+ <AdBanner slot="" />
  </main>
  );
 }
