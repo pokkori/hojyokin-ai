@@ -3,7 +3,7 @@ import Link from "next/link";
 const ITEMS = [
   { label: "販売業者", value: "新美諭" },
   { label: "電話番号", value: "090-6093-5290" },
-  { label: "運営責任者", value: "ポッコリラボ 代表 新美" },
+  { label: "運営責任者", value: "ポッコリラボ 代表 新美諭" },
   { label: "お問い合わせ", value: "levonadesign@gmail.com（X: @levona_design）" },
   { label: "所在地", value: "非公開（請求があれば遅滞なく開示します）" },
   { label: "販売価格", value: "一回払い ¥1,980（税込）、スタンダードプラン ¥980/月（税込）、ビジネスプラン ¥2,980/月（税込）" },
