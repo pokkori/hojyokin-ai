@@ -6,6 +6,8 @@ import { GlowButton } from "@/components/GlowButton";
 import { track } from '@vercel/analytics';
 import { updateStreak, loadStreak, getStreakMilestoneMessage, type StreakData } from "@/lib/streak";
 import { useTypewriter } from "@/lib/useTypewriter";
+import AnimatedScore from "@/components/AnimatedScore";
+import ConfettiLaunch from "@/components/ConfettiLaunch";
 
 const FREE_LIMIT = 3;
 const KEY = "hojyokin_count";
@@ -102,7 +104,7 @@ function ScoreCard({ score }: { score: number }) {
         <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${score >= 80 ? "bg-green-100 text-green-700" : score >= 60 ? "bg-amber-100 text-amber-700" : "bg-red-100 text-red-700"}`}>{label}</span>
       </div>
       <div className="flex items-end gap-3 mb-2">
-        <span className={`text-5xl font-black ${color}`}>{score}</span>
+        <AnimatedScore target={score} className={`text-5xl ${color}`} />
         <span className="text-lg text-gray-500 mb-1">/100</span>
       </div>
       <div className="w-full bg-gray-200 rounded-full h-3 mb-2">
@@ -210,7 +212,7 @@ function ResultTabs({ parsed }: { parsed: ParsedResult }) {
           </button>
         ))}
       </div>
-      <div style={{ background: 'rgba(255,255,255,0.05)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: '20px', boxShadow: '0 8px 32px 0 rgba(0,0,0,0.36)' }} className="p-4 min-h-[360px]">
+      <div className="glass-dark rounded-2xl p-4 min-h-[360px]">
         <div className="flex items-center justify-between mb-3">
           <span className="text-sm font-semibold text-gray-700">{section.icon} {section.title}</span>
           <CopyButton text={section.content} />
@@ -1390,6 +1392,7 @@ export default function HojyokinTool() {
   const [adoptionScore, setAdoptionScore] = useState<number | null>(null);
   const [lastDiagnosisData, setLastDiagnosisData] = useState<{ industry: string; purpose: string } | null>(null);
   const [streakData, setStreakData] = useState<StreakData>({ count: 0, lastPlayDate: "", shieldCount: 1, longestStreak: 0, totalDays: 0 });
+  const [showConfetti, setShowConfetti] = useState(false);
 
   useEffect(() => {
     setCount(parseInt(localStorage.getItem(KEY) || "0"));
@@ -1435,7 +1438,9 @@ export default function HojyokinTool() {
       const score = extractAdoptionScore(accumulated);
       setAdoptionScore(score);
       setCompletionVisible(true);
+      setShowConfetti(true);
       setTimeout(() => setCompletionVisible(false), 5000);
+      setTimeout(() => setShowConfetti(false), 4000);
       // 診断履歴をLocalStorageに保存（最新3件）
       if (lastDiagnosisData) {
         try {
@@ -1460,6 +1465,7 @@ export default function HojyokinTool() {
 
   return (
     <main className="min-h-screen" style={{ background: "radial-gradient(ellipse at 20% 50%, rgba(120,119,198,0.15) 0%, transparent 50%), radial-gradient(ellipse at 80% 20%, rgba(255,119,198,0.1) 0%, transparent 50%), #0F0F1A" }}>
+      <ConfettiLaunch trigger={showConfetti} message="補助金診断 完了！" />
       {showPaywall && <Paywall onClose={() => setShowPaywall(false)} onStartPayjp={(plan) => { setPayjpPlan(plan); setShowPaywall(false); setShowPayjp(true); }} />}
       {showPayjp && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-4">
