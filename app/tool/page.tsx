@@ -2,8 +2,10 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import KomojuButton from "@/components/KomojuButton";
+import { GlowButton } from "@/components/GlowButton";
 import { track } from '@vercel/analytics';
 import { updateStreak, loadStreak, getStreakMilestoneMessage, type StreakData } from "@/lib/streak";
+import { useTypewriter } from "@/lib/useTypewriter";
 
 const FREE_LIMIT = 3;
 const KEY = "hojyokin_count";
@@ -208,7 +210,7 @@ function ResultTabs({ parsed }: { parsed: ParsedResult }) {
           </button>
         ))}
       </div>
-      <div className="backdrop-blur-sm bg-white/90 border border-white/30 shadow-lg rounded-2xl p-4 min-h-[360px]">
+      <div style={{ background: 'rgba(255,255,255,0.05)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: '20px', boxShadow: '0 8px 32px 0 rgba(0,0,0,0.36)' }} className="p-4 min-h-[360px]">
         <div className="flex items-center justify-between mb-3">
           <span className="text-sm font-semibold text-gray-700">{section.icon} {section.title}</span>
           <CopyButton text={section.content} />
@@ -361,6 +363,7 @@ function DraftTab({ isPremium, onShowPaywall }: { isPremium: boolean; onShowPayw
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [copied, setCopied] = useState(false);
+  const displayedResult = useTypewriter(result, 15);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -405,7 +408,7 @@ function DraftTab({ isPremium, onShowPaywall }: { isPremium: boolean; onShowPayw
     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <h2 className="text-xl font-bold bg-gradient-to-r from-amber-300 via-yellow-200 to-orange-300 bg-clip-text text-transparent">申請書の文章を自動生成</h2>
+          <h2 className="text-xl font-bold bg-gradient-to-r from-amber-300 via-yellow-200 to-orange-300 bg-clip-text text-transparent" style={{ fontFamily: 'var(--font-rounded)' }}>申請書の文章を自動生成</h2>
           <p className="text-sm text-gray-500 mt-1">補助金の種類と事業内容を入力するだけで、そのまま使える申請書の文章が完成します。</p>
         </div>
         <div>
@@ -450,24 +453,35 @@ function DraftTab({ isPremium, onShowPaywall }: { isPremium: boolean; onShowPayw
             ))}
           </div>
         </div>
-        <button type="submit" disabled={loading}
+        <GlowButton
+          type="submit"
+          disabled={loading}
           aria-label={loading ? "申請書の文章を生成中" : "補助金申請書の文章をAIで生成する"}
           aria-busy={loading}
-          className="w-full text-white font-bold py-3 rounded-xl transition-all min-h-[44px]" style={{ background: "linear-gradient(135deg, #6366F1, #8B5CF6)", boxShadow: "0 0 20px rgba(99,102,241,0.4)" }}>
+          variant="primary"
+        >
           {loading ? "申請書を生成中..." : "申請書の文章を生成する"}
-        </button>
+        </GlowButton>
         {error && <p className="text-sm text-red-500" role="alert">{error}</p>}
       </form>
       <div>
         <label className="block text-sm font-medium text-gray-300 mb-2">生成された申請書文章</label>
         {loading ? (
-          <div className="backdrop-blur-sm bg-white/90 border border-white/20 rounded-xl flex items-center justify-center min-h-[360px]">
-            <div className="text-center">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-amber-500 mx-auto mb-3" />
-              <p className="text-sm text-gray-500">申請書の文章を作成しています...</p>
-              <p className="text-xs text-gray-400 mt-2">申請条件確認 → 補助金マッチング → 申請書ドラフト生成</p>
-              <p className="text-xs text-gray-300 mt-1">20〜30秒かかります</p>
+          <div className="min-h-[360px] p-5" style={{ background: 'rgba(255,255,255,0.05)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.12)', borderRadius: '20px', boxShadow: '0 8px 32px 0 rgba(0,0,0,0.36)' }}>
+            <div className="flex items-center gap-2 mb-4">
+              <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-amber-500 flex-shrink-0" aria-hidden="true" />
+              <p className="text-sm text-gray-400">申請書の文章を作成しています...</p>
             </div>
+            <div className="space-y-3">
+              <div className="skeleton h-4 w-3/4" />
+              <div className="skeleton h-4 w-full" />
+              <div className="skeleton h-4 w-5/6" />
+              <div className="skeleton h-4 w-2/3" />
+              <div className="skeleton h-4 w-full" />
+              <div className="skeleton h-4 w-4/5" />
+            </div>
+            <p className="text-xs text-gray-400 mt-4">申請条件確認 → 補助金マッチング → 申請書ドラフト生成</p>
+            <p className="text-xs text-gray-300 mt-1">20〜30秒かかります</p>
           </div>
         ) : result ? (
           <div>
@@ -489,7 +503,7 @@ function DraftTab({ isPremium, onShowPaywall }: { isPremium: boolean; onShowPayw
               {/* 文書本文 */}
               <div className="p-6 max-h-[500px] overflow-y-auto">
                 <div className="space-y-3">
-                  {result.split('\n').map((line, i) => {
+                  {displayedResult.split('\n').map((line, i) => {
                     if (line.startsWith('## ') || line.startsWith('# ')) {
                       const heading = line.replace(/^#{1,3}\s/, '');
                       return (
