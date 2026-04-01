@@ -451,11 +451,12 @@ function DraftTab({ isPremium, onShowPaywall }: { isPremium: boolean; onShowPayw
           </div>
         </div>
         <button type="submit" disabled={loading}
-          aria-label="補助金申請書の文章をAIで生成する"
+          aria-label={loading ? "申請書の文章を生成中" : "補助金申請書の文章をAIで生成する"}
+          aria-busy={loading}
           className="w-full text-white font-bold py-3 rounded-xl transition-all min-h-[44px]" style={{ background: "linear-gradient(135deg, #6366F1, #8B5CF6)", boxShadow: "0 0 20px rgba(99,102,241,0.4)" }}>
           {loading ? "申請書を生成中..." : "申請書の文章を生成する"}
         </button>
-        {error && <p className="text-sm text-red-500">{error}</p>}
+        {error && <p className="text-sm text-red-500" role="alert">{error}</p>}
       </form>
       <div>
         <label className="block text-sm font-medium text-gray-300 mb-2">生成された申請書文章</label>
@@ -822,7 +823,8 @@ function WizardForm({
             </button>
             <button type="button" onClick={() => onSubmit({ isIndividual, businessType, employees, prefecture, purpose })}
               disabled={loading || !canSubmit}
-              aria-label={isLimit ? "プレミアムプランで申請書を完成させる" : "補助金を無料診断する"}
+              aria-label={loading ? "補助金を診断中" : isLimit ? "プレミアムプランで申請書を完成させる" : "補助金を無料診断する"}
+              aria-busy={loading}
               className={`flex-1 font-bold py-3 rounded-lg text-white transition-colors ${isLimit ? "bg-orange-500 hover:bg-orange-600" : "bg-amber-500 hover:bg-amber-600 disabled:bg-amber-300"}`}>
               {loading ? "診断中..." : isLimit ? "¥1,980で申請書を完成させる" : "補助金を診断する（無料）"}
             </button>
@@ -1602,7 +1604,7 @@ export default function HojyokinTool() {
             )}
           </div>
 
-          {error && <p className="text-sm text-red-500 text-center col-span-full">{error}</p>}
+          {error && <p className="text-sm text-red-500 text-center col-span-full" role="alert">{error}</p>}
         </div>
       )}
 

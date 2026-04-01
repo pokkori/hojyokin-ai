@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Noto_Sans_JP } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import Script from "next/script";
 import FeedbackButton from "@/components/FeedbackButton";
 import { GoogleAdScript } from "@/components/GoogleAdScript";
 import "./globals.css";
@@ -133,7 +134,7 @@ const jsonLd = {
         },
         {
           "@type": "Question",
-          "name": "士業・顧問先へのサポートに相続AIを使えますか？",
+          "name": "士業・顧問先へのサポートに補助金AIを使えますか？",
           "acceptedAnswer": {
             "@type": "Answer",
             "text": "税理士・中小企業診断士・行政書士が顧問先の補助金診断サポートとして活用いただけます。法人向けプランでは複数顧問先の一括診断・申請書の一括生成が可能です。お問い合わせは「法人のご相談」からどうぞ。"
@@ -147,7 +148,101 @@ const jsonLd = {
             "text": "補助金採択後は、実績報告書の提出・補助事業の実施状況の確認・補助金の精算請求が必要です。また、補助事業終了後も一定期間（5年程度）は事業継続義務や報告義務があります。補助金は収益として税務申告が必要な場合もあるため、税理士にご確認ください。"
           }
         },
+        {
+          "@type": "Question",
+          "name": "採択後の手続きはAIでサポートできますか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "採択後の実績報告書・経費精算書・事業継続報告のドラフト生成にも対応しています。採択通知書の内容を入力すると、報告期限・必要書類・注意事項をまとめたチェックリストも自動生成します。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "補助金と助成金の違いは何ですか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "補助金は競争審査があり採択されなければ受給できませんが、助成金は要件を満たせば原則受給可能です。補助金は経済産業省・中小企業庁管轄が多く、助成金は厚生労働省管轄（雇用関係）が中心です。本AIが業種・状況から最適な補助金・助成金を診断します。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "申請に必要な書類は何ですか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "補助金の種類によって異なりますが、一般的には事業計画書・収支計画書・決算書（直近2期分）・見積書・登記簿謄本が必要です。本AIが補助金ごとの必要書類一覧と取得先をチェックリスト形式で生成します。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "複数の補助金を同時に申請できますか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "原則として複数の補助金を同時申請は可能ですが、同じ経費に対する重複受給は禁止されています。補助金ごとに対象経費と期間を分けることが重要です。本AIが申請スケジュールと経費配分の整理をサポートします。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "2026年度の最新補助金情報に対応していますか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "はい。ものづくり補助金・IT導入補助金・小規模事業者持続化補助金の2026年度公募要領に基づき、最新の補助率・上限額・申請要件を反映しています。公募スケジュールが変更された場合は速やかに情報を更新します。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "スタートアップ・創業間もない企業も申請できますか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "創業1年未満でも申請可能な補助金があります。創業補助・小規模事業者持続化補助金（創業枠）・事業再構築補助金の創業特例などが対象です。本AIが創業年数・業種から申請可能な補助金を診断します。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "事業再構築補助金はどんな事業者に向いていますか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "新分野展開・業態転換・事業転換・業種転換などの大胆な事業再構築に取り組む中小企業・中堅企業が対象です。補助上限は最大1.5億円と高額ですが、売上減少要件や認定支援機関の確認が必要です。本AIが要件チェックと申請計画書の骨格を生成します。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "補助金の申請書作成にかかる時間はどれくらい短縮できますか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "通常、行政書士や補助金コンサルに依頼すると2〜4週間かかる申請書作成が、本AIを使えば最短30分でドラフトが完成します。事業概要・強み・投資計画を入力するだけで、審査員が評価するポイントを押さえた文章を自動生成します。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "個人事業主も補助金を申請できますか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "はい、個人事業主も多くの補助金に申請できます。小規模事業者持続化補助金・IT導入補助金・ものづくり補助金の一部が対象です。開業届の提出・確定申告の実施が要件となる場合が多いです。本AIが個人事業主向けの対象補助金を診断します。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "補助金申請が不採択になった場合、再申請はできますか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "多くの補助金は次回公募で再申請が可能です。不採択通知には「審査コメント」が記載される場合があり、その内容を踏まえて事業計画書を改善することで採択率が上がります。本AIに前回の申請内容と不採択理由を入力すると、改善点をAIが分析して強化された申請書ドラフトを再生成します。諦めずに複数回チャレンジすることが採択への近道です。"
+          }
+        },
       ],
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "AI補助金診断",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web Browser",
+      "url": SITE_URL,
+      "description": DESC,
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "JPY",
+        "description": "基本無料診断・申請書生成 ¥2,980/1申請〜"
+      }
     },
   ],
 };
@@ -174,6 +269,14 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <Analytics />
         <SpeedInsights />
         <GoogleAdScript />
+        {process.env.NEXT_PUBLIC_CLARITY_ID && process.env.NODE_ENV === 'production' && (
+          <Script
+            id="clarity-init"
+            strategy="afterInteractive"
+          >
+            {`(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","${process.env.NEXT_PUBLIC_CLARITY_ID}");`}
+          </Script>
+        )}
       </body>
     </html>
   );
