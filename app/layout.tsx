@@ -26,8 +26,8 @@ const mPlusRounded = M_PLUS_Rounded_1c({
 
 
 const SITE_URL = "https://hojyokin-ai-delta.vercel.app";
-const TITLE = "AI補助金診断｜補助金申請書をAI自動生成・無料診断・ものづくり補助金・IT導入補助金対応";
-const DESC = "補助金申請書の文章生成をAIが自動化。事業内容を入力するだけで使える補助金5件を無料診断し、補助金申請書ドラフト・チェックリスト・採択率アドバイスまでAIが自動生成。ものづくり補助金・IT導入補助金・小規模事業者持続化補助金対応。行政書士不要。¥2,980/1申請〜。";
+const TITLE = "補助金AI | 中小企業・士業向けAI補助金診断・申請書作成支援";
+const DESC = "IT導入補助金・ものづくり補助金・小規模事業者持続化補助金の診断から申請書ドラフト作成まで。行政書士・税理士・中小企業診断士の士業プランあり（¥19,800/月・顧問先100社）。事業内容を入力するだけでAIが申請書ドラフトを自動生成。3回無料。";
 
 export const metadata: Metadata = {
   title: TITLE,
@@ -272,6 +272,32 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body className={`${notoSansJP.className} antialiased`}>
         {children}
         <InstallPrompt />
+        {/* 関連AIサービス */}
+        <section className="mt-8 pt-6 border-t border-white/10 px-4 max-w-2xl mx-auto">
+          <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">
+            関連サービス
+          </h2>
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+            <a
+              href="https://keiyakusho-ai.vercel.app"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block p-3 bg-white/5 rounded-lg hover:bg-white/10 transition text-sm"
+            >
+              <span className="block font-medium text-gray-200">契約書AIレビュー</span>
+              <span className="block text-xs text-gray-400 mt-0.5">契約書リスクをAIが即チェック</span>
+            </a>
+            <a
+              href="https://ai-keiei-plan.vercel.app"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block p-3 bg-white/5 rounded-lg hover:bg-white/10 transition text-sm"
+            >
+              <span className="block font-medium text-gray-200">AI経営計画書</span>
+              <span className="block text-xs text-gray-400 mt-0.5">経営計画書をAIが自動生成</span>
+            </a>
+          </div>
+        </section>
         <footer className="flex justify-center py-2">
           <FeedbackButton serviceName="補助金AI" />
         </footer>
