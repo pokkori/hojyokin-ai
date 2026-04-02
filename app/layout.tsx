@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Noto_Sans_JP, M_PLUS_Rounded_1c } from "next/font/google";
+import { Inter, Noto_Sans_JP, M_PLUS_Rounded_1c } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import Script from "next/script";
@@ -7,6 +7,8 @@ import FeedbackButton from "@/components/FeedbackButton";
 import { GoogleAdScript } from "@/components/GoogleAdScript";
 import "./globals.css";
 import { InstallPrompt } from "@/components/InstallPrompt";
+
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 const notoSansJP = Noto_Sans_JP({
   subsets: ["latin"],
@@ -256,7 +258,7 @@ const jsonLd = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="ja" className={`dark ${notoSansJP.variable} ${mPlusRounded.variable}`}>
+    <html lang="ja" className={`dark ${inter.variable} ${notoSansJP.variable} ${mPlusRounded.variable}`}>
       <head>
         <script
           type="application/ld+json"
