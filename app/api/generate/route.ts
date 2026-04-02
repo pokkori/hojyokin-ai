@@ -1,6 +1,7 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { NextRequest, NextResponse } from "next/server";
 import { isActiveSubscription } from "@/lib/supabase";
+import { createErrorResponse, getClaudeErrorMessage } from "@/lib/claude-error";
 
 export const dynamic = "force-dynamic";
 
@@ -136,7 +137,9 @@ ${subsidyUse}
           controller.enqueue(encoder.encode(`\nDONE:${meta}`));
           controller.close();
         } catch (err) {
-          console.error(err);
+          const status = (err as { status?: number })?.status;
+          const msg = getClaudeErrorMessage(status ?? 500);
+          controller.enqueue(encoder.encode(`\nERROR:${JSON.stringify({ error: msg })}`));
           controller.error(err);
         }
       },

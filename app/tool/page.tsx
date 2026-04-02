@@ -381,7 +381,13 @@ function DraftTab({ isPremium, onShowPaywall }: { isPremium: boolean; onShowPayw
       if (res.status === 429) { onShowPaywall(); setLoading(false); return; }
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
-        setError(data.error || "エラーが発生しました"); setLoading(false); return;
+        const rawMsg: string = data.error || "エラーが発生しました";
+        const friendlyMsg = rawMsg.includes("429") || rawMsg.toLowerCase().includes("rate")
+          ? "アクセスが集中しています。しばらくお待ちください。"
+          : rawMsg.includes("529") || rawMsg.toLowerCase().includes("overload")
+          ? "AIサーバーが混雑しています。少し待ってから再試行してください。"
+          : rawMsg;
+        setError(friendlyMsg); setLoading(false); return;
       }
       const reader = res.body?.getReader();
       const decoder = new TextDecoder();
@@ -402,7 +408,16 @@ function DraftTab({ isPremium, onShowPaywall }: { isPremium: boolean; onShowPayw
         }
         setResult(accumulated);
       }
-    } catch { setError("通信エラーが発生しました。"); }
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : "";
+      setError(
+        msg.includes("429") || msg.toLowerCase().includes("rate")
+          ? "アクセスが集中しています。しばらくお待ちください。"
+          : msg.includes("529") || msg.toLowerCase().includes("overload")
+          ? "AIサーバーが混雑しています。少し待ってから再試行してください。"
+          : "通信エラーが発生しました。インターネット接続を確認してください。"
+      );
+    }
     finally { setLoading(false); }
   };
 
@@ -1459,7 +1474,16 @@ export default function HojyokinTool() {
       // ストリーク更新
       const newStreak = updateStreak("hojyokin");
       setStreakData(newStreak);
-    } catch { setError("通信エラーが発生しました。インターネット接続を確認してください。"); }
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : "";
+      setError(
+        msg.includes("429") || msg.toLowerCase().includes("rate")
+          ? "アクセスが集中しています。しばらくお待ちください。"
+          : msg.includes("529") || msg.toLowerCase().includes("overload")
+          ? "AIサーバーが混雑しています。少し待ってから再試行してください。"
+          : "通信エラーが発生しました。インターネット接続を確認してください。"
+      );
+    }
     finally { setLoading(false); }
   };
 
