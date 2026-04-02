@@ -45,7 +45,16 @@ export default function LegalPage() {
           </dl>
         </div>
 
-        <p className="text-xs text-slate-500 mt-8">
+        <div className="mt-8 rounded-2xl p-6" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.06)" }}>
+          <h2 className="text-base font-bold text-white/80 mb-3">AIによる生成コンテンツに関する免責</h2>
+          <ol className="space-y-2 list-decimal list-inside text-xs text-slate-400 leading-relaxed">
+            <li>本サービスが提供するAI生成コンテンツは、あくまでも参考情報・補助情報として提供するものであり、その正確性、完全性、有用性を保証するものではありません。</li>
+            <li>生成AIは常に正確または完全であるとは限りません。専門家（医師、弁護士、税理士、社会保険労務士等）の判断が必要な事項については、必ず専門家にご相談ください。</li>
+            <li>当社は、AI生成コンテンツの利用により生じた損害について、一切の責任を負いません。</li>
+            <li>基盤モデル提供者（Anthropic, Inc.）のサービス停止や仕様変更により、本サービスの機能が変更・停止される場合があります。</li>
+          </ol>
+        </div>
+        <p className="text-xs text-slate-500 mt-4">
           ※ 本サービスの診断結果は参考情報です。実際の補助金申請にあたっては、公募要領および各支援機関にご確認ください。
         </p>
       </div>
