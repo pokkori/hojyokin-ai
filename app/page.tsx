@@ -464,6 +464,8 @@ export default function HojyokinLP() {
          { '@type': 'Question', name: '申請書をそのまま提出できますか？', acceptedAnswer: { '@type': 'Answer', text: 'AIが生成する申請書は下書き・たたき台として活用してください。実際の提出にはJグランツ等の電子申請システムへの登録と公募要領の確認が必要です。' } },
          { '@type': 'Question', name: '補助金の採択を保証してもらえますか？', acceptedAnswer: { '@type': 'Answer', text: '採択を保証するものではありません。AIは申請書の品質向上と採択可能性の向上をサポートします。採択率は審査機関が判定します。' } },
          { '@type': 'Question', name: '料金はいくらですか？', acceptedAnswer: { '@type': 'Answer', text: '補助金診断は無料です。申請書生成・詳細サポートはプレミアムプラン（月額¥4,900）で利用できます。1回の申請で十分元が取れます。' } },
+         { '@type': 'Question', name: '士業プランとは何ですか？', acceptedAnswer: { '@type': 'Answer', text: '税理士・行政書士・中小企業診断士などの士業の先生向けに、顧問先への補助金提案ツールとしてご利用いただけるプランです。月額¥19,800で顧問先100社まで利用可能。初稿ドラフト生成で先生の添削・確認作業に集中していただけます。' } },
+         { '@type': 'Question', name: 'AIが書いた補助金申請書をそのまま提出していいですか？', acceptedAnswer: { '@type': 'Answer', text: 'AIの生成物はあくまでドラフト（下書き）です。必ず専門家（行政書士・中小企業診断士等）による確認・修正をお勧めします。' } },
        ],
      }).replace(/</g, '\\u003c'),
    }}
@@ -512,6 +514,26 @@ export default function HojyokinLP() {
  </nav>
 
  <StreakBanner />
+
+ {/* 士業・コンサル向けバナー */}
+ <div className="max-w-4xl mx-auto px-6 pt-6">
+ <div className="bg-blue-500/10 border border-blue-300 rounded-xl p-4">
+ <div className="flex items-start gap-3">
+ <SvgI name="scale" />
+ <div>
+ <p className="font-bold text-blue-300">税理士・行政書士・中小企業診断士の先生方へ</p>
+ <p className="text-blue-200 text-sm mt-1">
+ 顧問先への補助金提案を<strong>3分で自動化</strong>。初稿ドラフト生成→先生の添削に集中できます。
+ 士業プランは¥19,800/月・顧問先100社まで使い放題。
+ </p>
+ <a href="mailto:info@hojyokin-ai-delta.vercel.app?subject=補助金AI士業プランのお問い合わせ"
+ className="inline-block mt-2 bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full hover:bg-blue-500 transition">
+ 士業プランについて問い合わせる →
+ </a>
+ </div>
+ </div>
+ </div>
+ </div>
 
  <section className="max-w-4xl mx-auto px-6 py-20 text-center">
  <div className="inline-block bg-amber-500/10 text-amber-400 text-xs font-medium px-3 py-1 rounded-full mb-6">IT導入補助金・ものづくり補助金・小規模持続化補助金 対応</div>
@@ -1072,6 +1094,8 @@ export default function HojyokinLP() {
  { q: "申請書をそのまま提出できますか？", a: "AIが生成する申請書は下書き・たたき台として活用してください。実際の提出にはJグランツ等の電子申請システムへの登録と公募要領の確認が必要です。" },
  { q: "補助金の採択を保証してもらえますか？", a: "採択を保証するものではありません。AIは申請書の品質向上と採択可能性の向上をサポートします。採択率は審査機関が判定します。" },
  { q: "料金はいくらですか？", a: "補助金診断は無料です。申請書生成・詳細サポートはプレミアムプラン（月額¥4,900）で利用できます。1回の申請で十分元が取れます。" },
+ { q: "士業プランとは何ですか？", a: "税理士・行政書士・中小企業診断士などの士業の先生向けに、顧問先への補助金提案ツールとしてご利用いただけるプランです。月額¥19,800で顧問先100社まで利用可能。初稿ドラフト生成で先生の添削・確認作業に集中していただけます。" },
+ { q: "AIが書いた補助金申請書をそのまま提出していいですか？", a: "AIの生成物はあくまでドラフト（下書き）です。必ず専門家（行政書士・中小企業診断士等）による確認・修正をお勧めします。" },
  ].map((faq, i) => (
  <div key={i} className="backdrop-blur-md bg-white/[0.07] border border-white/15 rounded-xl p-5 shadow-lg">
  <p className="font-semibold text-amber-800 mb-2 text-sm">Q. {faq.q}</p>
