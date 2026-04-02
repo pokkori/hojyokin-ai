@@ -85,7 +85,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "事業概要と補助金の用途は必須です" }, { status: 400 });
     }
 
-    const draftPrompt = `以下の情報をもとに、${subsidyType}の申請書文章を作成してください。
+    const draftPrompt = `以下の情報をもとに、${subsidyType}の申請書文章を作成してください（補助金種別: ${subsidyType || "ものづくり補助金"}）。
 
 【自社事業の概要】
 ${bizOverview}
@@ -120,7 +120,13 @@ ${subsidyUse}
     const stream = getClient().messages.stream({
       model: "claude-sonnet-4-6",
       max_tokens: 4096,
-      system: systemPrompt,
+      system: [
+        {
+          type: "text",
+          text: systemPrompt,
+          cache_control: { type: "ephemeral" },
+        },
+      ],
       messages: [{ role: "user", content: draftPrompt }],
     });
 
@@ -258,7 +264,13 @@ ${subsidyUse}
   const stream = getClient().messages.stream({
     model: "claude-sonnet-4-6",
     max_tokens: 4096,
-    system: systemPrompt,
+    system: [
+      {
+        type: "text",
+        text: systemPrompt,
+        cache_control: { type: "ephemeral" },
+      },
+    ],
     messages: [{ role: "user", content: prompt }],
   });
 
