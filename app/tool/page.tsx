@@ -111,7 +111,7 @@ function ScoreCard({ score }: { score: number }) {
         <div className={`h-3 rounded-full transition-all duration-1000 ${barColor}`} style={{ width: `${score}%` }} />
       </div>
       <p className="text-xs text-gray-500">
-        {score >= 80 ? "現在の事業内容・規模・目的から、採択可能性が高いと判定されました。申請書の精度を高めることでさらに確実に。"
+        {score >= 80 ? "現在の事業内容・規模・目的から、採択可能性が高いと判定されました。申請書の精度を高めることでさらに採択率向上が期待できます。"
           : score >= 60 ? "採択ラインに近いスコアです。申請書ドラフトと採択ポイントを参考に、内容を補強してください。"
           : "現状では改善が必要です。「採択率を上げるポイント」を参照し、事業計画の数値・必然性を強化してください。"}
       </p>
