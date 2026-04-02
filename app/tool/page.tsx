@@ -415,7 +415,7 @@ function DraftTab({ isPremium, onShowPaywall }: { isPremium: boolean; onShowPayw
           ? "アクセスが集中しています。しばらくお待ちください。"
           : msg.includes("529") || msg.toLowerCase().includes("overload")
           ? "AIサーバーが混雑しています。少し待ってから再試行してください。"
-          : "通信エラーが発生しました。インターネット接続を確認してください。"
+          : "少し時間をおいてもう一度お試しください。"
       );
     }
     finally { setLoading(false); }
@@ -477,7 +477,7 @@ function DraftTab({ isPremium, onShowPaywall }: { isPremium: boolean; onShowPayw
           aria-busy={loading}
           variant="primary"
         >
-          {loading ? "申請書を生成中..." : "申請書の文章を生成する"}
+          {loading ? "申請書を生成中..." : "無料で申請書の文章を生成する"}
         </GlowButton>
         {error && <p className="text-sm text-red-500" role="alert">{error}</p>}
       </form>
@@ -1481,7 +1481,7 @@ export default function HojyokinTool() {
           ? "アクセスが集中しています。しばらくお待ちください。"
           : msg.includes("529") || msg.toLowerCase().includes("overload")
           ? "AIサーバーが混雑しています。少し待ってから再試行してください。"
-          : "通信エラーが発生しました。インターネット接続を確認してください。"
+          : "少し時間をおいてもう一度お試しください。"
       );
     }
     finally { setLoading(false); }
