@@ -1315,6 +1315,25 @@ export default function HojyokinLP() {
 
  <CrossSell currentService="補助金AI" />
 
+ {/* FAQセクション */}
+ <section aria-label="よくある質問" className="py-12 px-4 max-w-2xl mx-auto">
+   <h2 className="text-2xl font-bold mb-8 text-center">よくある質問</h2>
+   <div className="space-y-4">
+     {[
+       { q: 'どんな補助金を調べられますか？', a: 'ものづくり補助金・IT導入補助金・事業再構築補助金・小規模事業者持続化補助金など主要補助金に対応。業種・事業規模・目的から最適な補助金を診断します。' },
+       { q: '申請書をそのまま提出できますか？', a: 'AIが生成する申請書は下書き・たたき台として活用してください。実際の提出にはJグランツ等の電子申請システムへの登録と公募要領の確認が必要です。' },
+       { q: '補助金の採択を保証してもらえますか？', a: '採択を保証するものではありません。AIは申請書の品質向上と採択可能性の向上をサポートします。採択率は審査機関が判定します。' },
+       { q: '料金はいくらですか？', a: '補助金診断は無料です。申請書生成・詳細サポートはプレミアムプラン（月額¥4,900）で利用できます。1回の申請で十分元が取れます。' },
+       { q: '士業プランとは何ですか？', a: '税理士・行政書士・中小企業診断士などの士業の先生向けに、顧問先への補助金提案ツールとしてご利用いただけるプランです。月額¥19,800で顧問先100社まで利用可能。初稿ドラフト生成で先生の添削・確認作業に集中していただけます。' },
+     ].map((faq, i) => (
+       <details key={i} className="border border-white/20 rounded-lg p-4 cursor-pointer">
+         <summary className="font-semibold">{faq.q}</summary>
+         <p className="mt-3 text-white/60">{faq.a}</p>
+       </details>
+     ))}
+   </div>
+ </section>
+
  <footer className="border-t py-6 pb-24 sm:pb-6 text-center text-xs text-white/40 space-y-2">
  <p>AI補助金診断 © 2026 ※本サービスは情報提供を目的としており、申請を保証するものではありません。必ず公募要領をご確認ください。</p>
  <p>
