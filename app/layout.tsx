@@ -253,6 +253,61 @@ const jsonLd = {
         "description": "基本無料診断・申請書生成 ¥2,980/1申請〜"
       }
     },
+    {
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      "name": "補助金AIの使い方",
+      "description": "業種・規模を入力するだけでAIが該当補助金を診断し、申請書ドラフトを自動生成する手順",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "position": 1,
+          "name": "業種・規模・投資目的を入力する",
+          "text": "業種・従業員数・投資目的（設備投資・ITツール導入・販路開拓など）を入力フォームに入力します。個人事業主・法人いずれも利用可能です。"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 2,
+          "name": "AIが該当補助金をリストアップする",
+          "text": "ものづくり補助金・IT導入補助金・小規模事業者持続化補助金など、条件に合致する補助金を優先度順に最大5件診断します。補助上限額・補助率・申請要件も表示されます。"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 3,
+          "name": "申請書類のドラフトを生成する",
+          "text": "診断結果をもとに申請書ドラフトをAIが自動生成します。事業概要・強み・投資計画を反映した文章が最短30分で完成。あとは具体的な数字を加えるだけで申請書が完成します。"
+        }
+      ]
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "name": "補助金AI（AI補助金診断）",
+      "description": "中小企業・個人事業主・士業向けAI補助金診断・申請書作成支援サービス。IT導入補助金・ものづくり補助金・小規模事業者持続化補助金の診断から申請書ドラフト生成まで対応。",
+      "provider": {
+        "@type": "Organization",
+        "name": "補助金AI運営事務局",
+        "url": SITE_URL
+      },
+      "serviceType": "AI Software",
+      "areaServed": "JP",
+      "audience": {
+        "@type": "BusinessAudience",
+        "audienceType": "中小企業・個人事業主・行政書士・税理士・中小企業診断士"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "9800",
+        "priceCurrency": "JPY",
+        "priceSpecification": {
+          "@type": "UnitPriceSpecification",
+          "price": "9800",
+          "priceCurrency": "JPY",
+          "unitText": "月額〜"
+        },
+        "description": "基本無料診断・申請書生成¥2,980/1申請〜・プレミアム¥9,800/月・士業プラン¥19,800/月"
+      }
+    },
   ],
 };
 
