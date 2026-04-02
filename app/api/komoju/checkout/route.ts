@@ -5,6 +5,11 @@ export const dynamic = 'force-dynamic'
 const PLANS: Record<string, { amount: number; description: string; cookieValue: string }> = {
   standard: { amount: 980, description: '補助金AI スタンダードプラン（月額）', cookieValue: '1' },
   business: { amount: 2980, description: '補助金AI ビジネスプラン（月額）', cookieValue: 'biz' },
+  // 年額プラン（月額×10 = 2ヶ月分無料）
+  standard_annual: { amount: 9800, description: '補助金AI スタンダード年額（月換算¥817/月・2ヶ月分無料）', cookieValue: '1' },
+  business_annual: { amount: 29800, description: '補助金AI ビジネス年額（月換算¥2,483/月・2ヶ月分無料）', cookieValue: 'biz' },
+  // 1回払いプラン
+  once: { amount: 1980, description: '補助金AI 1回払いプラン', cookieValue: '1' },
 }
 
 export async function POST(req: Request) {

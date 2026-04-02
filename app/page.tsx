@@ -444,9 +444,11 @@ function SampleSection() {
 
 export default function HojyokinLP() {
  const [showPayjp, setShowPayjp] = useState(false);
- const [payjpPlan, setPayjpPlan] = useState<"once" | "standard">("once");
+ const [payjpPlan, setPayjpPlan] = useState<"once" | "standard" | "standard_annual" | "business_annual">("standard_annual");
+ // 年額/月額トグル（デフォルト: 年額。CVR最大化のためゼロ価格効果を活用）
+ const [isAnnual, setIsAnnual] = useState(true);
 
- function startCheckout(plan: "once" | "standard") {
+ function startCheckout(plan: "once" | "standard" | "standard_annual" | "business_annual") {
  setPayjpPlan(plan);
  setShowPayjp(true);
  }
@@ -492,10 +494,14 @@ export default function HojyokinLP() {
  <div className="backdrop-blur-md bg-white/[0.07] border border-white/15 rounded-2xl p-6 max-w-sm w-full shadow-xl relative">
  <button onClick={() => setShowPayjp(false)} aria-label="プラン登録モーダルを閉じる" className="absolute top-3 right-3 text-white/40 text-xl"><svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
  <h2 className="text-lg font-bold mb-4 text-center">プレミアムプランに登録</h2>
- {payjpPlan === "once" ? (
- <KomojuButton planId="standard" planLabel="スタンダードプラン ¥980/月を始める" className="w-full bg-blue-500 text-white font-bold py-3 rounded-xl hover:bg-blue-400 disabled:opacity-50" />
+ {payjpPlan === "standard_annual" ? (
+ <KomojuButton planId="standard_annual" planLabel="スタンダード年額 ¥9,800（2ヶ月無料）" className="w-full bg-amber-500 text-white font-bold py-3 rounded-xl hover:bg-amber-400 disabled:opacity-50" />
+ ) : payjpPlan === "business_annual" ? (
+ <KomojuButton planId="business_annual" planLabel="ビジネス年額 ¥29,800（2ヶ月無料）" className="w-full bg-amber-500 text-white font-bold py-3 rounded-xl hover:bg-amber-400 disabled:opacity-50" />
+ ) : payjpPlan === "once" ? (
+ <KomojuButton planId="once" planLabel="1回払い ¥1,980" className="w-full bg-blue-500 text-white font-bold py-3 rounded-xl hover:bg-blue-400 disabled:opacity-50" />
  ) : (
- <KomojuButton planId="business" planLabel="ビジネスプラン ¥2,980/月を始める" className="w-full bg-blue-500 text-white font-bold py-3 rounded-xl hover:bg-blue-400 disabled:opacity-50" />
+ <KomojuButton planId="standard" planLabel="スタンダードプラン ¥980/月" className="w-full bg-blue-500 text-white font-bold py-3 rounded-xl hover:bg-blue-400 disabled:opacity-50" />
  )}
  </div>
  </div>
@@ -960,7 +966,28 @@ export default function HojyokinLP() {
 
  <section className="py-16">
  <div className="max-w-4xl mx-auto px-6 text-center">
- <h2 className="text-2xl font-bold mb-10">料金プラン</h2>
+ <h2 className="text-2xl font-bold mb-6">料金プラン</h2>
+
+ {/* 年額/月額トグルスイッチ（デフォルト: 年額。「2ヶ月無料」のゼロ価格効果でCVR最大化） */}
+ <div className="flex items-center justify-center gap-4 mb-8">
+ <span className={`text-sm font-medium transition-colors ${!isAnnual ? 'text-white' : 'text-white/40'}`}>月額</span>
+ <button
+ role="switch"
+ aria-checked={isAnnual}
+ aria-label="年額プランと月額プランを切り替える"
+ onClick={() => setIsAnnual(!isAnnual)}
+ className={`relative w-14 h-7 rounded-full transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 ${isAnnual ? 'bg-amber-500' : 'bg-white/20'}`}
+ >
+ <span
+ className={`absolute top-0.5 left-0.5 w-6 h-6 bg-white rounded-full shadow transition-transform duration-200 ${isAnnual ? 'translate-x-7' : 'translate-x-0'}`}
+ />
+ </button>
+ <span className={`text-sm font-medium transition-colors ${isAnnual ? 'text-white' : 'text-white/40'}`}>
+ 年額
+ <span className="ml-2 text-xs bg-green-500 text-white px-2 py-0.5 rounded-full font-bold">2ヶ月無料</span>
+ </span>
+ </div>
+
  <div className="bg-white/5 rounded-2xl border border-white/15 p-5 mb-8 max-w-2xl mx-auto text-sm">
  <p className="font-bold text-white mb-3 text-center">補助金コンサルと比べると</p>
  <div className="grid grid-cols-2 gap-4 mb-4">
@@ -971,9 +998,9 @@ export default function HojyokinLP() {
  </div>
  <div className="text-center bg-green-500/10 rounded-xl p-3 border border-green-200">
  <div className="text-white/50 text-xs mb-1">補助金AI（当サービス）</div>
- <div className="text-2xl font-bold text-green-600">¥4,980/月</div>
+ <div className="text-2xl font-bold text-green-600">{isAnnual ? '¥9,800/年' : '¥4,980/月'}</div>
  <div className="text-xs text-green-600 font-medium mt-1">何度でも使い放題</div>
- <div className="text-xs text-white/40">1申請あたり¥1,980〜</div>
+ <div className="text-xs text-white/40">{isAnnual ? '月換算¥817/月' : '1申請あたり¥1,980〜'}</div>
  </div>
  </div>
  {/* 費用差訴求バナー */}
@@ -983,6 +1010,44 @@ export default function HojyokinLP() {
  </div>
  <p className="text-center text-xs text-white/40 mt-2">※申請書作成の参考ツールです。採択を保証するものではありません</p>
  </div>
+
+ {/* 年額表示 */}
+ {isAnnual ? (
+ <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl mx-auto">
+ {[
+ { name: "お試し", price: "無料", monthly: null, limit: "3回まで", plan: null as null, highlight: false },
+ { name: "スタンダード年額", price: "¥9,800/年", monthly: "月換算 ¥817/月", limit: "月20回診断＋ドラフト（複数申請向け）", plan: "standard_annual" as const, highlight: true },
+ { name: "ビジネス年額", price: "¥29,800/年", monthly: "月換算 ¥2,483/月", limit: "無制限診断＋士業向け機能", plan: "business_annual" as const, highlight: false },
+ ].map(plan => (
+ <div key={plan.name} className={`rounded-2xl border p-6 relative ${plan.highlight ? "border-amber-500 shadow-xl" : "border-white/15"}`}>
+ {plan.highlight && (
+ <div className="absolute -top-3 left-1/2 -translate-x-1/2 flex items-center gap-1">
+ <span className="text-xs bg-amber-500 text-white px-3 py-0.5 rounded-full font-bold">おすすめ</span>
+ <span className="text-xs bg-green-500 text-white px-2 py-0.5 rounded-full font-bold">2ヶ月無料</span>
+ </div>
+ )}
+ <div className="font-bold mb-1">{plan.name}</div>
+ <div className="text-2xl font-bold text-amber-500 mb-1">{plan.price}</div>
+ {plan.monthly && <div className="text-xs text-green-400 font-medium mb-1">{plan.monthly}</div>}
+ <div className="text-xs text-white/50 mb-4">{plan.limit}</div>
+ {plan.plan === null ? (
+ <Link href="/tool" className="block w-full text-center text-sm font-medium py-2.5 rounded-lg bg-white/5 text-white/80 hover:bg-gray-200">
+ 無料で診断
+ </Link>
+ ) : (
+ <button
+ onClick={() => startCheckout(plan.plan!)}
+ aria-label={`${plan.name}（${plan.price}）に申し込む`}
+ className={`block w-full text-center text-sm font-medium py-2.5 rounded-lg ${plan.highlight ? "bg-amber-500 text-white hover:bg-amber-600" : "bg-white/5 text-white/80 hover:bg-gray-200"}`}
+ >
+ 申し込む
+ </button>
+ )}
+ </div>
+ ))}
+ </div>
+ ) : (
+ /* 月額表示 */
  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl mx-auto">
  {[
  { name: "お試し", price: "無料", limit: "3回まで", plan: null as null, highlight: false },
@@ -1010,6 +1075,7 @@ export default function HojyokinLP() {
  </div>
  ))}
  </div>
+ )}
  </div>
  </section>
 
