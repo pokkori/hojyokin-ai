@@ -481,6 +481,8 @@ export default function HojyokinLP() {
        name: '補助金AI',
        operatingSystem: 'Web',
        applicationCategory: 'BusinessApplication',
+       description: 'ものづくり補助金・IT導入補助金・事業再構築補助金など主要補助金を診断し、申請書ドラフトをAIが自動生成。中小企業・個人事業主の補助金申請を強力サポートするWebサービス。',
+       url: 'https://hojyokin-ai-delta.vercel.app',
        offers: { '@type': 'Offer', price: 0, priceCurrency: 'JPY' },
      }).replace(/</g, '\\u003c'),
    }}

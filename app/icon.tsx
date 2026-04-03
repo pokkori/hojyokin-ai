@@ -7,15 +7,20 @@ export default function Icon() {
   return new ImageResponse(
     <div
       style={{
-        fontSize: 24,
+        background: "#1A1A2E",
         width: "100%",
         height: "100%",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
+        borderRadius: "6px",
+        color: "#FFD700",
+        fontSize: 18,
+        fontWeight: 700,
+        fontFamily: "sans-serif",
       }}
     >
-      💰
+      ¥
     </div>,
     { ...size }
   );
