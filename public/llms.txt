@@ -1,28 +1,27 @@
 # 補助金AI
+> 中小企業・個人事業主向けの補助金・助成金をAIが検索・申請支援するツール
 
-> 中小企業・個人事業主・士業向けに申請可能な補助金をAIが診断し、申請書ドラフトを最短30分で自動生成。通常15〜20万円かかる補助金コンサル費用を大幅削減。
+## サービス概要
+- **カテゴリ**: ビジネスAI
+- **URL**: https://hojyokin-ai.vercel.app
+- **提供形態**: Webブラウザで利用可能（登録不要で試せます）
+- **開発**: Claude Code + Next.js 16 + Vercel
 
-## サービス
-- [補助金診断ツール](https://hojyokin-ai-delta.vercel.app/tool): 業種・従業員数・事業内容を入力するだけで対象補助金を優先度順に最大5件診断し、申請書ドラフトを自動生成
-- [料金プラン](https://hojyokin-ai-delta.vercel.app/#pricing): 基本診断無料・申請書生成¥2,980/1申請〜・士業プラン¥19,800/月（顧問先100社対応）
+## 主要ページ
+- [トップページ](https://hojyokin-ai.vercel.app/): メイン機能・サービス説明
+- [ツール](https://hojyokin-ai.vercel.app/tool): AI機能の利用画面（一部サービス）
+- [プライバシーポリシー](https://hojyokin-ai.vercel.app/privacy): 個人情報の取り扱い
+- [特定商取引法に基づく表記](https://hojyokin-ai.vercel.app/legal): 法的情報
 
-## よくある質問
-- [FAQ](https://hojyokin-ai-delta.vercel.app/#faq): 採択率・再申請・複数補助金同時申請・士業活用・スタートアップ対応・採択後手続きなど19問以上
+## 利用シーン
+中小企業・個人事業主向けの補助金・助成金をAIが検索・申請支援するツール
 
-## 対象ユーザー
-補助金申請を検討している中小企業・小規模事業者・個人事業主。また顧問先の補助金サポートを行いたい行政書士・税理士・中小企業診断士などの士業。
+## 技術スタック
+- フロントエンド: Next.js 16, React 19, TypeScript, Tailwind CSS
+- AI: Claude claude-sonnet-4-6 (Anthropic)
+- バックエンド: Vercel Edge Functions, Supabase
+- 決済: KOMOJU（クレジットカード・コンビニ払い対応）
 
-## 料金
-- 無料プラン: 基本診断無料（初回3回まで申請書ドラフト生成も含む）
-- スタンダード: ¥2,980/1申請
-- 士業プラン: ¥19,800/月（顧問先100社・一括診断・申請書一括生成）
-
-## 主な機能
-- IT導入補助金・ものづくり補助金・小規模事業者持続化補助金など2026年度最新補助金に対応
-- 採択率向上アドバイス（補助金ごとの採択率40〜80%の傾向を反映）
-- 不採択後の改善再申請サポート
-- 採択後の実績報告書・経費精算書・チェックリストの自動生成
-
-## Optional
-- [利用規約](https://hojyokin-ai-delta.vercel.app/legal)
-- [プライバシーポリシー](https://hojyokin-ai-delta.vercel.app/privacy)
+## robots.txt
+AIクローラーによるインデックスを歓迎します。
+GPTBot, ClaudeBot, PerplexityBot, Googlebot-Extended のアクセスを許可しています。
