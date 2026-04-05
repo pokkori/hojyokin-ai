@@ -10,6 +10,8 @@ import { StreakBanner } from "@/components/StreakBanner";
 import { UsageCounter } from "@/components/UsageCounter";
 import { CrossSell } from "@/components/CrossSell";
 import { TrustBadge } from "@/components/TrustBadge";
+import { FaqJsonLd } from "@/components/FaqJsonLd";
+import { XShareButton } from "@/components/XShareButton";
 const T = THEMES.legal;
 
 /* ---- SVG Icon helper (replaces all emoji) ---- */
@@ -455,23 +457,14 @@ export default function HojyokinLP() {
 
  return (
  <>
- <script
-   type="application/ld+json"
-   dangerouslySetInnerHTML={{
-     __html: JSON.stringify({
-       '@context': 'https://schema.org',
-       '@type': 'FAQPage',
-       mainEntity: [
-         { '@type': 'Question', name: 'どんな補助金を調べられますか？', acceptedAnswer: { '@type': 'Answer', text: 'ものづくり補助金・IT導入補助金・事業再構築補助金・小規模事業者持続化補助金など主要補助金に対応。業種・事業規模・目的から最適な補助金を診断します。' } },
-         { '@type': 'Question', name: '申請書をそのまま提出できますか？', acceptedAnswer: { '@type': 'Answer', text: 'AIが生成する申請書は下書き・たたき台として活用してください。実際の提出にはJグランツ等の電子申請システムへの登録と公募要領の確認が必要です。' } },
-         { '@type': 'Question', name: '補助金の採択を保証してもらえますか？', acceptedAnswer: { '@type': 'Answer', text: '採択を保証するものではありません。AIは申請書の品質向上と採択可能性の向上をサポートします。採択率は審査機関が判定します。' } },
-         { '@type': 'Question', name: '料金はいくらですか？', acceptedAnswer: { '@type': 'Answer', text: '補助金診断は無料です。申請書生成・詳細サポートはプレミアムプラン（月額¥4,900）で利用できます。1回の申請で十分元が取れます。' } },
-         { '@type': 'Question', name: '士業プランとは何ですか？', acceptedAnswer: { '@type': 'Answer', text: '税理士・行政書士・中小企業診断士などの士業の先生向けに、顧問先への補助金提案ツールとしてご利用いただけるプランです。月額¥19,800で顧問先100社まで利用可能。初稿ドラフト生成で先生の添削・確認作業に集中していただけます。' } },
-         { '@type': 'Question', name: 'AIが書いた補助金申請書をそのまま提出していいですか？', acceptedAnswer: { '@type': 'Answer', text: 'AIの生成物はあくまでドラフト（下書き）です。必ず専門家（行政書士・中小企業診断士等）による確認・修正をお勧めします。' } },
-       ],
-     }).replace(/</g, '\\u003c'),
-   }}
- />
+ <FaqJsonLd items={[
+   { question: 'どんな補助金を調べられますか？', answer: 'ものづくり補助金・IT導入補助金・事業再構築補助金・小規模事業者持続化補助金など主要補助金に対応。業種・事業規模・目的から最適な補助金を診断します。' },
+   { question: '申請書をそのまま提出できますか？', answer: 'AIが生成する申請書は下書き・たたき台として活用してください。実際の提出にはJグランツ等の電子申請システムへの登録と公募要領の確認が必要です。' },
+   { question: '補助金の採択を保証してもらえますか？', answer: '採択を保証するものではありません。AIは申請書の品質向上と採択可能性の向上をサポートします。採択率は審査機関が判定します。' },
+   { question: '料金はいくらですか？', answer: '補助金診断は無料です。申請書生成・詳細サポートはプレミアムプラン（月額¥4,900）で利用できます。1回の申請で十分元が取れます。' },
+   { question: '士業プランとは何ですか？', answer: '税理士・行政書士・中小企業診断士などの士業の先生向けに、顧問先への補助金提案ツールとしてご利用いただけるプランです。月額¥19,800で顧問先100社まで利用可能。初稿ドラフト生成で先生の添削・確認作業に集中していただけます。' },
+   { question: 'AIが書いた補助金申請書をそのまま提出していいですか？', answer: 'AIの生成物はあくまでドラフト（下書き）です。必ず専門家（行政書士・中小企業診断士等）による確認・修正をお勧めします。' },
+ ]} />
  <script
    type="application/ld+json"
    dangerouslySetInnerHTML={{
@@ -1303,6 +1296,9 @@ export default function HojyokinLP() {
  <section className="max-w-4xl mx-auto px-4 py-10 text-center">
  <p className="text-white/40 text-sm mb-4">補助金AIを友達にシェア</p>
  <ShareButtons url="https://hojyokin-ai-delta.vercel.app" text="補助金AIを使ってみた！" hashtags="補助金AI" />
+ <div className="mt-3 flex justify-center">
+   <XShareButton text="補助金AIで最適な補助金を診断してもらった！中小企業・個人事業主向け。" url="https://hojyokin-ai-delta.vercel.app" hashtags={['補助金AI', '補助金申請']} />
+ </div>
  </section>
 
  {/* AI免責バナー */}
