@@ -3,6 +3,7 @@ import { Inter, Noto_Sans_JP, M_PLUS_Rounded_1c } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import Script from "next/script";
+import OrbBackground from "@pokkori/ui/orb-background";
 import FeedbackButton from "@/components/FeedbackButton";
 import { GoogleAdScript } from "@/components/GoogleAdScript";
 import CookieBanner from "@/components/CookieBanner";
@@ -325,7 +326,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className={`${notoSansJP.className} antialiased`}>
+      <body className={`${notoSansJP.className} antialiased`} style={{ background: "#0B1120" }}>
+        <OrbBackground theme="business" />
+        <div style={{ position: "relative", zIndex: 1 }}>
         {children}
         <InstallPrompt />
         {/* 関連AIサービス */}
@@ -369,6 +372,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           </Script>
         )}
         <CookieBanner />
+        </div>
       </body>
     </html>
   );

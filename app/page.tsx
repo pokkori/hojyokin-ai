@@ -12,7 +12,7 @@ import { CrossSell } from "@/components/CrossSell";
 import { TrustBadge } from "@/components/TrustBadge";
 import { FaqJsonLd } from "@/components/FaqJsonLd";
 import { XShareButton } from "@/components/XShareButton";
-const T = THEMES.legal;
+const T = THEMES.life;
 
 /* ---- SVG Icon helper (replaces all emoji) ---- */
 const IC: Record<string, React.ReactNode> = {
@@ -509,7 +509,7 @@ export default function HojyokinLP() {
  <span className="font-bold text-white">AI補助金診断</span>
  <div className="flex items-center gap-3">
  <Link href="/business" aria-label="士業・顧問先向け補助金AI法人プランを見る" className="text-blue-400 hover:text-blue-300 text-sm font-bold hidden sm:inline transition-colors">法人・士業向け</Link>
- <Link href="/tool" aria-label="補助金AI診断ツールで無料診断を始める" className="text-white text-sm font-medium px-5 py-2.5 rounded-full transition-all duration-300 hover:scale-105 min-h-[44px] flex items-center" style={{background: T.gradientBtn, boxShadow: `0 0 20px ${T.primary}4D`}}>無料で診断する</Link>
+ <Link href="/tool" aria-label="補助金AI診断ツールで無料診断を始める" className="text-white text-sm font-bold px-5 py-2.5 rounded-full btn-spring min-h-[44px] flex items-center" style={{background: "linear-gradient(135deg, #F59E0B 0%, #10B981 100%)", boxShadow: "0 0 18px rgba(245,158,11,0.4), 0 0 36px rgba(16,185,129,0.15)"}}>無料で診断する</Link>
  </div>
  </div>
  </nav>
@@ -538,8 +538,22 @@ export default function HojyokinLP() {
 
  <section className="max-w-4xl mx-auto px-6 py-20 text-center">
  <div className="inline-block bg-amber-500/10 text-amber-400 text-xs font-medium px-3 py-1 rounded-full mb-6">IT導入補助金・ものづくり補助金・小規模持続化補助金 対応</div>
- <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 leading-tight">
- 補助金申請書を、<br /><span className="text-amber-500">AIが書く。</span>
+ <h1 className="text-4xl md:text-5xl font-bold mb-4 leading-tight">
+ <span style={{
+   background: T.gradientText,
+   WebkitBackgroundClip: "text",
+   WebkitTextFillColor: "transparent",
+   backgroundClip: "text",
+   filter: "drop-shadow(0 0 24px rgba(16,185,129,0.35))",
+ }}>補助金申請書を、</span>
+ <br />
+ <span style={{
+   background: "linear-gradient(135deg, #FDE68A 0%, #F59E0B 60%, #10B981 100%)",
+   WebkitBackgroundClip: "text",
+   WebkitTextFillColor: "transparent",
+   backgroundClip: "text",
+   filter: "drop-shadow(0 0 20px rgba(245,158,11,0.5))",
+ }}>AIが書く。</span>
  </h1>
  <p className="text-lg text-white/50 mb-4 max-w-xl mx-auto">
  Jグランツの無料診断で分かった補助金を、<strong className="text-white/80">申請書まで一気通貫で作成。</strong><br />
@@ -622,7 +636,15 @@ export default function HojyokinLP() {
      </div>
    </div>
  </div>
- <Link href="/tool" aria-label="補助金AI診断ツールで申請書を無料で書いてみる" className="inline-block bg-amber-500/100 text-white font-bold text-lg px-8 py-4 rounded-xl hover:bg-amber-600 shadow-xl shadow-amber-100">無料で申請書を書いてみる →</Link>
+ <Link
+   href="/tool"
+   aria-label="補助金AI診断ツールで申請書を無料で書いてみる"
+   className="inline-block text-white font-bold text-lg px-8 py-4 rounded-2xl transition-all duration-200 hover:-translate-y-0.5 active:scale-[0.97] min-h-[52px] btn-spring"
+   style={{
+     background: "linear-gradient(135deg, #F59E0B 0%, #10B981 100%)",
+     boxShadow: "0 0 30px rgba(245,158,11,0.45), 0 0 60px rgba(16,185,129,0.2), 0 4px 15px rgba(0,0,0,0.3)",
+   }}
+ >無料で申請書を書いてみる →</Link>
  <p className="text-xs text-white/40 mt-3">クレジットカード不要・3回まで無料</p>
  </section>
 
