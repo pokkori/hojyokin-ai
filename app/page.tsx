@@ -12,6 +12,7 @@ import { CrossSell } from "@/components/CrossSell";
 import { TrustBadge } from "@/components/TrustBadge";
 import { FaqJsonLd } from "@/components/FaqJsonLd";
 import { XShareButton } from "@/components/XShareButton";
+import { SubsidyCountdown } from "@/components/SubsidyCountdown";
 const T = THEMES.life;
 
 /* ---- SVG Icon helper (replaces all emoji) ---- */
@@ -636,6 +637,7 @@ export default function HojyokinLP() {
      </div>
    </div>
  </div>
+ <div className="max-w-xs mx-auto mb-4"><SubsidyCountdown /></div>
  <Link
    href="/tool"
    aria-label="補助金AI診断ツールで申請書を無料で書いてみる"
