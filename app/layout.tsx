@@ -3,7 +3,7 @@ import { Inter, Noto_Sans_JP, M_PLUS_Rounded_1c } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import Script from "next/script";
-import OrbBackground from "@pokkori/ui/orb-background";
+import OrbBackground from "@/components/OrbBackground";
 import FeedbackButton from "@/components/FeedbackButton";
 import { GoogleAdScript } from "@/components/GoogleAdScript";
 import CookieBanner from "@/components/CookieBanner";
