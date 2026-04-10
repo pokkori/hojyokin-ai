@@ -8,6 +8,7 @@ import { updateStreak, loadStreak, getStreakMilestoneMessage, type StreakData } 
 import { useTypewriter } from "@/lib/useTypewriter";
 import AnimatedScore from "@/components/AnimatedScore";
 import ConfettiLaunch from "@/components/ConfettiLaunch";
+import AIResultCard from "@/components/AIResultCard";
 import { UsageCounter } from "@/components/UsageCounter";
 
 const FREE_LIMIT = 3;
@@ -213,41 +214,38 @@ function ResultTabs({ parsed }: { parsed: ParsedResult }) {
           </button>
         ))}
       </div>
-      <div className="glass-dark rounded-2xl p-4 min-h-[360px]">
-        <div className="flex items-center justify-between mb-3">
-          <span className="text-sm font-semibold text-gray-700">{section.icon} {section.title}</span>
-          <CopyButton text={section.content} />
-        </div>
-        <div className="space-y-2">
-          {section.content.split('\n').map((line, i) => {
-            if (line.startsWith('## ') || line.startsWith('# ')) {
-              return (
-                <h3 key={i} className="text-sm font-black pt-2 pb-1 border-b border-amber-200 text-amber-700">
-                  {line.replace(/^#{1,3}\s/, '')}
-                </h3>
-              );
-            }
-            if (line.startsWith('✓') || line.match(/^[・•]\s/) || line.match(/^[-]\s/) || line.match(/^\d+\.\s/)) {
-              const isCheck = line.startsWith('✓');
-              return (
-                <div key={i} className="flex gap-2 items-start text-sm text-gray-700">
-                  <span className="flex-shrink-0 mt-0.5 text-amber-500 font-bold">{isCheck ? '✓' : '●'}</span>
-                  <span>{line.replace(/^[✓・•\-]\s*/, '').replace(/^\d+\.\s*/, '')}</span>
-                </div>
-              );
-            }
-            if (line.trim() === '') return <div key={i} className="h-1" />;
-            if (line.startsWith('【') || line.startsWith('■') || line.startsWith('▶') || line.startsWith('◆')) {
-              return (
-                <p key={i} className="text-sm font-semibold text-gray-800 mt-2">{line}</p>
-              );
-            }
-            return (
-              <p key={i} className="text-sm leading-relaxed text-gray-700">{line}</p>
-            );
-          })}
-        </div>
-      </div>
+      <AIResultCard
+        text={section.content}
+        accentColor="#F59E0B"
+        header={
+          <div className="flex items-center justify-between">
+            <span className="text-sm font-semibold text-amber-300">{section.title}</span>
+            <CopyButton text={section.content} />
+          </div>
+        }
+        renderContent={(t) => (
+          <div className="space-y-2">
+            {t.split('\n').map((line, i) => {
+              if (line.startsWith('## ') || line.startsWith('# ')) {
+                return <h3 key={i} className="text-sm font-black pt-2 pb-1 border-b border-amber-800 text-amber-400">{line.replace(/^#{1,3}\s/, '')}</h3>;
+              }
+              if (line.startsWith('✓') || line.match(/^[・•]\s/) || line.match(/^[-]\s/) || line.match(/^\d+\.\s/)) {
+                return (
+                  <div key={i} className="flex gap-2 items-start text-sm text-gray-300">
+                    <span className="flex-shrink-0 mt-0.5 text-amber-400 font-bold">{line.startsWith('✓') ? '✓' : '●'}</span>
+                    <span>{line.replace(/^[✓・•\-]\s*/, '').replace(/^\d+\.\s*/, '')}</span>
+                  </div>
+                );
+              }
+              if (line.trim() === '') return <div key={i} className="h-1" />;
+              if (line.startsWith('【') || line.startsWith('■') || line.startsWith('▶') || line.startsWith('◆')) {
+                return <p key={i} className="text-sm font-semibold text-gray-200 mt-2">{line}</p>;
+              }
+              return <p key={i} className="text-sm leading-relaxed text-gray-300">{line}</p>;
+            })}
+          </div>
+        )}
+      />
       <div className="flex gap-2 justify-end flex-wrap">
         <CopyButton text={parsed.raw} label="全文コピー" />
         <button
