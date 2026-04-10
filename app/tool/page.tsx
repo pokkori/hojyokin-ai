@@ -10,6 +10,7 @@ import AnimatedScore from "@/components/AnimatedScore";
 import ConfettiLaunch from "@/components/ConfettiLaunch";
 import AIResultCard from "@/components/AIResultCard";
 import { UsageCounter } from "@/components/UsageCounter";
+import { SubsidyCountdown } from "@/components/SubsidyCountdown";
 
 const FREE_LIMIT = 3;
 const KEY = "hojyokin_count";
@@ -1562,6 +1563,7 @@ export default function HojyokinTool() {
         <div className="max-w-5xl mx-auto px-6 py-8 grid grid-cols-1 md:grid-cols-2 gap-8">
           <div>
             <DiagnosisHistoryPanel />
+            <div className="mb-4 max-w-xs"><SubsidyCountdown /></div>
             <div className="mb-4 max-w-xs"><UsageCounter /></div>
             <WizardForm onSubmit={handleSubmit} loading={loading} isLimit={isLimit} />
             <IndustrySubsidyTable />
