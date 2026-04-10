@@ -255,8 +255,9 @@ export function generateStaticParams() {
   return SLUGS.map((slug) => ({ slug }));
 }
 
-export function generateMetadata({ params }: { params: { slug: string } }): Metadata {
-  const kw = KEYWORDS[params.slug];
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const kw = KEYWORDS[slug];
   if (!kw) return {};
   return {
     title: kw.title,
@@ -267,20 +268,21 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
     openGraph: {
       title: kw.title,
       description: kw.description,
-      url: `${SITE_URL}/keywords/${params.slug}`,
+      url: `${SITE_URL}/keywords/${slug}`,
       siteName: "AI補助金診断",
       locale: "ja_JP",
       type: "website",
       images: [{ url: `${SITE_URL}/og.png`, width: 1200, height: 630, alt: kw.title }],
     },
     twitter: { card: "summary_large_image", title: kw.title, description: kw.description },
-    alternates: { canonical: `${SITE_URL}/keywords/${params.slug}` },
+    alternates: { canonical: `${SITE_URL}/keywords/${slug}` },
   };
 }
 
 /* ───────── Component ───────── */
-export default function KeywordPage({ params }: { params: { slug: string } }) {
-  const kw = KEYWORDS[params.slug];
+export default async function KeywordPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const kw = KEYWORDS[slug];
   if (!kw) notFound();
 
   const faqLd = {
