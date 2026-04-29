@@ -465,6 +465,9 @@ export default function HojyokinLP() {
    { question: '料金はいくらですか？', answer: '補助金診断は無料です。申請書生成・詳細サポートはプレミアムプラン（月額¥4,900）で利用できます。1回の申請で十分元が取れます。' },
    { question: '士業プランとは何ですか？', answer: '税理士・行政書士・中小企業診断士などの士業の先生向けに、顧問先への補助金提案ツールとしてご利用いただけるプランです。月額¥19,800で顧問先100社まで利用可能。初稿ドラフト生成で先生の添削・確認作業に集中していただけます。' },
    { question: 'AIが書いた補助金申請書をそのまま提出していいですか？', answer: 'AIの生成物はあくまでドラフト（下書き）です。必ず専門家（行政書士・中小企業診断士等）による確認・修正をお勧めします。' },
+   { question: 'IT導入補助金2026はいくらもらえますか？', answer: '通常枠で補助率1/2・上限150万円、デジタル化基盤導入類型では最大350万円です。AIが貴社に適した補助金を検索して申請書の下書きを生成します。' },
+   { question: '補助金の申請は難しいですか？', answer: '事業計画書・見積書・決算書等の準備が必要ですが、このAIが申請書の下書きを自動生成するため、作業負担を大幅に削減できます。' },
+   { question: '補助金を受けるまでの期間はどのくらいかかりますか？', answer: '申請〜採択通知まで2〜3ヶ月、交付決定まで1ヶ月、事業実施期間は6〜12ヶ月が一般的です。AIが期間・スケジュールを可視化します。' },
  ]} />
  <script
    type="application/ld+json"
@@ -502,6 +505,10 @@ export default function HojyokinLP() {
  </div>
  </div>
  )}
+ <div className="bg-red-700 border-b border-red-500 px-6 py-2.5 text-center text-sm font-bold text-white">
+   IT導入補助金2026 第1次申請〆切：<strong>2026年5月12日（月）</strong>まで — 最大450万円・補助率4/5
+   <a href="/tool" className="ml-3 underline text-yellow-200 hover:text-yellow-100">今すぐ申請書ドラフトを作成 →</a>
+ </div>
  <div className="bg-amber-500/10 border-b border-amber-200 px-6 py-2 text-center text-xs text-amber-400">
  注意: 本サービスは補助金情報の参考提案のみを行います。補助金申請書類の作成代行は行政書士の独占業務です。実際の申請は行政書士・認定支援機関にご依頼ください。
  </div>
